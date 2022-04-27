@@ -39,13 +39,18 @@
             <div><i class="fas fa-solid fa-users"></i>Add Student</div>
             <a href="#"><i class="fas fa-solid fa-user" id="profile"></i></a>
         }
+        else if (Url == "addorg")
+        {
+            <div><i class="fas fa-solid fa-building"></i>Add Organization</div>
+            <a href="profile.html"><i class="fas fa-solid fa-user" id="profile"></i></a>
+        }
     </div>
     <!-- HEADER ENDS HERE -->
     <!-- Display Different component depending on the url after admin/ -->
     @if (Url == null || Url == "dashboard")
     {
-        <!-- A Shared Component. 
-            Path File: 
+        <!-- A Shared Component.
+            Path File:
                 SPMSOJT.Client
                     -Shared
                         -Admin Side -->
@@ -71,9 +76,12 @@
     {
         <AStudentForm />
     }
+    else if (Url == "addorg")
+    {
+        <OrganizationForm />
+    }
+
 </div>
-
-
 @code {
     //Get the url before after the admin/
     [Parameter]
