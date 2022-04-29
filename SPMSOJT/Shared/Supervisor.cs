@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SPMSOJT.Shared
 {
-    public class User
+    public class Supervisor
     {
         public int Id { get; set; }
 
@@ -77,6 +77,5 @@ namespace SPMSOJT.Shared
         [Required(ErrorMessage = "password is Required")]
         [MinLength(8, ErrorMessage = "8 Minimum Characters Required")]
         public string password { get; set; }
-
     }
 }

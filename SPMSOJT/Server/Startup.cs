@@ -8,6 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SPMSOJT.Server.Data;
+using SPMSOJT.Server.Service.CoordinatorService;
+using SPMSOJT.Server.Service.OrganizationService;
+using SPMSOJT.Server.Service.SupervisorService;
+using SPMSOJT.Server.Service.TraineeService;
 using SPMSOJT.Server.Service.UserService;
 using System.Linq;
 
@@ -33,8 +37,11 @@ namespace SPMSOJT.Server
             });
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddScoped<ICoordinatorService, CoordinatorService>();
+            services.AddScoped<IOrganizationService, OrganizationService>();
+            services.AddScoped<ISupervisorService, SupervisorService>();
+            services.AddScoped<ITraineeService, TraineeService>();
             services.AddScoped<IUserService, UserService>();
-
             services.AddAuthentication(options => {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             });

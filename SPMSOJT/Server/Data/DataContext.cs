@@ -17,11 +17,12 @@ namespace SPMSOJT.Server.Data
         }
 
         //The Table in the opmjsojt database
-        public DbSet<User> user_info { get; set; }
-
-        public DbSet<Address> address_info { get; set; }
-
+       
+        public DbSet<Coordinator> coordinator_info { get; set; }
+        public DbSet<Supervisor> supervisor_info { get; set; }
         public DbSet<Organization> organization_info { get; set; }
+        public DbSet<Trainee> trainee_info { get; set; }
+        public DbSet<User> user_info { get; set; }
 
         //If you want to add another table:
         //      Add a model or object first at the OPMJSOJT.Shared
