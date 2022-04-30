@@ -49,16 +49,14 @@
     }
 }
 
-/* HEADER SECTION ENDS HERE */
-
-/*ADMIN DASHBOARD SECTION 1 STARTS HERE*/
+/*ADMIN PROFILE SECTION 1 STARTS HERE*/
 .wrapper .main_content .admindb-s1 {
     color: var(--dark-cyan);
     align-items: center;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 30px;
+    margin: 30px 0px 20px 63px;
 }
 
 .admindb-s1 img {
@@ -67,7 +65,6 @@
 
 .admindb-s1 h1 {
     font-size: 2.5rem;
-    font-weight: 700;
 }
 
 .admindb-s1 p {
@@ -86,47 +83,59 @@
     }
 }
 
-/*ADMIN DASHBOARD SECTION 1 ENDS HERE*/
+/*ADMIN PROFILE SECTION 1 ENDS HERE*/
 
-/*ADMIN DASHBOARD SECTION 2 STARTS HERE*/
-.admindb-s2 {
-    margin: 50px 30px 40px 30px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    align-items: center;
+/*ADMIN PROFILE SECTION 2 STARTS HERE*/
+.heading {
+    color: var(--dark-cyan);
+    font-size: 30px;
+    font-weight: 800;
+    padding-top: 10px;
+    padding-bottom: 5px;
 }
 
-    .admindb-s2 .db-item {
-        text-align: center;
-        border: 2px solid var(--dark-cyan);
-        background-color: var(--white);
-        border-radius: 15px;
-        padding: 5rem;
-        cursor: pointer;
-    }
-
-        .admindb-s2 .db-item h3 {
-            font-size: 2rem;
-            color: var(--dark-cyan);
-        }
-
-        .admindb-s2 .db-item h4 {
-            font-size: 4.5rem;
-            font-weight: 900;
-            color: var(--dark-cyan);
-        }
-
-@media (max-width:1100px) {
-    .admindb-s2 {
-        grid-template-columns: 1fr;
-    }
-
-        .admindb-s2 .db-item {
-            padding: 3rem;
-            cursor: pointer;
-        }
+.admin-items {
+    margin: 50px;
+    border: 2px solid var(--dark-cyan);
+    background-color: var(--white);
+    border-radius: 15px;
+    padding: 2rem;
 }
 
-/*ADMIN DASHBOARD SECTION 2 ENDS HERE*/
+td {
+    padding-bottom: 8px;
+}
 
+.label {
+    color: var(--black);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.admin-info {
+    color: var(--black);
+    font-size: 23px;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    td {
+        font-size: 20px;
+    }
+}
+
+/*ADMIN PROFILE SECTION 2 ENDS HERE*/
+
+.editbutton {
+    background-color: #00692c;
+    padding: 14px 20px;
+    margin: 20px;
+    border: 1px solid rgb(5, 117, 5);
+    cursor: pointer;
+    width: auto;
+    border-radius: 15px;
+    color: #ffffff;
+    font-size: 23px;
+    font-weight: bold;
+    float: right;
+}

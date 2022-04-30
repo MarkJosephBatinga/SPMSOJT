@@ -1,0 +1,86 @@
+﻿@page "/coordinator/student"
+@layout CoordinatorLayout
+@inject NavigationManager NavManager
+
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-users"></i>Students</div>
+        <a href="/coordinator/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- STUDENT PAGE CONTENT STARTS HERE -->
+    <!-- STUDENT PAGE SECTION 1 STARTS HERE -->
+    <section class="admindb-s1">
+        <div class="search-container">
+            <form action="#">
+                <input type="text" placeholder="Search student" name="search">
+                <button type="submit" class="search-button">Search</button>
+            </form>
+            <button type="button" class="add-student-button" @onclick="OnAddClick">
+                + Add New
+                Student
+            </button>
+        </div>
+    </section>
+    <!-- STUDENT PAGE SECTION 1 ENDS HERE -->
+    <!-- STUDENT PAGE SECTION 2 STARTS HERE -->
+    <section class="studentable-s2">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>ID Number</th>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>College</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>19106842</td>
+                    <td>Dela Cruz</td>
+                    <td>Juan</td>
+                    <td>Bachelor of Science in Information Technology Don Mariano Marcos Magnanakaw</td>
+                    <td>
+                        <button type="button" class="edit-del-student-button"
+                                onclick="location.href='edit-student.html';">
+                            Edit
+                        </button>
+                        <button type="button" class="edit-del-student-button"
+                                onclick="location.href='#';">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                <tr class="active-row">
+                    <td>19106842</td>
+                    <td>Sanchez</td>
+                    <td>Anne</td>
+                    <td>Information Technology</td>
+                    <td>
+                        <button type="button" class="edit-del-student-button"
+                                onclick="location.href='edit-student.html';">
+                            Edit
+                        </button>
+                        <button type="button" class="edit-del-student-button"
+                                onclick="location.href='#';">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                <!-- and so on... -->
+            </tbody>
+        </table>
+    </section>
+    <!-- STUDENT PAGE SECTION 2 ENDS HERE -->
+    <!-- STUDENT PAGE CONTENT ENDS HERE -->
+</div>
+
+@code {
+    private void OnAddClick()
+    {
+        NavManager.NavigateTo("coordinator/student/form");
+    }
+}

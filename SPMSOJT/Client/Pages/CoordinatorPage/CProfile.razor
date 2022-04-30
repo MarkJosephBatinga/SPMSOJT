@@ -1,0 +1,63 @@
+﻿@page "/coordinator/profile"
+@layout CoordinatorLayout
+
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-home"></i> Profile</div>
+        <a href="/coordinator/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+
+    <section class="admindb-s1">
+        <div>
+            <img src="./css/images/Avatar-Profile-PNG-Picture.png">
+            <h1>Diluc Ragvindr</h1>
+            <p>Coordinator</p>
+        </div>
+    </section>
+    <section class="admin-profile">
+        <div class="admin-items">
+            <table width="100%">
+                <tr>
+                    <td class="heading">Personal Information</td>
+                </tr>
+                <tr>
+                    <td class="label">Name:</td>
+                    <td class="admin-info">Diluc A. Ragvindr</td>
+                </tr>
+                <tr>
+                    <td class="label">Address:</td>
+                    <td class="admin-info">Dawn Winery, Mondstadt, Teyvat</td>
+                </tr>
+                <tr>
+                    <td class="label">Contact Info:</td>
+                    <td class="admin-info">Diluc@teyvat.com | 09123456789</td>
+                </tr>
+                <tr>
+                    <td class="label">Citizenship:</td>
+                    <td class="admin-info">Filipino</td>
+                </tr>
+
+                <tr>
+                    <td class="heading">Login Information</td>
+                </tr>
+                <tr>
+                    <td class="label">Email:</td>
+                    <td class="admin-info">Diluc@teyvat.com</td>
+                </tr>
+                <tr>
+                    <td class="label">Password:</td>
+                    <td class="admin-info">richestbachelor</td>
+                </tr>
+            </table>
+
+            <div class="mt-4 d-flex justify-content-end">
+                <button class="editbutton">Edit Profile</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+@code {
+
+}

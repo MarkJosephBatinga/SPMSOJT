@@ -1,0 +1,54 @@
+﻿@page "/coordinator/organization/form"
+@page "/coordinator/organization/form/{Id:int}"
+@layout CoordinatorLayout
+
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-building"></i>Add Organization</div>
+        <a href="profile.html"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- ADD ORGANIZATION STARTS HERE -->
+    <div class="content">
+        <form action="" method="POST">
+            <h3>Organization Information</h3>
+            <hr>
+            <div class="row">
+                <div class="column">
+                    <label for="orgname">Organization's Name</label>
+                    <input type="text" id="orgname" name="orgname" placeholder="Organization's Name">
+                </div>
+                <div class="column">
+                    <label for="baddress">Branch Address</label>
+                    <input type="text" id="baddress" name="baddress" placeholder="Branch Address">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="cperson">Contact Person</label>
+                    <input type="text" id="cperson" name="cperson" placeholder="Contact Person">
+                </div>
+                <div class="column">
+                    <label for="contactnum">Contact Number</label>
+                    <input type="text" id="contactnum" name="contactnum" placeholder="Contact Number">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="forbutton">
+                    <input type="submit" value="SUBMIT">
+                    <a href="/coordinator/organization" class="cancel-btn">CANCEL</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- ADD ORGANIZATION ENDS HERE -->
+</div>
+
+    @code {
+        [Parameter]
+        public int Id { get; set; }
+    }

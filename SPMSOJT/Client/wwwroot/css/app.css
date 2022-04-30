@@ -12,6 +12,12 @@
     --table: #009879;
     /* login */
     --light-gray: rgba(163, 166, 192, 0.8);
+    /* forms */
+    --casal: #3E5154;
+    --light-gray: rgba(163, 166, 192, 0.8);
+    --off-white: rgba(255, 255, 255, 0.79);
+    --form-button: rgba(0, 0, 0, 0.5);
+    --submithover: #45FCB1;
 }
 
 *,

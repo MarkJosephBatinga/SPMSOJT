@@ -1,0 +1,88 @@
+﻿@page "/coordinator/organization"
+@layout CoordinatorLayout
+@inject NavigationManager NavManager
+
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-building"></i>Organization</div>
+        <a href="/coordinator/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- ORGANIZATION PAGE CONTENT STARTS HERE -->
+    <!-- ORGANIZATION PAGE SECTION 1 STARTS HERE -->
+    <section class="admindb-s1">
+        <div class="search-container">
+            <form action="#">
+                <input type="text" placeholder="Search organization" name="search">
+                <button type="submit" class="search-button">Search</button>
+            </form>
+            <button type="button" class="add-student-button" @onclick="OnAddClick">
+                +
+                Add New Organization
+            </button>
+        </div>
+    </section>
+    <!-- ORGANIZATION PAGE SECTION 1 ENDS HERE -->
+    <!-- ORGANIZATION PAGE SECTION 2 STARTS HERE -->
+    <section class="studentable-s2">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Organization Name</th>
+                    <th>Branch</th>
+                    <th>Contact Person</th>
+                    <th>Contact Number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Genpact Services LLC</td>
+                    <td>Manila</td>
+                    <td>Kaeya Alberich</td>
+                    <td>09056654321</td>
+                    <td>
+                        <button type="button" class="edit-del-student-button"
+                                onclick="location.href='edit-organization.html';">
+                            Edit
+                        </button>
+                        <button type="button" class="edit-del-student-button"
+                                onclick="location.href='#';">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                <tr class="active-row">
+                    <td>Dawn Co.</td>
+                    <td>Baguio</td>
+                    <td>Diluc Ragnvndr</td>
+                    <td>09056654328</td>
+                    <td>
+                        <button type="button" class="edit-del-student-button"
+                                onclick="location.href='edit-organization.html';">
+                            Edit
+                        </button>
+                        <button type="button" class="edit-del-student-button"
+                                onclick="location.href='#';">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                <!-- and so on... -->
+            </tbody>
+        </table>
+    </section>
+    <!-- ORGANIZATION PAGE SECTION 2 ENDS HERE -->
+    <!-- ORGANIZATION PAGE CONTENT ENDS HERE -->
+</div>
+
+@code {
+
+    private void OnAddClick()
+    {
+        NavManager.NavigateTo("coordinator/organization/form");
+    }
+
+}

@@ -1,0 +1,145 @@
+﻿@page "/coordinator/student/form"
+@page "/coordinator/student/form/{Id:int}"
+@layout CoordinatorLayout
+
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-users"></i>Add Students</div>
+        <a href="/coordinator/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- ADD STUDENT STARTS HERE -->
+    <div class="content">
+        <form action="" method="POST">
+            <h3>Personal Information</h3>
+            <hr>
+            <div class="row">
+                <div class="column">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" id="lastname" name="lastname" placeholder="Last name">
+                </div>
+                <div class="column">
+                    <label for="firstname">First Name</label>
+                    <input type="text" id="firstname" name="firstname" placeholder="First name">
+                </div>
+                <div class="column">
+                    <label for="middleinitial">Middle Initial</label>
+                    <input type="text" id="middleinitial" name="middleinitial" placeholder="Middle initial">
+                </div>
+                <div class="column">
+                    <label for="suffix">Suffix</label>
+                    <input type="text" id="suffix" name="suffix" placeholder="Suffix">
+                </div>
+            </div>
+
+            <label for="address">Address</label>
+            <div class="row">
+                <div class="column">
+                    <input type="text" id="barangay" name="barangay" placeholder="Barangay">
+                </div>
+                <div class="column">
+                    <input type="text" id="city" name="city" placeholder="Town/City">
+                </div>
+                <div class="column">
+                    <input type="text" id="province" name="province" placeholder="Province">
+                </div>
+                <div class="column">
+                    <input type="text" id="zipcode" name="zipcode" placeholder="Zip code">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="email">Email Address</label>
+                    <input type="text" id="email" name="email" placeholder="Email Address">
+                </div>
+                <div class="column">
+                    <label for="address">Contact number</label>
+                    <input type="text" id="contno" name="contno" placeholder="Contact number">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="citizen">Citizenship</label>
+                    <input type="text" id="citizen" name="citizen" placeholder="Citizenship">
+                </div>
+                <div class="column">
+                    <label for="gender">Sex</label>
+                    <select id="gender" name="gender">
+                        <option selected hidden="">Sex</option>
+                        <option name="gender" value="female">Female</option>
+                        <option name="gender" value="male">Male</option>
+                    </select>
+                </div>
+            </div>
+
+            <h3>School Information</h3>
+            <hr>
+            <div class="row">
+                <div class="column">
+                    <label for="schoolemail">School issued E-mail</label>
+                    <input type="text" id="schoolemail" name="schoolemail" placeholder="School E-mail">
+                </div>
+                <div class="column">
+                    <label for="idnum">ID Number</label>
+                    <input type="text" id="idnum" name="idnum" placeholder="ID Number">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="college">College/Institute</label>
+                    <input type="text" id="college" name="college" placeholder="College/Institute">
+                </div>
+                <div class="column">
+                    <label for="school">School</label>
+                    <input type="text" id="school" name="school" placeholder="School">
+                </div>
+            </div>
+
+            <label for="schooladd">School Address</label>
+            <div class="row">
+                <div class="column">
+                    <input type="text" id="scbarangay" name="scbarangay" placeholder="Barangay">
+                </div>
+                <div class="column">
+                    <input type="text" id="sccity" name="sccity" placeholder="Town/City">
+                </div>
+                <div class="column">
+                    <input type="text" id="scprovince" name="scprovince" placeholder="Province">
+                </div>
+                <div class="column">
+                    <input type="text" id="sczipcode" name="sczipcode" placeholder="Zip code">
+                </div>
+            </div>
+
+            <h3>Login Information</h3>
+            <hr>
+            <div class="row">
+                <div class="column">
+                    <label for="login">Email</label>
+                    <input type="text" id="login" name="login" placeholder="Email">
+                </div>
+                <div class="column">
+                    <label for="password">Password</label>
+                    <input type="text" id="password" name="password" placeholder="Password">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="forbutton">
+                    <input type="submit" value="SUBMIT">
+                    <a href="/coordinator/student" class="cancel-btn">CANCEL</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- ADD STUDENT ENDS HERE -->
+</div>
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}

@@ -1,13 +1,14 @@
 ﻿@page "/coordinator/supervisor"
 @layout CoordinatorLayout
+@inject NavigationManager NavManager
 
 
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
-        <div class="fas fa-bars" id="menu-btn"></div>
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
         <div><i class="fas fa-solid fa-id-badge"></i>Supervisor</div>
-        <a href="profile.html"><i class="fas fa-solid fa-user" id="profile"></i></a>
+        <a href="/coordinator/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
     </div>
     <!-- HEADER ENDS HERE -->
     <!-- SEARCH BAR AND BUTTONS STARTS HERE -->
@@ -17,15 +18,17 @@
                 <input type="text" placeholder="Search supervisor" name="search">
                 <button type="submit" class="search-button">Search</button>
             </form>
-            <button type="button" class="add-student-button" onclick="location.href='add-supervisor.html';">+ Add New Supervisor</button>
+            <button type="button" class="add-student-button" @onclick="OnAddClick">+ Add New Supervisor</button>
         </div>
     </section>
     <!-- SEARCH BAR AND BUTTONS ENDS HERE -->
     <!-- COORDINATOR SECTION STARTS HERE -->
     <section class="admindb-s2">
         <div class="db-item">
-            <div class="card">
-                <img src="../images/Avatar-Profile-PNG-Picture.png" alt="Avatar" class="avatar">
+            <div>
+                <div class="w-100 d-flex justify-content-center">
+                    <img src="./css/images/Avatar-Profile-PNG-Picture.png" alt="Avatar" class="avatar">
+                </div>
                 <h3>Draft, Mema Name</h3>
                 <p>School</p>
                 <p>College</p>
@@ -37,8 +40,10 @@
         </div>
 
         <div class="db-item">
-            <div class="card">
-                <img src="../images/Avatar-Profile-PNG-Picture.png" alt="Avatar" class="avatar">
+            <div>
+                <div class="w-100 d-flex justify-content-center">
+                    <img src="./css/images/Avatar-Profile-PNG-Picture.png" alt="Avatar" class="avatar">
+                </div>
                 <h3>Draft, Mema Name</h3>
                 <p>School</p>
                 <p>College</p>
@@ -50,8 +55,10 @@
         </div>
 
         <div class="db-item">
-            <div class="card">
-                <img src="../images/Avatar-Profile-PNG-Picture.png" alt="Avatar" class="avatar">
+            <div>
+                <div class="w-100 d-flex justify-content-center">
+                    <img src="./css/images/Avatar-Profile-PNG-Picture.png" alt="Avatar" class="avatar">
+                </div>
                 <h3>Draft, Mema Name</h3>
                 <p>School</p>
                 <p>College</p>
@@ -65,6 +72,9 @@
 </div>
 <!-- COORDINATOR SECTION ENDS HERE -->
 
-    @code {
-
+@code {
+    private void OnAddClick()
+    {
+        NavManager.NavigateTo("coordinator/supervisor/form");
     }
+}

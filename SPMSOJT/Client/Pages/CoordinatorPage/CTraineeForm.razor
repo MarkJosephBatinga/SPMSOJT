@@ -1,0 +1,65 @@
+﻿@page "/coordinator/trainee/form"
+@page "/coordinator/trainee/form/{Id:int}"
+@layout CoordinatorLayout
+
+
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-id-badge"></i>Add Trainee</div>
+        <a href="profile.html"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- ADD TRAINEE STARTS HERE -->
+    <div class="content">
+        <form action="" method="POST">
+            <h3>Trainee Information</h3>
+            <hr>
+            <div class="row">
+                <div class="column">
+                    <label for="syear">School Year</label>
+                    <input type="text" id="syear" name="syear" placeholder="School Year">
+                </div>
+                <div class="column">
+                    <label for="student">Student</label>
+                    <select id="student" name="student">
+                        <option selected hidden="">Student</option>
+                        <option name="student" value="">Juan Dela Cruz</option>
+                        <option name="student" value="">Charisse Viste</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="supervisor">Supervisor</label>
+                    <select id="supervisor" name="supervisor">
+                        <option selected hidden="">Supervisor</option>
+                        <option name="supervisor" value="">Cat Lictaoa</option>
+                    </select>
+                </div>
+                <div class="column">
+                    <label for="organization">Organization</label>
+                    <select id="organization" name="organization">
+                        <option selected hidden="">Organization</option>
+                        <option name="organization" value="">Genpact Services LLC</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="forbutton">
+                    <input type="submit" value="SUBMIT">
+                    <a href="/coordinator/trainee" class="cancel-btn">CANCEL</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- ADD TRAINEE ENDS HERE -->
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}

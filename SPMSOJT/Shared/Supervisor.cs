@@ -53,9 +53,6 @@ namespace SPMSOJT.Shared
         [EmailAddress(ErrorMessage = "Invalid School Email Address")]
         public string schoolemail { get; set; }
 
-        [Required(ErrorMessage = "ID number is Required")]
-        public string idnumber { get; set; }
-
         [Required(ErrorMessage = "College is Required")]
         public string college { get; set; }
 
