@@ -39,6 +39,11 @@ namespace SPMSOJT.Server.Service.OrganizationService
 
         public async Task<List<Organization>> RemoveOrganization(Organization organization)
         {
+            var Trainees = await _data.trainee_info.Where(t => t.organizationId == organization.Id).ToListAsync();
+            foreach (var trainee in Trainees)
+            {
+                _data.trainee_info.Remove(trainee);
+            }
             _data.organization_info.Remove(organization);
             await _data.SaveChangesAsync();
             Organizations = await _data.organization_info.ToListAsync();

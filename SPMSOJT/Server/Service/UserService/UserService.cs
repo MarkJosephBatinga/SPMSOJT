@@ -73,6 +73,11 @@ namespace SPMSOJT.Server.Service.UserService
         //Method for Removing a specific User data from user_info table
         public async Task<List<User>> RemoveUser(User user)
         {
+            var Trainees = await _data.trainee_info.Where(t => t.studentId == user.Id).ToListAsync();
+            foreach (var trainee in Trainees)
+            {
+                _data.trainee_info.Remove(trainee);
+            }
             //remove the user from the database
             //the user that's passed needs to have and Id for this to work
             _data.user_info.Remove(user);

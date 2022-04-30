@@ -158,7 +158,6 @@
             color: var(--dark-cyan);
         }
 }
-
 /*STUDENT DASHBOARD SECTION 2 ENDS HERE*/
 
 /*SEARCH BAR STARTS HERE*/
@@ -230,6 +229,24 @@ button:hover {
     background: var(--buttonhover);
 }
 
+@media (max-width: 600px) {
+    .wrapper .search-container {
+        float: none;
+    }
+
+        .wrapper a, .wrapper input[type=text], .wrapper .search-container button {
+            float: none;
+            display: block;
+            text-align: left;
+            width: 100%;
+            margin: 0;
+            padding: 14px;
+        }
+
+    .wrapper input[type=text] {
+        border: 1px solid #ccc;
+    }
+}
 /*SEARCH BAR ENDS HERE*/
 
 /*TABLE STARTS HERE*/
@@ -293,19 +310,15 @@ button:hover {
         }
 
     .studentable-s2 td:nth-child(2)::before {
-        content: "Student:";
+        content: "Last Name:";
     }
 
     .studentable-s2 td:nth-child(3)::before {
-        content: "Supervisor:";
+        content: "First Name:";
     }
 
     .studentable-s2 td:nth-child(4)::before {
-        content: "Organization:";
-    }
-
-    .studentable-s2 td:nth-child(5)::before {
-        content: "Action:";
+        content: "College:";
     }
 
     td {

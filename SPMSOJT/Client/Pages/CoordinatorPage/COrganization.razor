@@ -1,6 +1,8 @@
 ﻿@page "/coordinator/organization"
 @layout CoordinatorLayout
 @inject NavigationManager NavManager
+@inject IOrganizationService OrganizationService
+@inject IToastService Toast
 
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
@@ -38,38 +40,26 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Genpact Services LLC</td>
-                    <td>Manila</td>
-                    <td>Kaeya Alberich</td>
-                    <td>09056654321</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='edit-organization.html';">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-                <tr class="active-row">
-                    <td>Dawn Co.</td>
-                    <td>Baguio</td>
-                    <td>Diluc Ragnvndr</td>
-                    <td>09056654328</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='edit-organization.html';">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
+                @foreach (var org in Organizations)
+                {
+                    <tr>
+                        <td>@org.org_name</td>
+                        <td>@org.branch_address</td>
+                        <td>@org.contact_person</td>
+                        <td>@org.contact_number</td>
+                        <td>
+                            <button type="button" class="edit-del-student-button"
+                                    @onclick="() => OnEditClick(org.Id)">
+                                Edit
+                            </button>
+                            <button type="button" class="edit-del-student-button"
+                                    @onclick="() => OnDeleteClick(org)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
+
                 <!-- and so on... -->
             </tbody>
         </table>
@@ -79,10 +69,30 @@
 </div>
 
 @code {
+    List<Organization> Organizations = new List<Organization>();
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Organizations = await OrganizationService.GetAllOrganization();
+    }
 
     private void OnAddClick()
     {
         NavManager.NavigateTo("coordinator/organization/form");
+    }
+
+    private void OnEditClick(int organizationId)
+    {
+        NavManager.NavigateTo($"coordinator/organization/form/{organizationId}");
+    }
+
+    private async Task OnDeleteClick(Organization organization)
+    {
+        var result = await OrganizationService.DeleteOrganization(organization);
+        Toast.ShowSuccess("Organization Successfully Deleted", "Deleted");
+        Organizations = result;
     }
 
 }

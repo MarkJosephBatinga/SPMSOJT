@@ -1,7 +1,10 @@
 ﻿@page "/coordinator/organization/form"
 @page "/coordinator/organization/form/{Id:int}"
 @layout CoordinatorLayout
-
+@inject IOrganizationService OrganizationService
+@inject IToastService Toast
+@inject NavigationManager NavManager
+@inject IJSRuntime JsRun
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -12,43 +15,81 @@
     <!-- HEADER ENDS HERE -->
     <!-- ADD ORGANIZATION STARTS HERE -->
     <div class="content">
-        <form action="" method="POST">
+        <EditForm Model="organization" OnValidSubmit="OnSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
             <h3>Organization Information</h3>
             <hr>
             <div class="row">
-                <div class="column">
+                <div class="col">
                     <label for="orgname">Organization's Name</label>
-                    <input type="text" id="orgname" name="orgname" placeholder="Organization's Name">
+                    <ValidationMessage For="() => organization.org_name" />
+                    <input type="text" id="orgname"  @bind-value="organization.org_name" placeholder="Organization's Name">
                 </div>
-                <div class="column">
+                <div class="col">
                     <label for="baddress">Branch Address</label>
-                    <input type="text" id="baddress" name="baddress" placeholder="Branch Address">
+                    <ValidationMessage For="() => organization.branch_address" />
+                    <input type="text" id="baddress" @bind-value="organization.branch_address" placeholder="Branch Address">
                 </div>
             </div>
 
             <div class="row">
-                <div class="column">
+                <div class="col">
                     <label for="cperson">Contact Person</label>
-                    <input type="text" id="cperson" name="cperson" placeholder="Contact Person">
+                    <ValidationMessage For="() => organization.contact_person" />
+                    <input type="text" id="cperson" @bind-value="organization.contact_person" placeholder="Contact Person">
                 </div>
-                <div class="column">
+                <div class="col">
                     <label for="contactnum">Contact Number</label>
-                    <input type="text" id="contactnum" name="contactnum" placeholder="Contact Number">
+                    <ValidationMessage For="() => organization.contact_number" />
+                    <input type="text" id="contactnum" @bind-value="organization.contact_number" placeholder="Contact Number">
                 </div>
             </div>
 
             <div class="row">
                 <div class="forbutton">
-                    <input type="submit" value="SUBMIT">
+                    <button type="submit">SUBMIT</button>
                     <a href="/coordinator/organization" class="cancel-btn">CANCEL</a>
                 </div>
             </div>
-        </form>
+        </EditForm>
     </div>
     <!-- ADD ORGANIZATION ENDS HERE -->
 </div>
 
-    @code {
-        [Parameter]
-        public int Id { get; set; }
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    Organization organization = new Organization();
+
+    protected async override Task OnInitializedAsync()
+    {
+        if (Id.HasValue)
+        {
+            organization = await OrganizationService.GetOrganization(Id.Value);
+        }
     }
+
+    private async Task OnSubmit()
+    {
+        if (organization.Id == 0)
+        {
+            var result = await OrganizationService.AddOrganization(organization);
+            if (result != null)
+            {
+                Toast.ShowSuccess("New Organization Added", "Success");
+                NavManager.NavigateTo("coordinator/organization");
+            }
+        }
+        else
+        {
+            var result = await OrganizationService.UpdateOrganization(organization);
+            if (result != null)
+            {
+                Toast.ShowSuccess("Organization Successfully Updated", "Success");
+                NavManager.NavigateTo("coordinator/organization");
+            }
+        }
+
+    }
+}

@@ -1,6 +1,8 @@
 ﻿@page "/coordinator/student"
 @layout CoordinatorLayout
 @inject NavigationManager NavManager
+@inject IUserService UserService
+@inject IToastService Toast
 
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
@@ -38,38 +40,25 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>19106842</td>
-                    <td>Dela Cruz</td>
-                    <td>Juan</td>
-                    <td>Bachelor of Science in Information Technology Don Mariano Marcos Magnanakaw</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='edit-student.html';">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-                <tr class="active-row">
-                    <td>19106842</td>
-                    <td>Sanchez</td>
-                    <td>Anne</td>
-                    <td>Information Technology</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='edit-student.html';">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
+                @foreach (var user in Users)
+                {
+                    <tr class="active-row">
+                        <td>@user.idnumber</td>
+                        <td>@user.last_name</td>
+                        <td>@user.first_name</td>
+                        <td>@user.college</td>
+                        <td>
+                            <button type="button" class="edit-del-student-button"
+                                    @onclick="() => OnEditClick(user.Id)">
+                                Edit
+                            </button>
+                            <button type="button" class="edit-del-student-button"
+                                     @onclick="() => OnDeleteClick(user)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
                 <!-- and so on... -->
             </tbody>
         </table>
@@ -79,8 +68,28 @@
 </div>
 
 @code {
+
+    List<User> Users = new List<User>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Users = await UserService.GetAllUser();
+    }
+
     private void OnAddClick()
     {
         NavManager.NavigateTo("coordinator/student/form");
+    }
+
+    private void OnEditClick(int studentId)
+    {
+        NavManager.NavigateTo($"coordinator/student/form/{studentId}");
+    }
+
+    private async Task OnDeleteClick(User user)
+    {
+        var result = await UserService.DeleteUser(user);
+        Toast.ShowSuccess("User Successfully Deleted", "Deleted");
+        Users = result;
     }
 }

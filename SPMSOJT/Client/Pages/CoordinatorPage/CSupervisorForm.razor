@@ -163,18 +163,39 @@
 
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     Supervisor supervisor = new Supervisor();
 
+    protected async override Task OnInitializedAsync()
+    {
+        if(Id.HasValue)
+        {
+            supervisor = await SupervisorService.GetSupervisor(Id.Value);
+        }
+    }
+
     private async Task OnSubmit()
     {
-        var result = await SupervisorService.AddSupervisor(supervisor);
-        if(result != null)
+        if(supervisor.Id == 0)
         {
-            Toast.ShowSuccess("New Supervisor Added", "Success");
-            NavManager.NavigateTo("coordinator/supervisor");
+            var result = await SupervisorService.AddSupervisor(supervisor);
+            if (result != null)
+            {
+                Toast.ShowSuccess("New Supervisor Added", "Success");
+                NavManager.NavigateTo("coordinator/supervisor");
+            }
         }
+        else
+        {
+            var result = await SupervisorService.UpdateSupervisor(supervisor);
+            if (result != null)
+            {
+                Toast.ShowSuccess("Supervisor Successfully Updated", "Success");
+                NavManager.NavigateTo("coordinator/supervisor");
+            }
+        }
+
     }
 
     private void OnGenderChange(ChangeEventArgs e)

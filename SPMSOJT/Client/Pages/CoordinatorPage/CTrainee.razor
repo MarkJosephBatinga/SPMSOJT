@@ -1,8 +1,12 @@
 ﻿@page "/coordinator/trainee"
-@layout CoordinatorLayout 
-@inject NavigationManager NavManager 
-    
- <!-- HEADER STARTS HERE -->
+@layout CoordinatorLayout
+@inject NavigationManager NavManager
+@inject IOrganizationService OrganizationService
+@inject ISupervisorService SupervisorService
+@inject ITraineeService TraineeService
+@inject IUserService UserService
+@inject IToastService Toast
+<!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
         <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
@@ -38,38 +42,25 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>2020-2021</td>
-                    <td>Juan Dela Cruz</td>
-                    <td>Cat Lictaoa</td>
-                    <td>Genpact Services LLC</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='edit-trainee.html';">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-                <tr class="active-row">
-                    <td>2020-2021</td>
-                    <td>Charisse Viste</td>
-                    <td>Cat Lictaoa</td>
-                    <td>Genpact Services LLC</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='edit-trainee.html';">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
+                @foreach (var (trainee, i) in Trainees.Select((trainee, i) => (trainee, i)))
+                {
+                    <tr>
+                        <td>@trainee.school_year</td>
+                        <td>@StudentsName[i]</td>
+                        <td>@SupervisorsName[i]</td>
+                        <td>@OrganizationsName[i]</td>
+                        <td>
+                            <button type="button" class="edit-del-student-button"
+                                    @onclick="() => OnEditClick(trainee.Id)">
+                                Edit
+                            </button>
+                            <button type="button" class="edit-del-student-button"
+                                    @onclick="() => OnDeleteClick(trainee)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                 }
                 <!-- and so on... -->
             </tbody>
         </table>
@@ -80,8 +71,46 @@
 </div>
 
 @code {
+    List<Trainee> Trainees = new List<Trainee>();
+    List<string> StudentsName = new List<string>();
+    List<string> SupervisorsName = new List<string>();
+    List<string> OrganizationsName = new List<string>();
+
+    User student = new User();
+
+    private async Task GetStudent(int studentId)
+    {
+        student = await UserService.GetUser(studentId);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Trainees = await TraineeService.GetAllTrainee();
+        foreach (var trainee in Trainees)
+        {
+            var user = await UserService.GetUser(trainee.studentId);
+            var supervisor = await SupervisorService.GetSupervisor(trainee.supervisorId);
+            var org = await OrganizationService.GetOrganization(trainee.organizationId);
+            StudentsName.Add($"{user.first_name} {user.last_name}");
+            SupervisorsName.Add($"{supervisor.first_name} {supervisor.last_name}");
+            OrganizationsName.Add(org.org_name);
+        }
+    }
+
     private void OnAddClick()
     {
         NavManager.NavigateTo("coordinator/trainee/form");
+    }
+
+    private void OnEditClick(int traineeId)
+    {
+        NavManager.NavigateTo($"coordinator/trainee/form/{traineeId}");
+    }
+
+    private async Task OnDeleteClick(Trainee trainee)
+    {
+        var result = await TraineeService.DeleteTrainee(trainee);
+        Toast.ShowSuccess("Trainee Successfully Deleted", "Deleted");
+        Trainees = result;
     }
 }

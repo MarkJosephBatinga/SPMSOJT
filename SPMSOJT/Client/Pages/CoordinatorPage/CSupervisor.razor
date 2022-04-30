@@ -1,6 +1,8 @@
 ﻿@page "/coordinator/supervisor"
 @layout CoordinatorLayout
 @inject NavigationManager NavManager
+@inject ISupervisorService SupervisorService
+@inject IToastService Toast
 
 
 <!-- HEADER STARTS HERE -->
@@ -24,57 +26,49 @@
     <!-- SEARCH BAR AND BUTTONS ENDS HERE -->
     <!-- COORDINATOR SECTION STARTS HERE -->
     <section class="admindb-s2">
-        <div class="db-item">
-            <div>
-                <div class="w-100 d-flex justify-content-center">
-                    <img src="./css/images/Avatar-Profile-PNG-Picture.png" alt="Avatar" class="avatar">
-                </div>
-                <h3>Draft, Mema Name</h3>
-                <p>School</p>
-                <p>College</p>
+        @foreach (var supervisor in Supervisors)
+        {
+            <div class="db-item">
                 <div>
-                    <button type="button" class="edit-coordinator-button" onclick="location.href='edit-supervisor.html';">Edit</button>
-                    <button type="button" class="del-coordinator-button" onclick="location.href='#';">Delete</button>
+                    <div class="w-100 d-flex justify-content-center">
+                        <img src="./css/images/Avatar-Profile-PNG-Picture.png" alt="Avatar" class="avatar">
+                    </div>
+                    <h3>@supervisor.last_name, @supervisor.first_name @supervisor.middle_name</h3>
+                    <p>@supervisor.schoolname</p>
+                    <p>@supervisor.college</p>
+                    <div>
+                        <button type="button" class="edit-coordinator-button" @onclick="() => OnEditClick(supervisor.Id)">Edit</button>
+                        <button type="button" class="del-coordinator-button" @onclick="() => OnDeleteClick(supervisor)">Delete</button>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="db-item">
-            <div>
-                <div class="w-100 d-flex justify-content-center">
-                    <img src="./css/images/Avatar-Profile-PNG-Picture.png" alt="Avatar" class="avatar">
-                </div>
-                <h3>Draft, Mema Name</h3>
-                <p>School</p>
-                <p>College</p>
-                <div>
-                    <button type="button" class="edit-coordinator-button" onclick="location.href='edit-supervisor.html';">Edit</button>
-                    <button type="button" class="del-coordinator-button" onclick="location.href='#';">Delete</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="db-item">
-            <div>
-                <div class="w-100 d-flex justify-content-center">
-                    <img src="./css/images/Avatar-Profile-PNG-Picture.png" alt="Avatar" class="avatar">
-                </div>
-                <h3>Draft, Mema Name</h3>
-                <p>School</p>
-                <p>College</p>
-                <div>
-                    <button type="button" class="edit-coordinator-button" onclick="location.href='edit-coordinator.html';">Edit</button>
-                    <button type="button" class="del-coordinator-button" onclick="location.href='#';">Delete</button>
-                </div>
-            </div>
-        </div>
+        }
     </section>
 </div>
 <!-- COORDINATOR SECTION ENDS HERE -->
 
-@code {
+@code {        
+    List<Supervisor> Supervisors = new List<Supervisor>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Supervisors = await SupervisorService.GetAllSupervisor();
+    }
+
     private void OnAddClick()
     {
         NavManager.NavigateTo("coordinator/supervisor/form");
+    }
+
+    private void OnEditClick(int supervisorId)
+    {
+        NavManager.NavigateTo($"coordinator/supervisor/form/{supervisorId}");
+    }
+
+    private async Task OnDeleteClick(Supervisor supervisor)
+    {
+        var result = await SupervisorService.DeleteSupervisor(supervisor);
+        Toast.ShowSuccess("Supervisor Successfully Deleted", "Deleted");
+        Supervisors = result;
     }
 }

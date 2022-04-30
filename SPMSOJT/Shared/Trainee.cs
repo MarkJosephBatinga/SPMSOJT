@@ -15,12 +15,15 @@ namespace SPMSOJT.Shared
         public string school_year { get; set; }
 
         [Required(ErrorMessage = "Student is Required")]
-        public User student { get; set; }
+        [Range(1,9999999, ErrorMessage = "Student is Required")]
+        public int studentId { get; set; }
 
         [Required(ErrorMessage = "Supervisor is Required")]
-        public Supervisor supervisor { get; set; }
+        [Range(1, 9999999, ErrorMessage = "Supervisor is Required")]
+        public int supervisorId { get; set; }
 
         [Required(ErrorMessage = "Organization is Required")]
-        public Organization organization { get; set; }
+        [Range(1, 9999999, ErrorMessage = "Supervisor is Required")]
+        public int organizationId { get; set; }
     }
 }

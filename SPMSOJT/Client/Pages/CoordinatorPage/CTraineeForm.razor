@@ -1,7 +1,13 @@
 ﻿@page "/coordinator/trainee/form"
 @page "/coordinator/trainee/form/{Id:int}"
 @layout CoordinatorLayout
-
+@inject IOrganizationService OrganizationService
+@inject ISupervisorService SupervisorService
+@inject ITraineeService TraineeService
+@inject IUserService UserService
+@inject IToastService Toast
+@inject NavigationManager NavManager
+@inject IJSRuntime JsRun
 
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
@@ -13,20 +19,33 @@
     <!-- HEADER ENDS HERE -->
     <!-- ADD TRAINEE STARTS HERE -->
     <div class="content">
-        <form action="" method="POST">
+        <EditForm Model="trainee" OnValidSubmit="OnSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
             <h3>Trainee Information</h3>
             <hr>
             <div class="row">
                 <div class="column">
                     <label for="syear">School Year</label>
-                    <input type="text" id="syear" name="syear" placeholder="School Year">
+                    <ValidationMessage For="() => trainee.school_year" />
+                    <input type="text" id="syear" @bind-value="trainee.school_year" placeholder="School Year">
                 </div>
                 <div class="column">
                     <label for="student">Student</label>
-                    <select id="student" name="student">
-                        <option selected hidden="">Student</option>
-                        <option name="student" value="">Juan Dela Cruz</option>
-                        <option name="student" value="">Charisse Viste</option>
+                    <ValidationMessage For="() => trainee.studentId" />
+                    <select id="student" name="student" @onchange="OnStudentChange">
+                        <option value="">Select Student</option>
+                        @foreach (var student in Users)
+                        {
+                            if (trainee.studentId == student.Id)
+                            {
+                                <option selected value="@student.Id">@student.first_name @student.last_name</option>
+                            }
+                            else
+                            {
+                                <option value="@student.Id">@student.first_name @student.last_name</option>
+                            }
+
+                        }
                     </select>
                 </div>
             </div>
@@ -34,32 +53,150 @@
             <div class="row">
                 <div class="column">
                     <label for="supervisor">Supervisor</label>
-                    <select id="supervisor" name="supervisor">
-                        <option selected hidden="">Supervisor</option>
-                        <option name="supervisor" value="">Cat Lictaoa</option>
+                    <ValidationMessage For="() => trainee.supervisorId" />
+                    <select id="student" @onchange="OnSupervisorChange">
+                        <option value="">Select Supervisor</option>
+                        @foreach (var supervisor in Supervisors)
+                        {
+                            if (trainee.supervisorId == supervisor.Id)
+                            {
+                                <option selected value="@supervisor.Id">@supervisor.first_name @supervisor.last_name</option>
+                            }
+                            else
+                            {
+                                <option value="@supervisor.Id">@supervisor.first_name @supervisor.last_name</option>
+                            }
+
+                        }
                     </select>
                 </div>
                 <div class="column">
                     <label for="organization">Organization</label>
-                    <select id="organization" name="organization">
-                        <option selected hidden="">Organization</option>
-                        <option name="organization" value="">Genpact Services LLC</option>
+                    <ValidationMessage For="() => trainee.organizationId" />
+                    <select id="student" @onchange="OnOrganizationChange">
+                        <option value="">Select Organization</option>
+                        @foreach (var organization in Organizations)
+                        {
+                            if (trainee.organizationId == organization.Id)
+                            {
+                                <option selected value="@organization.Id">@organization.org_name</option>
+                            }
+                            else
+                            {
+                                <option value="@organization.Id">@organization.org_name</option>
+                            }
+
+                        }
                     </select>
                 </div>
             </div>
 
             <div class="row">
                 <div class="forbutton">
-                    <input type="submit" value="SUBMIT">
+                    <button type="submit">SUBMIT</button>
                     <a href="/coordinator/trainee" class="cancel-btn">CANCEL</a>
                 </div>
             </div>
-        </form>
+        </EditForm>
     </div>
     <!-- ADD TRAINEE ENDS HERE -->
 </div>
 
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public int? Id { get; set; }
+
+    List<User> Users = new List<User>();
+    List<Organization> Organizations = new List<Organization>();
+    List<Supervisor> Supervisors = new List<Supervisor>();
+
+    Trainee trainee = new Trainee();
+
+    protected async override Task OnInitializedAsync()
+    {
+        Users = await UserService.GetAllUser();
+        Organizations = await OrganizationService.GetAllOrganization();
+        Supervisors = await SupervisorService.GetAllSupervisor();
+
+        if (Id.HasValue)
+        {
+            trainee = await TraineeService.GetTrainee(Id.Value);
+        }
+    }
+
+    private async Task OnSubmit()
+    {
+        if (trainee.Id == 0)
+        {
+            var result = await TraineeService.AddTrainee(trainee);
+            if (result != null)
+            {
+                Toast.ShowSuccess("New Trainee Added", "Success");
+                NavManager.NavigateTo("coordinator/trainee");
+            }
+        }
+        else
+        {
+            var result = await TraineeService.UpdateTrainee(trainee);
+            if (result != null)
+            {
+                Toast.ShowSuccess("Trainee Successfully Updated", "Success");
+                NavManager.NavigateTo("coordinator/trainee");
+            }
+        }
+    }
+
+    private void OnStudentChange(ChangeEventArgs e)
+    {
+        var result = e.Value;
+        if(!result.Equals(""))
+        {
+            int intResult = Int32.Parse(result.ToString());
+            if(intResult != 0)
+            {
+                trainee.studentId = intResult;
+            }
+        }
+        else
+        {
+            trainee.studentId = new int();
+        }
+
+    }
+
+    private void OnSupervisorChange(ChangeEventArgs e)
+    {
+        var result = e.Value;
+        if (!result.Equals(""))
+        {
+            int intResult = Int32.Parse(result.ToString());
+            if (intResult != 0)
+            {
+                trainee.supervisorId = intResult;
+            }
+        }
+        else
+        {
+            trainee.supervisorId = new int();
+        }
+
+    }
+
+    private void OnOrganizationChange(ChangeEventArgs e)
+    {
+        var result = e.Value;
+        if (!result.Equals(""))
+        {
+            int intResult = Int32.Parse(result.ToString());
+            if (intResult != 0)
+            {
+                trainee.organizationId = intResult;
+            }
+        }
+        else
+        {
+            trainee.organizationId = new int();
+        }
+
+    }
 }

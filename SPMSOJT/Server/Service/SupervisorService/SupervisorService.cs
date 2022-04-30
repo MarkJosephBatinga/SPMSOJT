@@ -40,6 +40,11 @@ namespace SPMSOJT.Server.Service.SupervisorService
 
         public async Task<List<Supervisor>> RemoveSupervisor(Supervisor supervisor)
         {
+            var Trainees = await _data.trainee_info.Where(t => t.supervisorId == supervisor.Id).ToListAsync();
+            foreach (var trainee in Trainees)
+            {
+                _data.trainee_info.Remove(trainee);
+            }
             _data.supervisor_info.Remove(supervisor);
             await _data.SaveChangesAsync();
             Supervisors = await _data.supervisor_info.ToListAsync();

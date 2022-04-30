@@ -21,6 +21,7 @@ namespace SPMSOJT.Shared
         public string contact_person { get; set; }
 
         [Required(ErrorMessage = "Contact Number is Required")]
+        [Phone(ErrorMessage = "Invalid Phone Number")]
         public string contact_number { get; set; }
     }
 }

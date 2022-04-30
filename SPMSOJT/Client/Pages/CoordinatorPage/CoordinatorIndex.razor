@@ -1,5 +1,8 @@
 ﻿@page "/coordinator"
 @layout CoordinatorLayout
+@inject ITraineeService TraineeService
+@inject ISupervisorService SupervisorService
+@inject IOrganizationService OrganizationService 
 
 <div class="main_content">
     <div class="header">
@@ -23,21 +26,21 @@
         <div class="db-item">
             <a href="trainee.html">
                 <h3>Trainee</h3>
-                <h4>50</h4>
+                <h4>@Trainees.Count</h4>
             </a>
         </div>
 
         <div class="db-item">
             <a href="supervisor.html">
                 <h3>Supervisor</h3>
-                <h4>6</h4>
+                <h4>@Supervisors.Count</h4>
             </a>
         </div>
 
         <div class="db-item">
             <a href="organization.html">
                 <h3>Organization</h3>
-                <h4>15</h4>
+                <h4>@Organizations.Count</h4>
             </a>
         </div>
     </section>
@@ -45,5 +48,14 @@
 
 
 @code {
+    List<Organization> Organizations = new List<Organization>();
+    List<Supervisor> Supervisors = new List<Supervisor>();
+    List<Trainee> Trainees = new List<Trainee>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        Organizations = await OrganizationService.GetAllOrganization();
+        Supervisors = await SupervisorService.GetAllSupervisor();
+        Trainees = await TraineeService.GetAllTrainee();
+    }
 }
