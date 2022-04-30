@@ -8,6 +8,10 @@
     --hoversb: #45FCB1;
     --transition: all 0.2s linear;
     --button: #298F55;
+    --buttonhover: #35c573;
+    --table: #009879;
+    /* login */
+    --light-gray: rgba(163, 166, 192, 0.8);
 }
 
 *,
@@ -45,6 +49,7 @@ li {
     position: relative;
 }
 
+/*Blazor Default*/
 a, .btn-link {
     color: #0366d6;
 }

@@ -1,0 +1,27 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JsRuntime
+
+<div class="wrapper">
+    <!-- SIDEBAR STARTS HERE -->
+    <div class="sidebar">
+        <h2>SPMS-OJT</h2>
+        <ul>
+            <li><a class="active" href="index.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+            <li><a href="supervisor.html"><i class="fas fa-solid fa-id-badge"></i> <span>Supervisor</span></a></li>
+            <li><a href="students.html"><i class="fas fa-solid fa-users"></i> <span>Students</span></a></li>
+            <li><a href="trainee.html"><i class="fas fa-solid fa-id-badge"></i> <span>Trainees</span></a></li>
+            <li><a href="organization.html"><i class="fas fa-solid fa-building"></i> <span>Organization</span></a></li>
+            <li id="log"><a href="login.html"><i class="fas fa-solid fa-right-from-bracket"></i> <span>Log Out</span></a></li>
+        </ul>
+    </div>
+    <!-- SIDEBAR ENDS HERE -->
+    @Body
+</div>
+
+
+@code {
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JsRuntime.InvokeVoidAsync("onLoadJs");
+    }
+}

@@ -1,12 +1,42 @@
 ﻿@page "/"
 
-
-<!-- Index Page. Url: Localhost// -->
-<!-- HEADER STARTS HERE -->
-<div class="main_content">
-    <div class="header">
-        <div class="fas fa-bars" id="menu-btn"></div>
-        <div><i class="fas fa-home"></i> Dashboard</div>
-        <a href="profile.html"><i class="fas fa-solid fa-user" id="profile"></i></a>
+<!-- Splash Image Big-->
+<section class="login-section">
+    <div class="login-item">
+        <div class="big-img">
+            <img src="./css/images/meet-for-finance.gif" class="bigimgsplash">
+        </div>
     </div>
-</div>
+    <!--LOGIN FORM-->
+
+    <div class="login-item">
+        <form action="../adminside/index.html" method="post" class="loginform" required>
+            <div class="imgcontainer">
+                <h2><b>SPMS-OJT Login</b></h2>
+                <img src="./css/images/Avatar-Profile-PNG-Picture.png" alt="Avatar" class="avatar">
+            </div>
+
+            <div class="container">
+                <div class="container1">
+                    <h3 class="welcome">Welcome back, user!</h3>
+                </div><br>
+                <label for="cars"><b>Login as:&nbsp&nbsp&nbsp&nbsp&nbsp</b></label>
+                <select name="login-type" class="loginType">
+                    <option value="coordinator">Coordinator</option>
+                    <option value="supervisor">Supervisor</option>
+                    <option value="student" default>Student</option>
+                </select>
+            </div>
+            <label for="uname">
+                <b>
+                    Email: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                </b>
+            </label>
+            <input type="text" placeholder="Enter Email" name="email" required><br>
+            <label for="psw"><b>Password: &nbsp </b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required><br>
+            <button type="submit">LOGIN</button>
+            <button type="button" class="cancelbtn">Cancel</button>
+        </form>
+    </div>
+</section>

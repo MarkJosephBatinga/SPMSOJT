@@ -152,3 +152,20 @@
 }
 
 /* SIDEBAR SECTION ENDS HERE */
+
+.wrapper .main_content {
+    width: 100%;
+    margin-left: 230px;
+}
+
+@media (max-width:1600px) {
+    .wrapper .main_content {
+        margin-left: 110px;
+    }
+}
+
+@media (max-width: 768px) {
+    .wrapper .main_content {
+        margin-left: 0;
+    }
+}

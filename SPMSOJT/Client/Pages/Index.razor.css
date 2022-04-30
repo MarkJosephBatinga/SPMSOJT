@@ -1,0 +1,177 @@
+﻿.login-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5rem;
+    align-items: center;
+}
+
+    .login-section .login-item {
+        padding: 40px 60px 30px 60px;
+    }
+
+.big-img {
+    margin-left: 100px;
+    width: 100%;
+}
+
+.bigimgsplash {
+    width: 90%;
+}
+
+/*LOGIN FORM CSS CODE STARTS HERE*/
+.loginform {
+    margin: 20px 60px;
+    border: solid 1px black;
+    padding: 10px;
+    border-radius: 15px;
+    width: 65%;
+    height: auto;
+    padding-top: 10px;
+    box-shadow: 10px 10px;
+    background: #fcfcfc;
+}
+
+/* inputs ng form*/
+input[type=text],
+input[type=password],
+.loginType {
+    width: 60%;
+    padding: 8px 20px;
+    margin: 8px 5px;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 15px;
+    font-size: 25px;
+    border: 2px solid var(--dark-cyan);
+    border-radius: 10px;
+}
+
+h2,
+h3 {
+    font-size: 35px;
+    margin-bottom: 5px;
+}
+
+label {
+    margin-left: 20px;
+}
+
+/*Style ng all buttons */
+button[type=submit] {
+    background: var(--dark-cyan);
+    padding: 14px 20px;
+    margin: 8px 0px 8px 19px;
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    font-size: 23px;
+    cursor: pointer;
+    width: 58%;
+    border-radius: 15px;
+    font-weight: 800;
+}
+
+button[type=button] {
+    background-color: #00bdbd;
+    padding: 14px 20px;
+    margin: 8px 0px 8px 6px;
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    font-size: 23px;
+    cursor: pointer;
+    width: 30%;
+    border-radius: 15px;
+    font-weight: 800;
+}
+
+/* hover effect */
+button:hover {
+    opacity: 0.8;
+}
+
+/* cancel btn xtra fx*/
+.cancelbtn {
+    color: rgb(5, 66, 5);
+    width: auto;
+    padding: 13px 20px;
+    background-color: #92ebe3;
+    border: 1px solid rgb(0, 58, 0);
+}
+
+/* center the avatar image */
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+/* Avatar image */
+img.avatar {
+    width: 40%;
+    border-radius: 50%;
+}
+
+/* padding to containers */
+.container {
+    padding: 1px;
+}
+
+.container1 {
+    text-align: center;
+}
+
+@media (max-width:1800px) {
+    .loginform {
+        margin: 0;
+        padding: 10px;
+        border-radius: 15px;
+        width: 80%;
+        height: auto;
+        padding-top: 10px;
+    }
+
+    .login-section {
+        gap: 1rem;
+    }
+}
+
+@media (max-width:1300px) {
+    .loginform {
+        margin: 0;
+        padding: 10px;
+        border-radius: 15px;
+        width: 90%;
+        height: auto;
+        padding-top: 10px;
+    }
+
+    .login-section {
+        gap: 1rem;
+    }
+}
+
+@media (max-width:768px), (max-width:1200px) {
+    .login-section {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0rem;
+    }
+
+    .loginform {
+        margin: 0;
+        padding: 10px;
+        border-radius: 15px;
+        width: 100%;
+        height: auto;
+        padding-top: 10px;
+        margin-bottom: 130px;
+    }
+
+    .big-img {
+        display: none;
+    }
+
+    .bigimgsplash {
+        display: none;
+    }
+}
