@@ -1,0 +1,118 @@
+﻿@page "/supervisor/masterlist/evaluation/form/{Id:int}"
+@layout SupervisorLayout
+@inject NavigationManager NavManager
+
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-list"></i>Task</div>
+        <a href="/supervisor/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- PROFILE PAGE CONTENT STARTS HERE -->
+    <!-- PROFILE PAGE SECTION 1 STARTS HERE -->
+    <section class="admindb-s1">
+        <div>
+            <h1>Diluc Ragvindr</h1>
+            <p>Trainee</p>
+        </div>
+    </section>
+    <!-- PROFILE PAGE SECTION 1 ENDS HERE -->
+
+    <div class="content">
+        <form action="" method="POST">
+            <h3>Evaluation Form</h3>
+            <hr>
+            <div class="row">
+                <div class="column">
+                    <label>
+                        This form seeks your objective, honest, and fair evaluation of the Student-Trainee's performance. Please
+                        indicate your rating on the different items by entering the appropriate letter using the rating scale indicated
+                        herewith.
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <label for="syear">A - Excellent</label>
+                </div>
+                <div class="column">
+                    <label for="syear">B - Good</label>
+                </div>
+                <div class="column">
+                    <label for="syear">C - Fair</label>
+                </div>
+                <div class="column">
+                    <label for="syear">D - Needs Improvement</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="syear">
+                        1. RESPONSIBILITY: Is responsible and completes assigned duties. Is punctual, organized and handles
+                        agency environment in a complete and professional manner.
+                    </label>
+                </div>
+                <div class="column2">
+                    <input type="text" id="eval" name="eval" placeholder="Enter letter of rating">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="syear">
+                        2. COMPETENCE: Understands and follow written and oral directions effectively. Is enthusiastic and shows
+                        a willingness to work as a team with agency staff and/or clients.
+                    </label>
+                </div>
+                <div class="column2">
+                    <input type="text" id="eval" name="eval" placeholder="Enter letter of rating">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="syear">
+                        3. COOPERATION: Works well with supervisors, staff and clients the agency may serve. Is professional,
+                        courteous and responsive. Recognizes and values diversity.
+                    </label>
+                </div>
+                <div class="column2">
+                    <input type="text" id="eval" name="eval" placeholder="Enter letter of rating">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="syear">
+                        4. QUALITY OF SERVICES: Strives to achieve accuracy in accomplishing assigned duties. Understands
+                        agency's mission and the connection between service and learning.
+                    </label>
+                </div>
+                <div class="column2">
+                    <input type="text" id="eval" name="eval" placeholder="Enter letter of rating">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="forbutton">
+                    <button type="submit">SUBMIT</button>
+                    <a @onclick="OnCancel" class="cancel-btn">CANCEL</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- PROFILE PAGE CONTENT ENDS HERE -->
+</div>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    private void OnCancel()
+    {
+        NavManager.NavigateTo($"/supervisor/masterlist/evaluation/{Id}");
+    }
+}
+

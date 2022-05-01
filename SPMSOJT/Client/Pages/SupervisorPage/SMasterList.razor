@@ -52,7 +52,7 @@
                         <td>@OrganizationsName[i]</td>
                         <td>
                             <button type="button" class="edit-del-student-button"
-                                    onclick="location.href='evaluation.html';">
+                                   @onclick="() => OnEvaluationClick(trainee.Id)">
                                 Evaluate
                             </button>
                             <button type="button" class="edit-del-student-button"
@@ -110,6 +110,11 @@
     private void OnEditClick(int traineeId)
     {
         NavManager.NavigateTo($"supervisor/masterlist/form/{traineeId}");
+    }
+
+    private void OnEvaluationClick(int traineeId)
+    {
+        NavManager.NavigateTo($"supervisor/masterlist/evaluation/{traineeId}");
     }
 
     private async Task OnDeleteClick(Trainee trainee)

@@ -1,0 +1,209 @@
+﻿@page "/supervisor/profile/form/{Id:int}"
+@layout CoordinatorLayout
+@inject ISupervisorService SupervisorService
+@inject IToastService Toast
+@inject NavigationManager NavManager
+@inject IJSRuntime JsRun
+
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-id-badge"></i>Add Supervisor</div>
+        <a href="/coordinator/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- ADD COORDINATOR STARTS HERE -->
+    <div class="content">
+        <EditForm Model="supervisor" OnValidSubmit="OnSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <h3>Personal Information</h3>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <label for="lastname">Last Name</label>
+                    <ValidationMessage For="() => supervisor.last_name" />
+                    <input type="text" id="lastname" @bind-value="supervisor.last_name" placeholder="Last name">
+                </div>
+                <div class="col">
+                    <label for="firstname">First Name</label>
+                    <ValidationMessage For="() => supervisor.last_name" />
+                    <input type="text" id="firstname" @bind-value="supervisor.first_name" placeholder="First name">
+                </div>
+                <div class="col">
+                    <label for="middlename">Middle Name</label>
+                    <ValidationMessage For="() => supervisor.middle_name" />
+                    <input type="text" id="middlename" @bind-value="supervisor.middle_name" placeholder="Middle name">
+                </div>
+                <div class="col">
+                    <label for="suffix">Suffix</label>
+                    <input type="text" id="suffix" @bind-value="supervisor.suffix" placeholder="Suffix">
+                </div>
+            </div>
+
+            <label for="address">Address</label>
+            <div class="row">
+                <div class="col">
+                    <ValidationMessage For="() => supervisor.barangay" />
+                    <input type="text" id="barangay" @bind-value="supervisor.barangay" placeholder="Barangay">
+                </div>
+                <div class="col">
+                    <ValidationMessage For="() => supervisor.city" />
+                    <input type="text" id="city" @bind-value="supervisor.city" placeholder="Town/City">
+                </div>
+                <div class="col">
+                    <ValidationMessage For="() => supervisor.province" />
+                    <input type="text" id="province" @bind-value="supervisor.province" placeholder="Province">
+                </div>
+                <div class="col">
+                    <ValidationMessage For="() => supervisor.zipcode" />
+                    <input type="text" id="zipcode" @bind-value="supervisor.zipcode" placeholder="Zip code">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="email">Email Address</label>
+                    <ValidationMessage For="() => supervisor.email" />
+                    <input type="text" id="email" @bind-value="supervisor.email" placeholder="Email Address">
+                </div>
+                <div class="col">
+                    <label for="address">Contact number</label>
+                    <ValidationMessage For="() => supervisor.phonenum" />
+                    <input type="text" id="contno" @bind-value="supervisor.phonenum" placeholder="Contact number">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="citizen">Citizenship</label>
+                    <ValidationMessage For="() => supervisor.citizenship" />
+                    <input type="text" id="citizen" @bind-value="supervisor.citizenship" placeholder="Citizenship">
+                </div>
+                <div class="col">
+                    <label for="gender">Sex</label>
+                    <ValidationMessage For="() => supervisor.sex" />
+                    <select id="gender" name="gender" @onchange="OnGenderChange">
+                        <option selected hidden="">Sex</option>
+                        <option name="gender" value="female">Female</option>
+                        <option name="gender" value="male">Male</option>
+                    </select>
+                </div>
+            </div>
+
+            <h3>Work Information</h3>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <label for="schoolemail">School issued E-mail</label>
+                    <ValidationMessage For="() => supervisor.schoolemail" />
+                    <input type="text" id="schoolemail" @bind-value="supervisor.schoolemail" placeholder="School E-mail">
+                </div>
+                <div class="col">
+                    <label for="college">College/Institute</label>
+                    <ValidationMessage For="() => supervisor.college" />
+                    <input type="text" id="college" @bind-value="supervisor.college" placeholder="School">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="school">School</label>
+                    <ValidationMessage For="() => supervisor.schoolname" />
+                    <input type="text" id="school" @bind-value="supervisor.schoolname" placeholder="School">
+                </div>
+            </div>
+
+            <label for="schooladd">School Address</label>
+            <div class="row">
+                <div class="col">
+                    <ValidationMessage For="() => supervisor.school_barangay" />
+                    <input type="text" id="scbarangay" @bind-value="supervisor.school_barangay" placeholder="Barangay">
+                </div>
+                <div class="col">
+                    <ValidationMessage For="() => supervisor.school_city" />
+                    <input type="text" id="sccity" @bind-value="supervisor.school_city" placeholder="Town/City">
+                </div>
+                <div class="col">
+                    <ValidationMessage For="() => supervisor.school_province" />
+                    <input type="text" id="scprovince" @bind-value="supervisor.school_province" placeholder="Province">
+                </div>
+                <div class="col">
+                    <ValidationMessage For="() => supervisor.school_zipcode" />
+                    <input type="text" id="sczipcode" @bind-value="supervisor.school_zipcode" placeholder="Zip code">
+                </div>
+            </div>
+
+            <h3>Login Information</h3>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <label for="login">Email</label>
+                    <ValidationMessage For="() => supervisor.email" />
+                    <input type="text" id="login" @bind-value="supervisor.email" placeholder="Email">
+                </div>
+                <div class="col">
+                    <label for="password">Password</label>
+                    <ValidationMessage For="() => supervisor.password" />
+                    <input type="password" id="password" @bind-value="supervisor.password" placeholder="Password">
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="forbutton">
+                    <button type="submit">SUBMIT</button>
+                    <a href="/supervisor/profile" class="cancel-btn">CANCEL</a>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+    <!-- ADD COORDINATOR ENDS HERE -->
+</div>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    Supervisor supervisor = new Supervisor();
+
+    //protected async override Task OnInitializedAsync()
+    //{
+    //    if (Id.HasValue)
+    //    {
+    //        supervisor = await SupervisorService.GetSupervisor(Id.Value);
+    //    }
+    //}
+
+    private async Task OnSubmit()
+    {
+        await JsRun.InvokeVoidAsync("console.log", supervisor);
+        //if (supervisor.Id == 0)
+        //{
+        //    var result = await SupervisorService.AddSupervisor(supervisor);
+        //    if (result != null)
+        //    {
+        //        Toast.ShowSuccess("New Supervisor Added", "Success");
+        //        NavManager.NavigateTo("/supervisor/profile");
+        //    }
+        //}
+        //else
+        //{
+        //    var result = await SupervisorService.UpdateSupervisor(supervisor);
+        //    if (result != null)
+        //    {
+        //        Toast.ShowSuccess("Supervisor Successfully Updated", "Success");
+        //        NavManager.NavigateTo("/supervisor/profile");
+        //    }
+        //}
+
+    }
+
+    private void OnGenderChange(ChangeEventArgs e)
+    {
+        var gender = e.Value.ToString();
+        if (gender != "Sex")
+        {
+            supervisor.sex = gender;
+        }
+    }
+}

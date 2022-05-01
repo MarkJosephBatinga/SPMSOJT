@@ -1,6 +1,6 @@
 ﻿@page "/supervisor/profile"
 @layout SupervisorLayout
-
+@inject NavigationManager NavManager
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -84,7 +84,7 @@
         
             <br>
             <div class="mt-4 d-flex justify-content-end">
-                <button class="editbutton">Edit Profile</button>
+                <button class="editbutton" @onclick="OnEditProfile">Edit Profile</button>
             </div>
             <br><br>
         </div>
@@ -94,5 +94,8 @@
 </div>
 
 @code {
-
+    private void OnEditProfile()
+    {
+        NavManager.NavigateTo($"/supervisor/profile/form/{1}");
+    }
 }

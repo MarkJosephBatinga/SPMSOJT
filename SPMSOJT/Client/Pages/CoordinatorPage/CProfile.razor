@@ -1,5 +1,6 @@
 ﻿@page "/coordinator/profile"
 @layout CoordinatorLayout
+@inject NavigationManager NavManager
 
 <div class="main_content">
     <div class="header">
@@ -59,5 +60,11 @@
 </div>
 
 @code {
+    //[Parameter]
+    //public int Id { get; set; }
 
+    private void OnEditProfile()
+    {
+        //NavManager.NavigateTo($"/supervisor/profile/form/{1}");   
+    }
 }

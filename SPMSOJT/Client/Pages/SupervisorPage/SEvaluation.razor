@@ -1,0 +1,101 @@
+﻿@page "/supervisor/masterlist/evaluation/{Id:int}"
+@layout SupervisorLayout
+@inject NavigationManager NavManager
+
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-clipboard-list"></i> Evaluate Trainee</div>
+        <a href="/supervisor/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- PROFILE PAGE CONTENT STARTS HERE -->
+    <!-- PROFILE PAGE SECTION 1 STARTS HERE -->
+    <section class="admindb-s1">
+        <div>
+            <h1>Diluc Ragvindr</h1>
+            <p>Trainee</p>
+        </div>
+    </section>
+    <!-- PROFILE PAGE SECTION 1 ENDS HERE -->
+    <!-- PROFILE PAGE SECTION 2 STARTS HERE -->
+    <section class="admin-profile">
+        <div class="admin-items">
+            <table width="100%">
+                <tr>
+                    <td class="heading">1. Responsibility</td>
+                </tr>
+                <tr>
+                    <td class="label">
+                        Is responsible and completes assigned duties. Is punctual, organized and handles
+                        agency environment in a complete and professional manner.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="admin-info">Rating: A</td>
+                </tr>
+
+                <tr>
+                    <td class="heading">2. Competence</td>
+                </tr>
+                <tr>
+                    <td class="label">
+                        Understands and follow written and oral directions effectively. Is enthusiastic and
+                        shows
+                        a willingness to work as a team with agency staff and/or clients.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="admin-info">Rating: A</td>
+                </tr>
+
+                <tr>
+                    <td class="heading">3. Cooperation</td>
+                </tr>
+                <tr>
+                    <td class="label">
+                        Works well with supervisors, staff and clients the agency may serve. Is professional,
+                        courteous and responsive. Recognizes and values diversity.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="admin-info">Rating: B</td>
+                </tr>
+
+                <tr>
+                    <td class="heading">4. Quality of Services</td>
+                </tr>
+                <tr>
+                    <td class="label">
+                        Strives to achieve accuracy in accomplishing assigned duties. Understands
+                        agency's mission and the connection between service and learning.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="admin-info">Rating: B</td>
+                </tr>
+
+            </table>
+
+            <br>
+            <div  class="mt-4 d-flex justify-content-end">
+                <button class="editbutton" @onclick="OnEditClick">Edit Evaluation</button>
+            </div>
+            <br><br>
+        </div>
+    </section>
+    <!-- PROFILE PAGE SECTION 2 ENDS HERE -->
+    <!-- PROFILE PAGE CONTENT ENDS HERE -->
+</div>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    private void OnEditClick()
+    {
+        NavManager.NavigateTo($"/supervisor/masterlist/evaluation/form/{Id}");
+    }
+}
+
