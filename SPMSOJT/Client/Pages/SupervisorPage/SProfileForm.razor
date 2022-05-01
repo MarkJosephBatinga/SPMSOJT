@@ -1,10 +1,10 @@
 ﻿@page "/supervisor/profile/form/{Id:int}"
 @layout CoordinatorLayout
+@attribute [Authorize(Roles = "supervisor")]
 @inject ISupervisorService SupervisorService
 @inject IToastService Toast
 @inject NavigationManager NavManager
 @inject IJSRuntime JsRun
-
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">

@@ -1,0 +1,53 @@
+﻿@page "/student"
+@layout StudentLayout
+@attribute [Authorize(Roles = "student")]
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-home"></i> Dashboard</div>
+        <a href="/student/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- DASHBOARD PAGE CONTENT STARTS HERE -->
+    <!-- DASHBOARD PAGE SECTION 1 STARTS HERE -->
+    <section class="studdb-s1">
+        <div>
+            <h1>Welcome back, username!</h1>
+            <p>Here's an overview of your account</p>
+        </div>
+        <img src="./css/images/student-dashboard.svg">
+    </section>
+    <!-- DASHBOARD PAGE SECTION 1 ENDS HERE -->
+    <!-- DASHBOARD PAGE SECTION 2 STARTS HERE -->
+    <section class="studdb-s2">
+        <div class="db-item">
+            <h2>Task Overview</h2>
+            <div class="db-list">
+                <a href="#">
+                    <h3>Task Title</h3>
+                </a>
+            </div>
+            <div class="db-list">
+                <a href="#">
+                    <h3>Task Title</h3>
+                </a>
+            </div>
+            <div class="db-list">
+                <a href="#">
+                    <h3>Task Title</h3>
+                </a>
+            </div>
+            <br>
+            <a href="/student/mytask" class="vw-btn">View All Tasks</a>
+        </div>
+
+
+    </section>
+    <!-- DASHBOARD PAGE SECTION 2 ENDS HERE -->
+    <!-- DASHBOARD PAGE CONTENT ENDS HERE -->
+</div>
+
+@code {
+
+}

@@ -1,7 +1,7 @@
 ﻿@page "/supervisor/task/form"
 @page "/supervisor/task/form/{Id:int}"
 @layout SupervisorLayout
-
+@attribute [Authorize(Roles = "supervisor")]
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">

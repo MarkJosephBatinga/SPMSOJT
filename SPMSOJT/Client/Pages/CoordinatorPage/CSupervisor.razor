@@ -1,9 +1,9 @@
 ﻿@page "/coordinator/supervisor"
 @layout CoordinatorLayout
+@attribute [Authorize(Roles = "coordinator")]
 @inject NavigationManager NavManager
 @inject ISupervisorService SupervisorService
 @inject IToastService Toast
-
 
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
@@ -47,7 +47,7 @@
 </div>
 <!-- COORDINATOR SECTION ENDS HERE -->
 
-@code {        
+@code {
     List<Supervisor> Supervisors = new List<Supervisor>();
 
     protected override async Task OnInitializedAsync()

@@ -1,7 +1,8 @@
 ﻿@page "/supervisor"
 @layout SupervisorLayout
+@attribute [Authorize(Roles = "supervisor")]
 
- <!-- HEADER STARTS HERE -->
+<!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
         <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
@@ -9,7 +10,6 @@
         <a href="/supervisor/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
     </div>
     <!-- HEADER ENDS HERE -->
-        
     <!-- DASHBOARD PAGE CONTENT STARTS HERE -->
     <!-- DASHBOARD PAGE SECTION 1 STARTS HERE -->
     <section class="coordb-s1">
@@ -20,7 +20,6 @@
         <img src="./css/images/coord-dashboard.svg">
     </section>
     <!-- DASHBOARD PAGE SECTION 1 ENDS HERE -->
-        
     <!-- DASHBOARD PAGE SECTION 2 STARTS HERE -->
     <section class="coordb-s2">
         <div class="db-item">
@@ -29,7 +28,7 @@
                 <h4>50</h4>
             </a>
         </div>
-        
+
         <div class="db-item">
             <a href="#">
                 <h3>Tasks</h3>
@@ -38,7 +37,6 @@
         </div>
     </section>
     <!-- DASHBOARD PAGE SECTION 2 ENDS HERE -->
-        
     <!-- DASHBOARD PAGE CONTENT ENDS HERE -->
 </div>
 

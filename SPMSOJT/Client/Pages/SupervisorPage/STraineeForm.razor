@@ -1,6 +1,7 @@
 ﻿@page "/supervisor/masterlist/form"
 @page "/supervisor/masterlist/form/{Id:int}"
 @layout CoordinatorLayout
+@attribute [Authorize(Roles = "supervisor")]
 @inject IOrganizationService OrganizationService
 @inject ISupervisorService SupervisorService
 @inject ITraineeService TraineeService

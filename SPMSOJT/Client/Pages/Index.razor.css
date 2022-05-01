@@ -34,7 +34,7 @@
 /* inputs ng form*/
 input[type=text],
 input[type=password],
-.loginType {
+InputSelect {
     width: 60%;
     padding: 8px 20px;
     margin: 8px 5px;
@@ -71,7 +71,7 @@ button[type=submit] {
     font-weight: 800;
 }
 
-button[type=button] {
+.cancelbtn {
     background-color: #00bdbd;
     padding: 14px 20px;
     margin: 8px 0px 8px 6px;
@@ -86,7 +86,8 @@ button[type=button] {
 }
 
 /* hover effect */
-button:hover {
+button:hover,
+.cancelbtn {
     opacity: 0.8;
 }
 

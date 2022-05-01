@@ -1,0 +1,163 @@
+﻿.wrapper .main_content {
+    width: 100%;
+    margin-left: 230px;
+}
+
+@media (max-width:1600px) {
+    .wrapper .main_content {
+        margin-left: 110px;
+    }
+}
+
+@media (max-width: 768px) {
+    .wrapper .main_content {
+        margin-left: 0;
+    }
+}
+
+/* HEADER SECTION STARTS HERE */
+.wrapper .main_content .header {
+    padding: 10px;
+    background: var(--dark-cyan);
+    color: var(--white);
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+    .wrapper .main_content .header div .fas {
+        width: 40px;
+    }
+
+    .wrapper .main_content .header #profile {
+        margin-right: 20px;
+        padding: 1.3rem;
+        border-radius: 15px;
+    }
+
+        .wrapper .main_content .header #profile:hover {
+            background-color: var(--hoversb);
+            color: var(--dark-cyan);
+        }
+
+@media (max-width:996px) {
+
+    .wrapper .main_content .header,
+    .wrapper .main_content .header div {
+        padding: 5px;
+    }
+}
+
+/* HEADER SECTION ENDS HERE */
+
+/*STUDENT DASHBOARD SECTION 1 STARTS HERE*/
+.wrapper .main_content .studdb-s1 {
+    color: var(--dark-cyan);
+    align-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 30px;
+}
+
+.studdb-s1 img {
+    width: 25%;
+}
+
+.studdb-s1 h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.studdb-s1 p {
+    font-size: 1.5rem;
+}
+
+@media (max-width:1100px) {
+    .studdb-s1 img {
+        width: 35%;
+    }
+}
+
+@media (max-width:768px) {
+    .studdb-s1 img {
+        width: 45%;
+    }
+}
+
+/*STUDENT DASHBOARD SECTION 1 ENDS HERE*/
+
+/*STUDENT DASHBOARD SECTION 2 STARTS HERE*/
+.studdb-s2 {
+    margin: 10px 30px 40px 30px;
+    padding: 0 5rem 0 5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5rem;
+    align-items: center;
+}
+
+    .studdb-s2 h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--dark-cyan);
+        margin-left: 10px;
+        margin-bottom: 5px;
+    }
+
+    .studdb-s2 .db-item .db-list {
+        text-align: left;
+        border: 2px solid var(--dark-cyan);
+        background-color: var(--white);
+        border-radius: 15px;
+        padding: 1.7rem;
+        cursor: pointer;
+        margin-bottom: 15px;
+    }
+
+        .studdb-s2 .db-item .db-list h3 {
+            font-size: 2rem;
+            color: var(--dark-cyan);
+        }
+
+    .studdb-s2 .db-item .vw-btn {
+        font-size: 25px;
+        font-weight: 700;
+        color: var(--white);
+        margin-left: 2px;
+        padding: 1.2rem;
+        background-color: var(--dark-cyan);
+        border-radius: 15px;
+    }
+
+        .studdb-s2 .db-item .vw-btn:hover {
+            background-color: var(--hoversb);
+            color: var(--dark-cyan);
+        }
+
+@media (max-width:1100px) {
+    .studdb-s2 {
+        padding: 0 1rem 0 1rem;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+        .studdb-s2 .db-item {
+            padding: 2rem;
+            cursor: pointer;
+        }
+}
+
+@media (max-width:768px) {
+    .studdb-s2 .db-item {
+        padding: 0;
+    }
+
+        .studdb-s2 .db-item .db-list h3 {
+            margin-top: 1rem;
+            color: var(--dark-cyan);
+        }
+}
+
+/*STUDENT DASHBOARD SECTION 2 ENDS HERE*/

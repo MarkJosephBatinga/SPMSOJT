@@ -1,6 +1,7 @@
 ﻿@page "/coordinator/organization/form"
 @page "/coordinator/organization/form/{Id:int}"
 @layout CoordinatorLayout
+@attribute [Authorize(Roles = "coordinator")]
 @inject IOrganizationService OrganizationService
 @inject IToastService Toast
 @inject NavigationManager NavManager
@@ -23,7 +24,7 @@
                 <div class="col">
                     <label for="orgname">Organization's Name</label>
                     <ValidationMessage For="() => organization.org_name" />
-                    <input type="text" id="orgname"  @bind-value="organization.org_name" placeholder="Organization's Name">
+                    <input type="text" id="orgname" @bind-value="organization.org_name" placeholder="Organization's Name">
                 </div>
                 <div class="col">
                     <label for="baddress">Branch Address</label>

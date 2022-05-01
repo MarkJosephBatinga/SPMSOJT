@@ -1,15 +1,15 @@
-﻿@page "/supervisor/taskrecord"
-@layout SupervisorLayout
-@attribute [Authorize(Roles = "supervisor")]
+﻿@page "/student/myrecord"
+@layout StudentLayout
+@attribute [Authorize(Roles = "student")]
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
         <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
-        <div><i class="fas fa-solid fa-list-check"></i>Task Record</div>
-        <a href="/supervisor/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+        <div><i class="fas fa-solid fa-list"></i>Task Record</div>
+        <a href="/student/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
     </div>
     <!-- HEADER ENDS HERE -->
-    <!-- TASK RECORD PAGE CONTENT STARTS HERE -->
+    <!-- TASK PAGE CONTENT STARTS HERE -->
     <!-- TASK PAGE SECTION 1 STARTS HERE -->
     <section class="admindb-s1">
         <div class="search-container">
@@ -26,57 +26,33 @@
             <thead>
                 <tr>
                     <th>Task Code</th>
-                    <th>Student Name</th>
                     <th>Uploaded File</th>
                     <th>Date of Submission</th>
                     <th>Remarks</th>
                     <th>Score</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>000001</td>
-                    <td>Juan dela Cruz</td>
                     <td>Sample</td>
                     <td>March 28, 2022</td>
                     <td>Done</td>
                     <td>90</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='edit-taskrecord.html';">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
                 </tr>
                 <tr class="active-row">
                     <td>000002</td>
-                    <td>Charisse Viste</td>
                     <td>Sample</td>
                     <td>April 03, 2022</td>
                     <td>Done</td>
                     <td>95</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='edit-taskrecord.html';">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
                 </tr>
                 <!-- and so on... -->
             </tbody>
         </table>
     </section>
     <!-- TASK PAGE SECTION 2 ENDS HERE -->
-    <!-- TASK RECORD PAGE CONTENT ENDS HERE -->
+    <!-- TASK PAGE CONTENT ENDS HERE -->
 </div>
 
 @code {

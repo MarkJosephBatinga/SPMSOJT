@@ -1,6 +1,7 @@
 ﻿@page "/coordinator/student/form"
 @page "/coordinator/student/form/{Id:int}"
 @layout CoordinatorLayout
+@attribute [Authorize(Roles = "coordinator")]
 @inject IUserService UserService
 @inject IToastService Toast
 @inject NavigationManager NavManager

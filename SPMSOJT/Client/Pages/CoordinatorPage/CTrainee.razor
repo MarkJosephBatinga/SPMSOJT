@@ -1,5 +1,6 @@
 ﻿@page "/coordinator/trainee"
 @layout CoordinatorLayout
+@attribute [Authorize(Roles = "coordinator")]
 @inject NavigationManager NavManager
 @inject IOrganizationService OrganizationService
 @inject ISupervisorService SupervisorService
@@ -60,7 +61,7 @@
                             </button>
                         </td>
                     </tr>
-                 }
+                }
                 <!-- and so on... -->
             </tbody>
         </table>

@@ -1,13 +1,14 @@
-﻿@page "/supervisor/task"
-@layout SupervisorLayout
-@attribute [Authorize(Roles = "supervisor")]
+﻿@page "/student/mytask"
+@layout StudentLayout
+@attribute [Authorize(Roles = "student")]
 @inject NavigationManager NavManager
+
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
         <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
-        <div><i class="fas fa-solid fa-list"></i>Task</div>
-        <a href="/supervisor/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+        <div><i class="fas fa-solid fa-clipboard-list"></i>My Tasks</div>
+        <a href="/student/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
     </div>
     <!-- HEADER ENDS HERE -->
     <!-- TASK PAGE CONTENT STARTS HERE -->
@@ -18,10 +19,6 @@
                 <input type="text" placeholder="Search task" name="search">
                 <button type="submit" class="search-button">Search</button>
             </form>
-            <button type="button" class="add-student-button" @onclick="OnAddClick">
-                + Add New
-                Task
-            </button>
         </div>
     </section>
     <!-- TASK PAGE SECTION 1 ENDS HERE -->
@@ -34,7 +31,7 @@
                     <th>Task Name</th>
                     <th>Description</th>
                     <th>Deadline</th>
-                    <th>Actions</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,31 +40,14 @@
                     <td>Task No. 1</td>
                     <td>Ayaya</td>
                     <td>March 30, 2022</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button" @onclick="() => OnEditClick(1)">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
+                    <td><a @onclick="OnComplyClick">Comply</a></td>
                 </tr>
                 <tr class="active-row">
                     <td>000002</td>
                     <td>Task No. 2</td>
                     <td>Ayaya</td>
                     <td>April 05, 2022</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='edit-task.html';">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
+                    <td><a @onclick="OnComplyClick">Comply</a></td>
                 </tr>
                 <!-- and so on... -->
             </tbody>
@@ -78,13 +58,10 @@
 </div>
 
 @code {
-    private void OnAddClick()
-    {
-        NavManager.NavigateTo("supervisor/task/form");
-    }
 
-    private void OnEditClick(int taskId)
+
+    private void OnComplyClick()
     {
-        NavManager.NavigateTo($"supervisor/task/form/{taskId}");
+        NavManager.NavigateTo("/student/mytask/comply");
     }
 }

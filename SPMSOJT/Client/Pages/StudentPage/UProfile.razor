@@ -1,13 +1,13 @@
-﻿@page "/supervisor/profile"
-@layout SupervisorLayout
-@attribute [Authorize(Roles = "supervisor")]
-@inject NavigationManager NavManager
+﻿@page "/student/profile"
+@layout StudentLayout
+@attribute [Authorize(Roles = "student")]
+
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
         <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
         <div><i class="fas fa-home"></i> Profile</div>
-        <a href="/supervisor/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+        <a href="/student/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
     </div>
     <!-- HEADER ENDS HERE -->
     <!-- PROFILE PAGE CONTENT STARTS HERE -->
@@ -16,7 +16,7 @@
         <div>
             <img src="./css/images/Avatar-Profile-PNG-Picture.png">
             <h1>Diluc Ragvindr</h1>
-            <p>Supervisor</p>
+            <p>Student</p>
         </div>
     </section>
     <!-- PROFILE PAGE SECTION 1 ENDS HERE -->
@@ -36,8 +36,8 @@
                     <td class="admin-info">Dawn Winery, Mondstadt, Teyvat</td>
                 </tr>
                 <tr>
-                    <td class="label">Contact Information:</td>
-                    <td class="admin-info">Diluc@teyvat.com | 09123456789</td>
+                    <td class="label">Contact Number:</td>
+                    <td class="admin-info">09123456789</td>
                 </tr>
                 <tr>
                     <td class="label">Citizenship:</td>
@@ -49,11 +49,15 @@
                 </tr>
 
                 <tr>
-                    <td class="heading">Work Information</td>
+                    <td class="heading">School Information</td>
                 </tr>
                 <tr>
                     <td class="label">School-issued E-mail:</td>
                     <td class="admin-info">DilucRagnvndr@instructor.dmmmsu.edu.ph</td>
+                </tr>
+                <tr>
+                    <td class="label">ID Number:</td>
+                    <td class="admin-info">19107459</td>
                 </tr>
                 <tr>
                     <td class="label">College:</td>
@@ -94,8 +98,10 @@
 </div>
 
 @code {
+
+
     private void OnEditProfile()
     {
-        NavManager.NavigateTo($"/supervisor/profile/form/{1}");
+        Console.WriteLine("Edit");
     }
 }

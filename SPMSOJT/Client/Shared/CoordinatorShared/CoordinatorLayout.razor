@@ -1,5 +1,8 @@
 ﻿@inherits LayoutComponentBase
 @inject IJSRuntime JsRuntime
+@inject ILocalStorageService LocalStorage
+@inject AuthenticationStateProvider Authentication
+@inject NavigationManager Navigate
 
 <div class="wrapper">
     <div class="sidebar">
@@ -13,7 +16,7 @@
                 <a href="/coordinator/organization"><i class="fas fa-solid fa-building"></i> <span>Organization</span></a>
             </li>
             <li id="log">
-                <a href="login.html">
+                <a @onclick="Logout">
                     <i class="fas fa-solid fa-right-from-bracket"></i> <span>
                         Log
                         Out
@@ -22,12 +25,20 @@
             </li>
         </ul>
     </div>
-   @Body
+    @Body
 </div>
 
 @code {
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         await JsRuntime.InvokeVoidAsync("onLoadJs");
+    }
+
+    private async void Logout()
+    {
+        await LocalStorage.RemoveItemAsync("username");
+        await LocalStorage.RemoveItemAsync("role");
+        await Authentication.GetAuthenticationStateAsync();
+        Navigate.NavigateTo("");
     }
 }

@@ -1,0 +1,37 @@
+﻿@page "/student/mytask/comply"
+@layout StudentLayout
+@attribute [Authorize(Roles = "student")]
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-clipboard-list"></i>Submit Task</div>
+        <a href="/student/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- ADD NEW TASK PAGE CONTENT STARTS HERE -->
+    <div class="content">
+        <form action="" method="POST">
+            <h3>Submit Task</h3>
+            <hr>
+            <div class="row">
+                <div class="column">
+                    <label for="fileToUpload">Select file to upload</label>
+                    <input type="file" class="fileupload" name="fileToUpload">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="forbutton">
+                    <button type="submit">SUBMIT</button>
+                    <a href="/student/mytask" class="cancel-btn">CANCEL</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- ADD NEW TASK PAGE CONTENT ENDS HERE -->
+</div>
+
+@code {
+
+}

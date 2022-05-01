@@ -1,4 +1,10 @@
 ﻿@page "/"
+@inject IJSRuntime JsRun
+@inject ILoginService LoginService
+@inject IToastService Toast
+@inject ILocalStorageService LocalStorage
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager NavManager
 
 <!-- Splash Image Big-->
 <section class="login-section">
@@ -15,28 +21,94 @@
                 <h2><b>SPMS-OJT Login</b></h2>
                 <img src="./css/images/Avatar-Profile-PNG-Picture.png" alt="Avatar" class="avatar">
             </div>
-
-            <div class="container">
-                <div class="container1">
-                    <h3 class="welcome">Welcome back, user!</h3>
-                </div><br>
-                <label for="cars"><b>Login as:&nbsp&nbsp&nbsp&nbsp&nbsp</b></label>
-                <select name="login-type" class="loginType">
-                    <option value="coordinator">Coordinator</option>
-                    <option value="supervisor">Supervisor</option>
-                    <option value="student" default>Student</option>
-                </select>
-            </div>
-            <label for="uname">
-                <b>
-                    Email: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                </b>
-            </label>
-            <input type="text" placeholder="Enter Email" name="email" required><br>
-            <label for="psw"><b>Password: &nbsp </b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required><br>
-            <button type="submit">LOGIN</button>
-            <button type="button" class="cancelbtn">Cancel</button>
+            <EditForm Model="login" OnValidSubmit="OnLogin">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <div class="container">
+                    <div class="container1">
+                        <h3 class="welcome">Welcome back, user!</h3>
+                    </div><br>
+                    <label for="cars"><b>Login as:&nbsp&nbsp&nbsp&nbsp&nbsp</b></label>
+                    <ValidationMessage For="() => login.role" />
+                    <InputSelect name="login-type" @bind-Value="login.role" class="loginType">
+                        <option hidden selected>Select Role</option>
+                        <option value="coordinator">Coordinator</option>
+                        <option value="supervisor">Supervisor</option>
+                        <option value="student">Student</option>
+                    </InputSelect>
+                </div>
+                <label for="uname">
+                    <b>
+                        Email: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    </b>
+                </label>
+                <ValidationMessage For="() => login.email" />
+                <input type="text" placeholder="Enter Email" @bind-value="login.email" required><br>
+                <label for="psw"><b>Password: &nbsp </b></label>
+                <ValidationMessage For="() => login.password" />
+                <input type="password" placeholder="Enter Password" @bind-value="login.password" required><br>
+                <button type="submit">LOGIN</button>
+                <a href="#" type="button" class="cancelbtn">Cancel</a>
+            </EditForm>
         </form>
     </div>
 </section>
+
+@code {
+
+    LoginToken login = new LoginToken();
+
+    protected async override Task OnInitializedAsync()
+    {
+        await LocalStorage.RemoveItemAsync("username");
+        await LocalStorage.RemoveItemAsync("role");
+    }
+
+    private async void OnLogin()
+    {
+        if(login.role == "student")
+        {
+            var result = await LoginService.LoginUser(login);
+            if(result.Id != 0)
+            {
+                await LocalStorage.SetItemAsStringAsync("username", login.email);
+                await LocalStorage.SetItemAsStringAsync("role", login.role);
+                await AuthProvider.GetAuthenticationStateAsync();
+                NavManager.NavigateTo("/student");
+            }
+            else
+            {
+                Toast.ShowError("Please Check your email and password", "Login Failed");
+            }
+        }
+        else if(login.role == "coordinator")
+        {
+            var result = await LoginService.LoginCoordinator(login);
+            if (result.Id != 0)
+            {
+                await LocalStorage.SetItemAsStringAsync("username", login.email);
+                await LocalStorage.SetItemAsStringAsync("role", login.role);
+                await AuthProvider.GetAuthenticationStateAsync();
+                NavManager.NavigateTo("/coordinator");
+            }
+            else
+            {
+                Toast.ShowError("Please Check your email and password", "Login Failed");
+            }
+        }
+        else if (login.role == "supervisor")
+        {
+            var result = await LoginService.LoginSupervisor(login);
+            if (result.Id != 0)
+            {
+                await LocalStorage.SetItemAsStringAsync("username", login.email);
+                await LocalStorage.SetItemAsStringAsync("role", login.role);
+                await AuthProvider.GetAuthenticationStateAsync();
+                NavManager.NavigateTo("/supervisor");
+            }
+            else
+            {
+                Toast.ShowError("Please Check your email and password", "Login Failed");
+            }
+        }
+    }
+}

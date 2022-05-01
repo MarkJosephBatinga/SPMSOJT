@@ -1,11 +1,11 @@
 ﻿@page "/coordinator/supervisor/form"
 @page "/coordinator/supervisor/form/{Id:int}"
 @layout CoordinatorLayout
+@attribute [Authorize(Roles = "coordinator")]
 @inject ISupervisorService SupervisorService
 @inject IToastService Toast
 @inject NavigationManager NavManager
 @inject IJSRuntime JsRun
-
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col">
                     <label for="lastname">Last Name</label>
-                    <ValidationMessage For="() => supervisor.last_name"/>
+                    <ValidationMessage For="() => supervisor.last_name" />
                     <input type="text" id="lastname" @bind-value="supervisor.last_name" placeholder="Last name">
                 </div>
                 <div class="col">
@@ -34,7 +34,7 @@
                 <div class="col">
                     <label for="middlename">Middle Name</label>
                     <ValidationMessage For="() => supervisor.middle_name" />
-                    <input type="text" id="middlename"  @bind-value="supervisor.middle_name" placeholder="Middle name">
+                    <input type="text" id="middlename" @bind-value="supervisor.middle_name" placeholder="Middle name">
                 </div>
                 <div class="col">
                     <label for="suffix">Suffix</label>
@@ -66,12 +66,12 @@
                 <div class="col">
                     <label for="email">Email Address</label>
                     <ValidationMessage For="() => supervisor.email" />
-                    <input type="text" id="email"  @bind-value="supervisor.email" placeholder="Email Address">
+                    <input type="text" id="email" @bind-value="supervisor.email" placeholder="Email Address">
                 </div>
                 <div class="col">
                     <label for="address">Contact number</label>
                     <ValidationMessage For="() => supervisor.phonenum" />
-                    <input type="text" id="contno"  @bind-value="supervisor.phonenum" placeholder="Contact number">
+                    <input type="text" id="contno" @bind-value="supervisor.phonenum" placeholder="Contact number">
                 </div>
             </div>
 
@@ -98,7 +98,7 @@
                 <div class="col">
                     <label for="schoolemail">School issued E-mail</label>
                     <ValidationMessage For="() => supervisor.schoolemail" />
-                    <input type="text" id="schoolemail"  @bind-value="supervisor.schoolemail" placeholder="School E-mail">
+                    <input type="text" id="schoolemail" @bind-value="supervisor.schoolemail" placeholder="School E-mail">
                 </div>
                 <div class="col">
                     <label for="college">College/Institute</label>
@@ -119,7 +119,7 @@
             <div class="row">
                 <div class="col">
                     <ValidationMessage For="() => supervisor.school_barangay" />
-                    <input type="text" id="scbarangay"  @bind-value="supervisor.school_barangay" placeholder="Barangay">
+                    <input type="text" id="scbarangay" @bind-value="supervisor.school_barangay" placeholder="Barangay">
                 </div>
                 <div class="col">
                     <ValidationMessage For="() => supervisor.school_city" />
@@ -169,7 +169,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        if(Id.HasValue)
+        if (Id.HasValue)
         {
             supervisor = await SupervisorService.GetSupervisor(Id.Value);
         }
@@ -177,7 +177,7 @@
 
     private async Task OnSubmit()
     {
-        if(supervisor.Id == 0)
+        if (supervisor.Id == 0)
         {
             var result = await SupervisorService.AddSupervisor(supervisor);
             if (result != null)
@@ -201,7 +201,7 @@
     private void OnGenderChange(ChangeEventArgs e)
     {
         var gender = e.Value.ToString();
-        if(gender!="Sex")
+        if (gender != "Sex")
         {
             supervisor.sex = gender;
         }

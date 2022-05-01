@@ -1,6 +1,7 @@
 ﻿@page "/coordinator/trainee/form"
 @page "/coordinator/trainee/form/{Id:int}"
 @layout CoordinatorLayout
+@attribute [Authorize(Roles = "coordinator")]
 @inject IOrganizationService OrganizationService
 @inject ISupervisorService SupervisorService
 @inject ITraineeService TraineeService
@@ -8,7 +9,6 @@
 @inject IToastService Toast
 @inject NavigationManager NavManager
 @inject IJSRuntime JsRun
-
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -149,10 +149,10 @@
     private void OnStudentChange(ChangeEventArgs e)
     {
         var result = e.Value;
-        if(!result.Equals(""))
+        if (!result.Equals(""))
         {
             int intResult = Int32.Parse(result.ToString());
-            if(intResult != 0)
+            if (intResult != 0)
             {
                 trainee.studentId = intResult;
             }

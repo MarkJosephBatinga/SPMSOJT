@@ -1,9 +1,9 @@
 ﻿@page "/coordinator/student"
 @layout CoordinatorLayout
+@attribute [Authorize(Roles = "coordinator")]
 @inject NavigationManager NavManager
 @inject IUserService UserService
 @inject IToastService Toast
-
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -53,7 +53,7 @@
                                 Edit
                             </button>
                             <button type="button" class="edit-del-student-button"
-                                     @onclick="() => OnDeleteClick(user)">
+                                    @onclick="() => OnDeleteClick(user)">
                                 Delete
                             </button>
                         </td>

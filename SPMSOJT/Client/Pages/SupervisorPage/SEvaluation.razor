@@ -1,7 +1,7 @@
 ﻿@page "/supervisor/masterlist/evaluation/{Id:int}"
 @layout SupervisorLayout
+@attribute [Authorize(Roles = "supervisor")]
 @inject NavigationManager NavManager
-
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -79,7 +79,7 @@
             </table>
 
             <br>
-            <div  class="mt-4 d-flex justify-content-end">
+            <div class="mt-4 d-flex justify-content-end">
                 <button class="editbutton" @onclick="OnEditClick">Edit Evaluation</button>
             </div>
             <br><br>

@@ -1,5 +1,6 @@
 ﻿@page "/coordinator/profile"
 @layout CoordinatorLayout
+@attribute [Authorize(Roles = "coordinator")]
 @inject NavigationManager NavManager
 
 <div class="main_content">
@@ -65,6 +66,6 @@
 
     private void OnEditProfile()
     {
-        //NavManager.NavigateTo($"/supervisor/profile/form/{1}");   
+        //NavManager.NavigateTo($"/supervisor/profile/form/{1}");
     }
 }

@@ -1,12 +1,12 @@
 ﻿@page "/supervisor/masterlist"
 @layout SupervisorLayout
 @inject NavigationManager NavManager
+@attribute [Authorize(Roles = "supervisor")]
 @inject IOrganizationService OrganizationService
 @inject ISupervisorService SupervisorService
 @inject ITraineeService TraineeService
 @inject IUserService UserService
 @inject IToastService Toast
-
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -52,7 +52,7 @@
                         <td>@OrganizationsName[i]</td>
                         <td>
                             <button type="button" class="edit-del-student-button"
-                                   @onclick="() => OnEvaluationClick(trainee.Id)">
+                                    @onclick="() => OnEvaluationClick(trainee.Id)">
                                 Evaluate
                             </button>
                             <button type="button" class="edit-del-student-button"
@@ -67,7 +67,7 @@
                     </tr>
                 }
                 <!-- and so on... -->
-                
+
             </tbody>
         </table>
     </section>

@@ -1,9 +1,9 @@
 ﻿@page "/coordinator/organization"
 @layout CoordinatorLayout
+@attribute [Authorize(Roles = "coordinator")]
 @inject NavigationManager NavManager
 @inject IOrganizationService OrganizationService
 @inject IToastService Toast
-
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
