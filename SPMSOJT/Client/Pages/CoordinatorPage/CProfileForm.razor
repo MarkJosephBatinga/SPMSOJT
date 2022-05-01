@@ -1,0 +1,121 @@
+﻿@page "/coordinator/profile/form/{Id:int}"
+@layout CoordinatorLayout
+@attribute [Authorize(Roles = "coordinator")]
+@inject ICoordinatorService CoordinatorService
+@inject IToastService Toast
+@inject ILocalStorageService LocalStorage
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager NavManager
+@inject IJSRuntime JsRun
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-users"></i>Edit Profile</div>
+        <a href="/coordinator/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <div class="content">
+        <EditForm Model="coordinator" OnValidSubmit="OnSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <h3>Personal Information</h3>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <label for="lastname">Last Name</label>
+                    <ValidationMessage For="() => coordinator.last_name" />
+                    <input type="text" id="lastname" @bind-value="coordinator.last_name" placeholder="Last name">
+                </div>
+                <div class="col">
+                    <label for="firstname">First Name</label>
+                    <ValidationMessage For="() => coordinator.last_name" />
+                    <input type="text" id="firstname" @bind-value="coordinator.first_name" placeholder="First name">
+                </div>
+            </div>
+
+            <label for="address">Address</label>
+            <div class="row">
+                <div class="col">
+                    <ValidationMessage For="() => coordinator.barangay" />
+                    <input type="text" id="barangay" @bind-value="coordinator.barangay" placeholder="Barangay">
+                </div>
+                <div class="col">
+                    <ValidationMessage For="() => coordinator.city" />
+                    <input type="text" id="city" @bind-value="coordinator.city" placeholder="Town/City">
+                </div>
+                <div class="col">
+                    <ValidationMessage For="() => coordinator.province" />
+                    <input type="text" id="province" @bind-value="coordinator.province" placeholder="Province">
+                </div>
+                <div class="col">
+                    <ValidationMessage For="() => coordinator.zipcode" />
+                    <input type="text" id="zipcode" @bind-value="coordinator.zipcode" placeholder="Zip code">
+                </div>
+            </div>
+
+            <h3>Contact Information</h3>
+            <div class="row">
+                <div class="col">
+                    <label for="email">School Email Address</label>
+                    <ValidationMessage For="() => coordinator.schoolemail" />
+                    <input type="text" id="email" @bind-value="coordinator.schoolemail" placeholder="School Email Address">
+                </div>
+                <div class="col">
+                    <label for="address">Contact number</label>
+                    <ValidationMessage For="() => coordinator.phonenum" />
+                    <input type="text" id="contno" @bind-value="coordinator.phonenum" placeholder="Contact number">
+                </div>
+            </div>
+
+            <h3>Login Information</h3>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <label for="login">Email</label>
+                    <ValidationMessage For="() => coordinator.email" />
+                    <input type="text" id="login" @bind-value="coordinator.email" placeholder="Email">
+                </div>
+                <div class="col">
+                    <label for="password">Password</label>
+                    <ValidationMessage For="() => coordinator.password" />
+                    <input type="password" id="password" @bind-value="coordinator.password" placeholder="Password">
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="forbutton">
+                    <button type="submit">SUBMIT</button>
+                    <a href="/coordinator/profile" class="cancel-btn">CANCEL</a>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    Coordinator coordinator = new Coordinator();
+
+    protected async override Task OnInitializedAsync()
+    {
+        if (Id.HasValue)
+        {
+            coordinator = await CoordinatorService.GetCoordinator(Id.Value);
+
+            await JsRun.InvokeVoidAsync("console.log", coordinator);
+        }
+    }
+
+    private async Task OnSubmit()
+    {
+        var result = await CoordinatorService.UpdateCoordinator(coordinator);
+        if (result != null)
+        {
+            Toast.ShowSuccess("Profile Successfully Updated", "Success");
+            await LocalStorage.SetItemAsStringAsync("username", coordinator.email);
+            await AuthProvider.GetAuthenticationStateAsync();
+            NavManager.NavigateTo("coordinator/profile");
+        }
+    }
+}

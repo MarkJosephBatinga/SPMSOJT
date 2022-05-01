@@ -1,6 +1,9 @@
 ﻿@page "/student/profile"
 @layout StudentLayout
 @attribute [Authorize(Roles = "student")]
+@inject ILoginService LoginService
+@inject ILocalStorageService LocalStorage
+@inject NavigationManager NavManager
 
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
@@ -15,7 +18,7 @@
     <section class="admindb-s1">
         <div>
             <img src="./css/images/Avatar-Profile-PNG-Picture.png">
-            <h1>Diluc Ragvindr</h1>
+            <h1>@user.first_name @user.last_name</h1>
             <p>Student</p>
         </div>
     </section>
@@ -29,23 +32,23 @@
                 </tr>
                 <tr>
                     <td class="label">Name:</td>
-                    <td class="admin-info">Diluc A. Ragvindr</td>
+                    <td class="admin-info">@user.first_name @user.middle_name @user.last_name</td>
                 </tr>
                 <tr>
                     <td class="label">Address:</td>
-                    <td class="admin-info">Dawn Winery, Mondstadt, Teyvat</td>
+                    <td class="admin-info">@user.barangay, @user.city, @user.province - @user.zipcode</td>
                 </tr>
                 <tr>
                     <td class="label">Contact Number:</td>
-                    <td class="admin-info">09123456789</td>
+                    <td class="admin-info">@user.phonenum</td>
                 </tr>
                 <tr>
                     <td class="label">Citizenship:</td>
-                    <td class="admin-info">Filipino</td>
+                    <td class="admin-info">@user.citizenship</td>
                 </tr>
                 <tr>
                     <td class="label">Sex:</td>
-                    <td class="admin-info">Male</td>
+                    <td class="admin-info">@user.sex</td>
                 </tr>
 
                 <tr>
@@ -53,23 +56,23 @@
                 </tr>
                 <tr>
                     <td class="label">School-issued E-mail:</td>
-                    <td class="admin-info">DilucRagnvndr@instructor.dmmmsu.edu.ph</td>
+                    <td class="admin-info">@user.schoolemail</td>
                 </tr>
                 <tr>
                     <td class="label">ID Number:</td>
-                    <td class="admin-info">19107459</td>
+                    <td class="admin-info">@user.idnumber</td>
                 </tr>
                 <tr>
                     <td class="label">College:</td>
-                    <td class="admin-info">College of Information Technology</td>
+                    <td class="admin-info">@user.college</td>
                 </tr>
                 <tr>
                     <td class="label">School:</td>
-                    <td class="admin-info">Don Mariano Marcos Memorial State University</td>
+                    <td class="admin-info">@user.schoolname</td>
                 </tr>
                 <tr>
                     <td class="label">School Address:</td>
-                    <td class="admin-info">Quezon Ave, San Fernando, La Union</td>
+                    <td class="admin-info">@user.school_barangay, @user.school_city, @user.school_province - @user.school_zipcode</td>
                 </tr>
 
 
@@ -78,11 +81,11 @@
                 </tr>
                 <tr>
                     <td class="label">Email:</td>
-                    <td class="admin-info">Diluc@teyvat.com</td>
+                    <td class="admin-info">@user.email</td>
                 </tr>
                 <tr>
                     <td class="label">Password:</td>
-                    <td class="admin-info">richestbachelor</td>
+                    <td class="admin-info">***********</td>
                 </tr>
             </table>
 
@@ -98,10 +101,16 @@
 </div>
 
 @code {
+    User user = new User();
 
+    protected async override Task OnInitializedAsync()
+    {
+        string username = await LocalStorage.GetItemAsStringAsync("username");
+        user = await LoginService.GetUser(username);
+    }
 
     private void OnEditProfile()
     {
-        Console.WriteLine("Edit");
+        NavManager.NavigateTo($"/student/profile/form/{user.Id}");
     }
 }

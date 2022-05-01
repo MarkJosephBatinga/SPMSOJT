@@ -2,6 +2,9 @@
 @layout SupervisorLayout
 @attribute [Authorize(Roles = "supervisor")]
 @inject NavigationManager NavManager
+@inject ILocalStorageService LocalStorage
+@inject ILoginService LoginService
+
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -15,7 +18,7 @@
     <section class="admindb-s1">
         <div>
             <img src="./css/images/Avatar-Profile-PNG-Picture.png">
-            <h1>Diluc Ragvindr</h1>
+            <h1>@supervisor.first_name @supervisor.last_name</h1>
             <p>Supervisor</p>
         </div>
     </section>
@@ -29,23 +32,23 @@
                 </tr>
                 <tr>
                     <td class="label">Name:</td>
-                    <td class="admin-info">Diluc A. Ragvindr</td>
+                    <td class="admin-info">@supervisor.first_name @supervisor.middle_name @supervisor.last_name</td>
                 </tr>
                 <tr>
                     <td class="label">Address:</td>
-                    <td class="admin-info">Dawn Winery, Mondstadt, Teyvat</td>
+                    <td class="admin-info">@supervisor.barangay, @supervisor.city, @supervisor.province - @supervisor.zipcode</td>
                 </tr>
                 <tr>
                     <td class="label">Contact Information:</td>
-                    <td class="admin-info">Diluc@teyvat.com | 09123456789</td>
+                    <td class="admin-info">@supervisor.email | @supervisor.phonenum</td>
                 </tr>
                 <tr>
                     <td class="label">Citizenship:</td>
-                    <td class="admin-info">Filipino</td>
+                    <td class="admin-info">@supervisor.citizenship</td>
                 </tr>
                 <tr>
                     <td class="label">Sex:</td>
-                    <td class="admin-info">Male</td>
+                    <td class="admin-info">@supervisor.sex</td>
                 </tr>
 
                 <tr>
@@ -53,19 +56,19 @@
                 </tr>
                 <tr>
                     <td class="label">School-issued E-mail:</td>
-                    <td class="admin-info">DilucRagnvndr@instructor.dmmmsu.edu.ph</td>
+                    <td class="admin-info">@supervisor.schoolemail</td>
                 </tr>
                 <tr>
                     <td class="label">College:</td>
-                    <td class="admin-info">College of Information Technology</td>
+                    <td class="admin-info">@supervisor.college</td>
                 </tr>
                 <tr>
                     <td class="label">School:</td>
-                    <td class="admin-info">Don Mariano Marcos Memorial State University</td>
+                    <td class="admin-info">@supervisor.schoolname</td>
                 </tr>
                 <tr>
                     <td class="label">School Address:</td>
-                    <td class="admin-info">Quezon Ave, San Fernando, La Union</td>
+                    <td class="admin-info">@supervisor.school_barangay, @supervisor.school_city, @supervisor.school_province - @supervisor.school_zipcode</td>
                 </tr>
 
 
@@ -74,11 +77,11 @@
                 </tr>
                 <tr>
                     <td class="label">Email:</td>
-                    <td class="admin-info">Diluc@teyvat.com</td>
+                    <td class="admin-info">@supervisor.email</td>
                 </tr>
                 <tr>
                     <td class="label">Password:</td>
-                    <td class="admin-info">richestbachelor</td>
+                    <td class="admin-info">********</td>
                 </tr>
             </table>
 
@@ -94,8 +97,16 @@
 </div>
 
 @code {
+    Supervisor supervisor = new Supervisor();
+
+    protected async override Task OnInitializedAsync()
+    {
+        string username = await LocalStorage.GetItemAsStringAsync("username");
+        supervisor = await LoginService.GetSupervisor(username);
+    }
+
     private void OnEditProfile()
     {
-        NavManager.NavigateTo($"/supervisor/profile/form/{1}");
+        NavManager.NavigateTo($"/supervisor/profile/form/{supervisor.Id}");
     }
 }

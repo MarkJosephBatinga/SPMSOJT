@@ -16,6 +16,25 @@ namespace SPMSOJT.Client.Service.LoginService
         {
             _http = http;
         }
+
+        public async Task<Coordinator> GetCoordinator(string email)
+        {
+            var result = await _http.GetFromJsonAsync<Coordinator>($"api/login/coordinator/{email}");
+            return result;
+        }
+
+        public async Task<Supervisor> GetSupervisor(string email)
+        {
+            var result = await _http.GetFromJsonAsync<Supervisor>($"api/login/supervisor/{email}");
+            return result;
+        }
+
+        public async Task<User> GetUser(string email)
+        {
+            var result = await _http.GetFromJsonAsync<User>($"api/login/user/{email}");
+            return result;
+        }
+
         public async Task<Coordinator> LoginCoordinator(LoginToken LoginCoordinator)
         {
             var result = await _http.PostAsJsonAsync("api/login/coordinator", LoginCoordinator);

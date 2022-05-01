@@ -41,5 +41,23 @@ namespace SPMSOJT.Server.Controllers
         {
             return coordinator = await _loginService.LoginCoordinator(LoginCoordinator);
         }
+
+        [HttpGet("user/{email}")]
+        public async Task<ActionResult<User>> GetUser(string email)
+        {
+            return user = await _loginService.GetUser(email);
+        }
+
+        [HttpGet("coordinator/{email}")]
+        public async Task<ActionResult<Coordinator>> GetCoordinator(string email)
+        {
+            return coordinator = await _loginService.GetCoordinator(email);
+        }
+
+        [HttpGet("supervisor/{email}")]
+        public async Task<ActionResult<Supervisor>> GetSupervisor(string email)
+        {
+            return supervisor = await _loginService.GetSupervisor(email);
+        }
     }
 }

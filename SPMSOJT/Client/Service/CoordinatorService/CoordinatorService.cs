@@ -32,13 +32,13 @@ namespace SPMSOJT.Client.Service.CoordinatorService
 
         public async Task<List<Coordinator>> GetAllCoordinator()
         {
-            var result = await _http.GetFromJsonAsync<List<Coordinator>>($"api/organization/displayall");
+            var result = await _http.GetFromJsonAsync<List<Coordinator>>($"api/coordinator/displayall");
             return result;
         }
 
         public async Task<Coordinator> GetCoordinator(int Id)
         {
-            var result = await _http.GetFromJsonAsync<Coordinator>($"api/organization/display/{Id}");
+            var result = await _http.GetFromJsonAsync<Coordinator>($"api/coordinator/display/{Id}");
             return result;
         }
 

@@ -62,5 +62,20 @@ namespace SPMSOJT.Server.Service.LoginService
                 return user;
             }
         }
+
+        public async Task<User> GetUser(string email)
+        {
+           return user = await _data.user_info.Where(u => u.email == email).FirstOrDefaultAsync();
+        }
+
+        public async Task<Coordinator> GetCoordinator(string email)
+        {
+            return coordinator = await _data.coordinator_info.Where(c => c.email == email).FirstOrDefaultAsync();
+        }
+
+        public async Task<Supervisor> GetSupervisor(string email)
+        {
+            return supervisor = await _data.supervisor_info.Where(s => s.email == email).FirstOrDefaultAsync();
+        }
     }
 }

@@ -1,15 +1,17 @@
 ﻿@page "/supervisor/profile/form/{Id:int}"
-@layout CoordinatorLayout
+@layout SupervisorLayout
 @attribute [Authorize(Roles = "supervisor")]
 @inject ISupervisorService SupervisorService
 @inject IToastService Toast
 @inject NavigationManager NavManager
+@inject ILocalStorageService LocalStorage
+@inject AuthenticationStateProvider AuthProvider
 @inject IJSRuntime JsRun
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
         <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
-        <div><i class="fas fa-solid fa-id-badge"></i>Add Supervisor</div>
+        <div><i class="fas fa-solid fa-id-badge"></i>Edit Profile</div>
         <a href="/coordinator/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
     </div>
     <!-- HEADER ENDS HERE -->
@@ -166,36 +168,24 @@
 
     Supervisor supervisor = new Supervisor();
 
-    //protected async override Task OnInitializedAsync()
-    //{
-    //    if (Id.HasValue)
-    //    {
-    //        supervisor = await SupervisorService.GetSupervisor(Id.Value);
-    //    }
-    //}
+    protected async override Task OnInitializedAsync()
+    {
+        if (Id.HasValue)
+        {
+            supervisor = await SupervisorService.GetSupervisor(Id.Value);
+        }
+    }
 
     private async Task OnSubmit()
     {
-        await JsRun.InvokeVoidAsync("console.log", supervisor);
-        //if (supervisor.Id == 0)
-        //{
-        //    var result = await SupervisorService.AddSupervisor(supervisor);
-        //    if (result != null)
-        //    {
-        //        Toast.ShowSuccess("New Supervisor Added", "Success");
-        //        NavManager.NavigateTo("/supervisor/profile");
-        //    }
-        //}
-        //else
-        //{
-        //    var result = await SupervisorService.UpdateSupervisor(supervisor);
-        //    if (result != null)
-        //    {
-        //        Toast.ShowSuccess("Supervisor Successfully Updated", "Success");
-        //        NavManager.NavigateTo("/supervisor/profile");
-        //    }
-        //}
-
+        var result = await SupervisorService.UpdateSupervisor(supervisor);
+        if (result != null)
+        {
+            Toast.ShowSuccess("Profile Successfully Updated", "Success");
+            await LocalStorage.SetItemAsStringAsync("username", supervisor.email);
+            await AuthProvider.GetAuthenticationStateAsync();
+            NavManager.NavigateTo("/supervisor/profile");
+        }
     }
 
     private void OnGenderChange(ChangeEventArgs e)

@@ -1,17 +1,18 @@
-﻿@page "/coordinator/student/form"
-@page "/coordinator/student/form/{Id:int}"
-@layout CoordinatorLayout
-@attribute [Authorize(Roles = "coordinator")]
+﻿@page "/student/profile/form/{Id:int}"
+@layout StudentLayout
+@attribute [Authorize(Roles = "student")]
 @inject IUserService UserService
 @inject IToastService Toast
 @inject NavigationManager NavManager
+@inject ILocalStorageService LocalStorage
+@inject AuthenticationStateProvider AuthProvider
 @inject IJSRuntime JsRun
 
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
         <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
-        <div><i class="fas fa-solid fa-users"></i>Add Students</div>
+        <div><i class="fas fa-solid fa-users"></i>Edit Profile</div>
         <a href="/coordinator/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
     </div>
     <!-- HEADER ENDS HERE -->
@@ -153,7 +154,7 @@
             <div class="row mt-5">
                 <div class="forbutton">
                     <button type="submit">SUBMIT</button>
-                    <a href="/coordinator/student" class="cancel-btn">CANCEL</a>
+                    <a href="/student/profile" class="cancel-btn">CANCEL</a>
                 </div>
             </div>
         </EditForm>
@@ -175,23 +176,13 @@
 
     private async Task OnSubmit()
     {
-        if (user.Id == 0)
+        var result = await UserService.UpdateUser(user);
+        if (result != null)
         {
-            var result = await UserService.AddUser(user);
-            if (result != null)
-            {
-                Toast.ShowSuccess("New Student Added", "Success");
-                NavManager.NavigateTo("coordinator/student");
-            }
-        }
-        else
-        {
-            var result = await UserService.UpdateUser(user);
-            if (result != null)
-            {
-                Toast.ShowSuccess("Student Successfully Updated", "Success");
-                NavManager.NavigateTo("coordinator/student");
-            }
+            Toast.ShowSuccess("Student Successfully Updated", "Success");
+            await LocalStorage.SetItemAsStringAsync("username", user.email);
+            await AuthProvider.GetAuthenticationStateAsync();
+            NavManager.NavigateTo("student/profile");
         }
     }
 

@@ -12,5 +12,11 @@ namespace SPMSOJT.Client.Service.LoginService
         Task<User> LoginUser(LoginToken LoginUser);
         Task<Coordinator> LoginCoordinator(LoginToken LoginCoordinator);
 
+        Task<User> GetUser(string email);
+
+        Task<Coordinator> GetCoordinator(string email);
+
+        Task<Supervisor> GetSupervisor(string email);
+
     }
 }

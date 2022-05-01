@@ -2,6 +2,8 @@
 @layout CoordinatorLayout
 @attribute [Authorize(Roles = "coordinator")]
 @inject NavigationManager NavManager
+@inject ILoginService LoginService
+@inject ILocalStorageService LocalStorage
 
 <div class="main_content">
     <div class="header">
@@ -13,7 +15,7 @@
     <section class="admindb-s1">
         <div>
             <img src="./css/images/Avatar-Profile-PNG-Picture.png">
-            <h1>Diluc Ragvindr</h1>
+            <h1>@coordinator.first_name @coordinator.last_name</h1>
             <p>Coordinator</p>
         </div>
     </section>
@@ -25,47 +27,49 @@
                 </tr>
                 <tr>
                     <td class="label">Name:</td>
-                    <td class="admin-info">Diluc A. Ragvindr</td>
+                    <td class="admin-info">@coordinator.first_name @coordinator.last_name</td>
                 </tr>
                 <tr>
                     <td class="label">Address:</td>
-                    <td class="admin-info">Dawn Winery, Mondstadt, Teyvat</td>
+                    <td class="admin-info">@coordinator.barangay, @coordinator.city, @coordinator.province</td>
                 </tr>
                 <tr>
                     <td class="label">Contact Info:</td>
-                    <td class="admin-info">Diluc@teyvat.com | 09123456789</td>
+                    <td class="admin-info">@coordinator.schoolemail | @coordinator.phonenum</td>
                 </tr>
-                <tr>
-                    <td class="label">Citizenship:</td>
-                    <td class="admin-info">Filipino</td>
-                </tr>
-
                 <tr>
                     <td class="heading">Login Information</td>
                 </tr>
                 <tr>
                     <td class="label">Email:</td>
-                    <td class="admin-info">Diluc@teyvat.com</td>
+                    <td class="admin-info">@coordinator.email</td>
                 </tr>
                 <tr>
                     <td class="label">Password:</td>
-                    <td class="admin-info">richestbachelor</td>
+                    <td class="admin-info">*********</td>
                 </tr>
             </table>
 
             <div class="mt-4 d-flex justify-content-end">
-                <button class="editbutton">Edit Profile</button>
+                <button class="editbutton" @onclick="OnEditProfile">Edit Profile</button>
             </div>
         </div>
     </section>
 </div>
 
-@code {
-    //[Parameter]
-    //public int Id { get; set; }
+@code {        
+
+    Coordinator coordinator = new Coordinator();
+
+    protected async override Task OnInitializedAsync()
+    {
+        string username = await LocalStorage.GetItemAsStringAsync("username");
+        coordinator = await LoginService.GetCoordinator(username);
+    }
 
     private void OnEditProfile()
     {
-        //NavManager.NavigateTo($"/supervisor/profile/form/{1}");
+        Console.WriteLine(coordinator.Id);
+        NavManager.NavigateTo($"/coordinator/profile/form/{coordinator.Id}");
     }
 }
