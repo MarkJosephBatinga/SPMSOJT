@@ -1,0 +1,121 @@
+﻿@page "/supervisor/masterlist"
+@layout SupervisorLayout
+@inject NavigationManager NavManager
+@inject IOrganizationService OrganizationService
+@inject ISupervisorService SupervisorService
+@inject ITraineeService TraineeService
+@inject IUserService UserService
+@inject IToastService Toast
+
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-clipboard-list"></i> Master List</div>
+        <a href="/supervisor/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- MASTERLIST PAGE CONTENT STARTS HERE -->
+    <!-- MASTERLIST PAGE SECTION 1 STARTS HERE -->
+    <section class="admindb-s1">
+        <div class="search-container">
+            <form action="#">
+                <input type="text" placeholder="Search trainee" name="search">
+                <button type="submit" class="search-button">Search</button>
+            </form>
+            <button type="button" class="add-student-button" @onclick="OnAddClick">
+                + Add New
+                Trainee
+            </button>
+        </div>
+    </section>
+    <!-- MASTERLIST PAGE SECTION 1 ENDS HERE -->
+    <!-- MASTERLIST PAGE SECTION 2 STARTS HERE -->
+    <section class="studentable-s2">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>School Year</th>
+                    <th>Student</th>
+                    <th>Supervisor</th>
+                    <th>Organization</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var (trainee, i) in Trainees.Select((trainee, i) => (trainee, i)))
+                {
+                    <tr>
+                        <td>@trainee.school_year</td>
+                        <td>@StudentsName[i]</td>
+                        <td>@SupervisorsName[i]</td>
+                        <td>@OrganizationsName[i]</td>
+                        <td>
+                            <button type="button" class="edit-del-student-button"
+                                    onclick="location.href='evaluation.html';">
+                                Evaluate
+                            </button>
+                            <button type="button" class="edit-del-student-button"
+                                    @onclick="() => OnEditClick(trainee.Id)">
+                                Edit
+                            </button>
+                            <button type="button" class="edit-del-student-button"
+                                    @onclick="() => OnDeleteClick(trainee)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
+                <!-- and so on... -->
+                
+            </tbody>
+        </table>
+    </section>
+    <!-- MASTERLIST PAGE SECTION 2 ENDS HERE -->
+    <!-- MASTERLIST PAGE CONTENT ENDS HERE -->
+</div>
+
+@code {
+    List<Trainee> Trainees = new List<Trainee>();
+    List<string> StudentsName = new List<string>();
+    List<string> SupervisorsName = new List<string>();
+    List<string> OrganizationsName = new List<string>();
+
+    User student = new User();
+
+    private async Task GetStudent(int studentId)
+    {
+        student = await UserService.GetUser(studentId);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Trainees = await TraineeService.GetAllTrainee();
+        foreach (var trainee in Trainees)
+        {
+            var user = await UserService.GetUser(trainee.studentId);
+            var supervisor = await SupervisorService.GetSupervisor(trainee.supervisorId);
+            var org = await OrganizationService.GetOrganization(trainee.organizationId);
+            StudentsName.Add($"{user.first_name} {user.last_name}");
+            SupervisorsName.Add($"{supervisor.first_name} {supervisor.last_name}");
+            OrganizationsName.Add(org.org_name);
+        }
+    }
+
+    private void OnAddClick()
+    {
+        NavManager.NavigateTo("supervisor/masterlist/form");
+    }
+
+    private void OnEditClick(int traineeId)
+    {
+        NavManager.NavigateTo($"supervisor/masterlist/form/{traineeId}");
+    }
+
+    private async Task OnDeleteClick(Trainee trainee)
+    {
+        var result = await TraineeService.DeleteTrainee(trainee);
+        Toast.ShowSuccess("Trainee Successfully Deleted", "Deleted");
+        Trainees = result;
+    }
+}

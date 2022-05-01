@@ -1,0 +1,54 @@
+﻿@page "/supervisor/task/form"
+@page "/supervisor/task/form/{Id:int}"
+@layout SupervisorLayout
+
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-list"></i>Task</div>
+        <a href="/supervisor/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- ADD NEW TASK PAGE CONTENT STARTS HERE -->
+    <div class="content">
+        <form action="" method="POST">
+            <h3>Task Information</h3>
+            <hr>
+            <div class="row">
+                <div class="column">
+                    <label for="tcode">Task Code</label>
+                    <input type="text" id="tcode" name="tcode" placeholder="Task Code">
+                </div>
+                <div class="column">
+                    <label for="tname">Task Name</label>
+                    <input type="text" id="tname" name="tname" placeholder="Task Name">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="tdesc">Description</label>
+                    <input type="text" id="tdesc" name="tdesc" placeholder="Description">
+                </div>
+                <div class="column">
+                    <label for="tdeadline">Deadline</label>
+                    <input type="datetime-local" id="tdeadline" name="tdeadline" placeholder="Deadline">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="forbutton">
+                    <button type="submit">SUBMIT</button>
+                    <a href="/supervisor/task" class="cancel-btn">CANCEL</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- ADD NEW TASK PAGE CONTENT ENDS HERE -->
+</div>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+}

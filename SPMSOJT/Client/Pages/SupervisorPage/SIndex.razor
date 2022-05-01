@@ -1,0 +1,47 @@
+﻿@page "/supervisor"
+@layout SupervisorLayout
+
+ <!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-home"></i> Dashboard</div>
+        <a href="/supervisor/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+        
+    <!-- DASHBOARD PAGE CONTENT STARTS HERE -->
+    <!-- DASHBOARD PAGE SECTION 1 STARTS HERE -->
+    <section class="coordb-s1">
+        <div>
+            <h1>Welcome back, Supervisor!</h1>
+            <p>Here's an overview of your account</p>
+        </div>
+        <img src="./css/images/coord-dashboard.svg">
+    </section>
+    <!-- DASHBOARD PAGE SECTION 1 ENDS HERE -->
+        
+    <!-- DASHBOARD PAGE SECTION 2 STARTS HERE -->
+    <section class="coordb-s2">
+        <div class="db-item">
+            <a href="#">
+                <h3>Trainee</h3>
+                <h4>50</h4>
+            </a>
+        </div>
+        
+        <div class="db-item">
+            <a href="#">
+                <h3>Tasks</h3>
+                <h4>10</h4>
+            </a>
+        </div>
+    </section>
+    <!-- DASHBOARD PAGE SECTION 2 ENDS HERE -->
+        
+    <!-- DASHBOARD PAGE CONTENT ENDS HERE -->
+</div>
+
+@code {
+
+}

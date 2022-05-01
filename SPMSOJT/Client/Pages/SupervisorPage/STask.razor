@@ -1,0 +1,90 @@
+﻿@page "/supervisor/task"
+@layout SupervisorLayout
+@inject NavigationManager NavManager
+
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-list"></i>Task</div>
+        <a href="/supervisor/profile"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- TASK PAGE CONTENT STARTS HERE -->
+    <!-- TASK PAGE SECTION 1 STARTS HERE -->
+    <section class="admindb-s1">
+        <div class="search-container">
+            <form action="#">
+                <input type="text" placeholder="Search task" name="search">
+                <button type="submit" class="search-button">Search</button>
+            </form>
+            <button type="button" class="add-student-button" @onclick="OnAddClick">
+                + Add New
+                Task
+            </button>
+        </div>
+    </section>
+    <!-- TASK PAGE SECTION 1 ENDS HERE -->
+    <!-- TASK PAGE SECTION 2 STARTS HERE -->
+    <section class="studentable-s2">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Task Code</th>
+                    <th>Task Name</th>
+                    <th>Description</th>
+                    <th>Deadline</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>000001</td>
+                    <td>Task No. 1</td>
+                    <td>Ayaya</td>
+                    <td>March 30, 2022</td>
+                    <td>
+                        <button type="button" class="edit-del-student-button" @onclick="() => OnEditClick(1)">
+                            Edit
+                        </button>
+                        <button type="button" class="edit-del-student-button"
+                                onclick="location.href='#';">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                <tr class="active-row">
+                    <td>000002</td>
+                    <td>Task No. 2</td>
+                    <td>Ayaya</td>
+                    <td>April 05, 2022</td>
+                    <td>
+                        <button type="button" class="edit-del-student-button"
+                                onclick="location.href='edit-task.html';">
+                            Edit
+                        </button>
+                        <button type="button" class="edit-del-student-button"
+                                onclick="location.href='#';">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                <!-- and so on... -->
+            </tbody>
+        </table>
+    </section>
+    <!-- TASK PAGE SECTION 2 ENDS HERE -->
+    <!-- TASK PAGE CONTENT ENDS HERE -->
+</div>
+
+@code {
+    private void OnAddClick()
+    {
+        NavManager.NavigateTo("supervisor/task/form");
+    }
+
+    private void OnEditClick(int taskId)
+    {
+        NavManager.NavigateTo($"supervisor/task/form/{taskId}");
+    }
+}

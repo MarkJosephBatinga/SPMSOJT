@@ -1,0 +1,139 @@
+﻿.wrapper .main_content {
+    width: 100%;
+    margin-left: 230px;
+}
+
+@media (max-width:1600px) {
+    .wrapper .main_content {
+        margin-left: 110px;
+    }
+}
+
+@media (max-width: 768px) {
+    .wrapper .main_content {
+        margin-left: 0;
+    }
+}
+
+/* HEADER SECTION STARTS HERE */
+.wrapper .main_content .header {
+    padding: 10px;
+    background: var(--dark-cyan);
+    color: var(--white);
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+    .wrapper .main_content .header div .fas {
+        width: 40px;
+    }
+
+    .wrapper .main_content .header #profile {
+        margin-right: 20px;
+        padding: 1.3rem;
+        border-radius: 15px;
+    }
+
+        .wrapper .main_content .header #profile:hover {
+            background-color: var(--hoversb);
+            color: var(--dark-cyan);
+        }
+
+@media (max-width:996px) {
+
+    .wrapper .main_content .header,
+    .wrapper .main_content .header div {
+        padding: 5px;
+    }
+}
+
+/* HEADER SECTION ENDS HERE */
+/*COORDINATOR DASHBOARD SECTION 1 STARTS HERE*/
+.wrapper .main_content .coordb-s1 {
+    color: var(--dark-cyan);
+    align-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 30px;
+}
+
+.coordb-s1 img {
+    width: 25%;
+}
+
+.coordb-s1 h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.coordb-s1 p {
+    font-size: 1.5rem;
+}
+
+@media (max-width:1100px) {
+    .coordb-s1 img {
+        width: 35%;
+    }
+}
+
+@media (max-width:768px) {
+    .coordb-s1 img {
+        width: 45%;
+    }
+}
+
+/*COORDINATOR DASHBOARD SECTION 1 ENDS HERE*/
+
+/*COORDINATOR DASHBOARD SECTION 2 STARTS HERE*/
+.coordb-s2 {
+    margin: 50px 30px 40px 30px;
+    padding: 0 5rem 0 5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5rem;
+    align-items: center;
+}
+
+    .coordb-s2 .db-item {
+        text-align: center;
+        border: 2px solid var(--dark-cyan);
+        background-color: var(--white);
+        border-radius: 15px;
+        padding: 5rem;
+        cursor: pointer;
+    }
+
+        .coordb-s2 .db-item h3 {
+            font-size: 2rem;
+            color: var(--dark-cyan);
+        }
+
+        .coordb-s2 .db-item h4 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: var(--dark-cyan);
+        }
+
+@media (max-width:1100px) {
+    .coordb-s2 {
+        padding: 0 1rem 0 1rem;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+        .coordb-s2 .db-item {
+            padding: 3rem;
+            cursor: pointer;
+        }
+}
+
+@media (max-width:768px) {
+    .coordb-s2 {
+        padding: 0;
+    }
+}
+
+/*COORDINATOR DASHBOARD SECTION 2 ENDS HERE*/

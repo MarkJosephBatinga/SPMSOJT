@@ -1,0 +1,201 @@
+﻿@page "/supervisor/masterlist/form"
+@page "/supervisor/masterlist/form/{Id:int}"
+@layout CoordinatorLayout
+@inject IOrganizationService OrganizationService
+@inject ISupervisorService SupervisorService
+@inject ITraineeService TraineeService
+@inject IUserService UserService
+@inject IToastService Toast
+@inject NavigationManager NavManager
+@inject IJSRuntime JsRun
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-id-badge"></i>Add Trainee</div>
+        <a href="profile.html"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- ADD TRAINEE STARTS HERE -->
+    <div class="content">
+        <EditForm Model="trainee" OnValidSubmit="OnSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <h3>Trainee Information</h3>
+            <hr>
+            <div class="row">
+                <div class="column">
+                    <label for="syear">School Year</label>
+                    <ValidationMessage For="() => trainee.school_year" />
+                    <input type="text" id="syear" @bind-value="trainee.school_year" placeholder="School Year">
+                </div>
+                <div class="column">
+                    <label for="student">Student</label>
+                    <ValidationMessage For="() => trainee.studentId" />
+                    <select id="student" name="student" @onchange="OnStudentChange">
+                        <option value="">Select Student</option>
+                        @foreach (var student in Users)
+                        {
+                            if (trainee.studentId == student.Id)
+                            {
+                                <option selected value="@student.Id">@student.first_name @student.last_name</option>
+                            }
+                            else
+                            {
+                                <option value="@student.Id">@student.first_name @student.last_name</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="supervisor">Supervisor</label>
+                    <ValidationMessage For="() => trainee.supervisorId" />
+                    <select id="student" @onchange="OnSupervisorChange">
+                        <option value="">Select Supervisor</option>
+                        @foreach (var supervisor in Supervisors)
+                        {
+                            if (trainee.supervisorId == supervisor.Id)
+                            {
+                                <option selected value="@supervisor.Id">@supervisor.first_name @supervisor.last_name</option>
+                            }
+                            else
+                            {
+                                <option value="@supervisor.Id">@supervisor.first_name @supervisor.last_name</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+                <div class="column">
+                    <label for="organization">Organization</label>
+                    <ValidationMessage For="() => trainee.organizationId" />
+                    <select id="student" @onchange="OnOrganizationChange">
+                        <option value="">Select Organization</option>
+                        @foreach (var organization in Organizations)
+                        {
+                            if (trainee.organizationId == organization.Id)
+                            {
+                                <option selected value="@organization.Id">@organization.org_name</option>
+                            }
+                            else
+                            {
+                                <option value="@organization.Id">@organization.org_name</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="forbutton">
+                    <button type="submit">SUBMIT</button>
+                    <a href="/supervisor/masterlist" class="cancel-btn">CANCEL</a>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+    <!-- ADD TRAINEE ENDS HERE -->
+</div>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    List<User> Users = new List<User>();
+    List<Organization> Organizations = new List<Organization>();
+    List<Supervisor> Supervisors = new List<Supervisor>();
+
+    Trainee trainee = new Trainee();
+
+    protected async override Task OnInitializedAsync()
+    {
+        Users = await UserService.GetAllUser();
+        Organizations = await OrganizationService.GetAllOrganization();
+        Supervisors = await SupervisorService.GetAllSupervisor();
+
+        if (Id.HasValue)
+        {
+            trainee = await TraineeService.GetTrainee(Id.Value);
+        }
+    }
+
+    private async Task OnSubmit()
+    {
+        if (trainee.Id == 0)
+        {
+            var result = await TraineeService.AddTrainee(trainee);
+            if (result != null)
+            {
+                Toast.ShowSuccess("New Trainee Added", "Success");
+                NavManager.NavigateTo("supervisor/masterlist");
+            }
+        }
+        else
+        {
+            var result = await TraineeService.UpdateTrainee(trainee);
+            if (result != null)
+            {
+                Toast.ShowSuccess("Trainee Successfully Updated", "Success");
+                NavManager.NavigateTo("supervisor/masterlist");
+            }
+        }
+    }
+
+    private void OnStudentChange(ChangeEventArgs e)
+    {
+        var result = e.Value;
+        if (!result.Equals(""))
+        {
+            int intResult = Int32.Parse(result.ToString());
+            if (intResult != 0)
+            {
+                trainee.studentId = intResult;
+            }
+        }
+        else
+        {
+            trainee.studentId = new int();
+        }
+
+    }
+
+    private void OnSupervisorChange(ChangeEventArgs e)
+    {
+        var result = e.Value;
+        if (!result.Equals(""))
+        {
+            int intResult = Int32.Parse(result.ToString());
+            if (intResult != 0)
+            {
+                trainee.supervisorId = intResult;
+            }
+        }
+        else
+        {
+            trainee.supervisorId = new int();
+        }
+
+    }
+
+    private void OnOrganizationChange(ChangeEventArgs e)
+    {
+        var result = e.Value;
+        if (!result.Equals(""))
+        {
+            int intResult = Int32.Parse(result.ToString());
+            if (intResult != 0)
+            {
+                trainee.organizationId = intResult;
+            }
+        }
+        else
+        {
+            trainee.organizationId = new int();
+        }
+
+    }
+}
