@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SPMSOJT.Server.Data;
+using SPMSOJT.Server.Service.CompiledTaskService;
 using SPMSOJT.Server.Service.CoordinatorService;
 using SPMSOJT.Server.Service.LoginService;
 using SPMSOJT.Server.Service.OrganizationService;
@@ -45,6 +46,7 @@ namespace SPMSOJT.Server
             services.AddScoped<ITraineeService, TraineeService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<ICompiledTaskService, CompiledTaskService>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddAuthentication(options => {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;

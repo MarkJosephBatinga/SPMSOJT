@@ -1,6 +1,11 @@
 ﻿@page "/supervisor/taskrecord"
 @layout SupervisorLayout
 @attribute [Authorize(Roles = "supervisor")]
+@inject ICompiledTaskService CompiledTaskService
+@inject ITaskService TaskService
+@inject IToastService Toast
+@inject NavigationManager NavManager
+
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -36,7 +41,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>000001</td>
+                    <td>0000001</td>
                     <td>Juan dela Cruz</td>
                     <td>Sample</td>
                     <td>March 28, 2022</td>
@@ -44,25 +49,7 @@
                     <td>90</td>
                     <td>
                         <button type="button" class="edit-del-student-button"
-                                onclick="location.href='edit-taskrecord.html';">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-                <tr class="active-row">
-                    <td>000002</td>
-                    <td>Charisse Viste</td>
-                    <td>Sample</td>
-                    <td>April 03, 2022</td>
-                    <td>Done</td>
-                    <td>95</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='edit-taskrecord.html';">
+                                @onclick="OnEditClick">
                             Edit
                         </button>
                         <button type="button" class="edit-del-student-button"
@@ -81,4 +68,16 @@
 
 @code {
 
+
+    private void OnEditClick()
+    {
+        NavManager.NavigateTo($"supervisor/taskrecord/form");
+    }
+
+    //private async Task OnDeleteClick(Tasks task)
+    //{
+    //    var result = await TaskService.DeleteTasks(task);
+    //    Toast.ShowSuccess("Task Successfully Deleted", "Deleted");
+    //    AllTasks = result;
+    //}
 }

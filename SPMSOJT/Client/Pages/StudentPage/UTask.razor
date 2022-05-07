@@ -2,6 +2,8 @@
 @layout StudentLayout
 @attribute [Authorize(Roles = "student")]
 @inject NavigationManager NavManager
+@inject ITaskService TaskService
+
 
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
@@ -35,20 +37,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>000001</td>
-                    <td>Task No. 1</td>
-                    <td>Ayaya</td>
-                    <td>March 30, 2022</td>
-                    <td><a @onclick="OnComplyClick">Comply</a></td>
-                </tr>
-                <tr class="active-row">
-                    <td>000002</td>
-                    <td>Task No. 2</td>
-                    <td>Ayaya</td>
-                    <td>April 05, 2022</td>
-                    <td><a @onclick="OnComplyClick">Comply</a></td>
-                </tr>
+                @foreach (var task in AllTasks)
+                {
+                    <tr class="active-row">
+                        <td>@task.TaskCode</td>
+                        <td>@task.TaskName</td>
+                        <td>@task.Description</td>
+                        <td>@task.Deadline.ToLongDateString()</td>
+                        <td><a @onclick="() => OnComplyClick(task.Id)">Comply</a></td>
+                    </tr>
+                }
                 <!-- and so on... -->
             </tbody>
         </table>
@@ -59,9 +57,15 @@
 
 @code {
 
+    List<Tasks> AllTasks = new List<Tasks>();
 
-    private void OnComplyClick()
+    protected async override Task OnInitializedAsync()
     {
-        NavManager.NavigateTo("/student/mytask/comply");
+        AllTasks = await TaskService.GetAllTasks();
+    }
+
+        private void OnComplyClick(int Id)
+    {
+        NavManager.NavigateTo($"/student/mytask/comply/{Id}");
     }
 }

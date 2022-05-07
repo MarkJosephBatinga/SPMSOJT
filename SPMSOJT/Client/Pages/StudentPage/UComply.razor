@@ -1,4 +1,4 @@
-﻿@page "/student/mytask/comply"
+﻿@page "/student/mytask/comply/{Id:int}"
 @layout StudentLayout
 @attribute [Authorize(Roles = "student")]
 <!-- HEADER STARTS HERE -->
@@ -33,5 +33,6 @@
 </div>
 
 @code {
-
+    [Parameter]
+    public int? Id { get; set; }
 }

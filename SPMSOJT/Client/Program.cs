@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SPMSOJT.Client.Service.CompiledTaskService;
 using SPMSOJT.Client.Service.CoordinatorService;
 using SPMSOJT.Client.Service.LoginService;
 using SPMSOJT.Client.Service.OrganizationService;
@@ -39,6 +40,7 @@ namespace SPMSOJT.Client
             builder.Services.AddScoped<ITraineeService, TraineeService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ITaskService, TaskService>();
+            builder.Services.AddScoped<ICompiledTaskService, CompiledTaskService>();
             builder.Services.AddScoped<ILoginService, LoginService>();
 
             await builder.Build().RunAsync();

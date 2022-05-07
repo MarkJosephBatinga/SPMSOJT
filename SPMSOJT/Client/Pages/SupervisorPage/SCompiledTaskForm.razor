@@ -1,0 +1,71 @@
+﻿@page "/supervisor/taskrecord/form"
+@page "/supervisor/task/formrecord/{Id:int}"
+@layout SupervisorLayout
+@attribute [Authorize(Roles = "supervisor")]
+@inject ITaskService TaskService
+@inject IToastService Toast
+@inject NavigationManager NavManager
+@inject IJSRuntime JsRun
+
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars" id="menu-btn"></div>
+        <div><i class="fas fa-solid fa-list-check"></i>Edit Task Record</div>
+        <a href="profile.html"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- ADD NEW TASK PAGE CONTENT STARTS HERE -->
+    <div class="content">
+        <form action="" method="POST">
+            <h3>Task Record Information</h3>
+            <hr>
+            <div class="row">
+                <div class="column">
+                    <label for="tcode">Task Code</label>
+                    <input type="text" id="tcode" name="tcode" placeholder="Task Code">
+                </div>
+                <div class="column">
+                    <label for="sname">Student Name</label>
+                    <input type="text" id="sname" name="sname" placeholder="Student Name">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="ufile">Uploaded File</label>
+                    <input type="text" id="ufile" name="ufile" placeholder="Uploaded File">
+                </div>
+                <div class="column">
+                    <label for="tdsub">Date of Submission</label>
+                    <input type="datetime-local" id="tdsub" name="tdsub" placeholder="Date of Submission">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="remarks">Remarks</label>
+                    <input type="text" id="remarks" name="remarks" placeholder="Remarks">
+                </div>
+                <div class="column">
+                    <label for="score">Score</label>
+                    <input type="text" id="score" name="score" placeholder="Score">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="forbutton">
+                    <button type="submit">SUBMIT</button>
+                    <a href="/supervisor/task" class="cancel-btn">CANCEL</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- ADD NEW TASK PAGE CONTENT ENDS HERE -->
+</div>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+}
+

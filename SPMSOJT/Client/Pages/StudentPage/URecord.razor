@@ -1,6 +1,8 @@
 ﻿@page "/student/myrecord"
 @layout StudentLayout
 @attribute [Authorize(Roles = "student")]
+@inject ICompiledTaskService CompiledTaskService
+@inject ITaskService TaskService
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -33,20 +35,16 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach (var compiledTask in CompiledTasks)
+                {
                 <tr>
-                    <td>000001</td>
-                    <td>Sample</td>
-                    <td>March 28, 2022</td>
-                    <td>Done</td>
-                    <td>90</td>
+                    <td>@compiledTask.TaskCode</td>
+                    <td>@compiledTask.StudentFile</td>
+                    <td>@compiledTask.SubmissionDate.ToLongDateString()</td>
+                    <td>@compiledTask.Remarks</td>
+                    <td>@compiledTask.Score</td>
                 </tr>
-                <tr class="active-row">
-                    <td>000002</td>
-                    <td>Sample</td>
-                    <td>April 03, 2022</td>
-                    <td>Done</td>
-                    <td>95</td>
-                </tr>
+                }
                 <!-- and so on... -->
             </tbody>
         </table>
@@ -56,5 +54,15 @@
 </div>
 
 @code {
+    List<CompiledTask> CompiledTasks = new List<CompiledTask>();
 
+    protected async override Task OnInitializedAsync()
+    {
+        CompiledTasks = await CompiledTaskService.GetAllCompiledTask();
+        foreach (var compiledTask in CompiledTasks)
+        {
+            var task = await TaskService.GetTasks(compiledTask.TaskId);
+            compiledTask.TaskCode = task.TaskCode;
+        }
+    }
 }
