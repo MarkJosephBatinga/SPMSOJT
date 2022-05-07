@@ -9,6 +9,7 @@ using SPMSOJT.Client.Service.CoordinatorService;
 using SPMSOJT.Client.Service.LoginService;
 using SPMSOJT.Client.Service.OrganizationService;
 using SPMSOJT.Client.Service.SupervisorService;
+using SPMSOJT.Client.Service.TaskService;
 using SPMSOJT.Client.Service.TraineeService;
 using SPMSOJT.Client.Service.UserService;
 using System;
@@ -37,6 +38,7 @@ namespace SPMSOJT.Client
             builder.Services.AddScoped<ISupervisorService, SupervisorService>();
             builder.Services.AddScoped<ITraineeService, TraineeService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ITaskService, TaskService>();
             builder.Services.AddScoped<ILoginService, LoginService>();
 
             await builder.Build().RunAsync();

@@ -2,6 +2,11 @@
 @page "/supervisor/task/form/{Id:int}"
 @layout SupervisorLayout
 @attribute [Authorize(Roles = "supervisor")]
+@inject ITaskService TaskService
+@inject IToastService Toast
+@inject NavigationManager NavManager
+@inject IJSRuntime JsRun
+
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -12,28 +17,33 @@
     <!-- HEADER ENDS HERE -->
     <!-- ADD NEW TASK PAGE CONTENT STARTS HERE -->
     <div class="content">
-        <form action="" method="POST">
+        <EditForm Model="task" OnValidSubmit="OnSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
             <h3>Task Information</h3>
             <hr>
             <div class="row">
                 <div class="column">
                     <label for="tcode">Task Code</label>
-                    <input type="text" id="tcode" name="tcode" placeholder="Task Code">
+                    <ValidationMessage For="() => task.TaskCode" />
+                    <input type="text" id="tcode" @bind-value="task.TaskCode" placeholder="Task Code">
                 </div>
                 <div class="column">
                     <label for="tname">Task Name</label>
-                    <input type="text" id="tname" name="tname" placeholder="Task Name">
+                    <ValidationMessage For="() => task.TaskName" />
+                    <input type="text" id="tname" @bind-value="task.TaskName" placeholder="Task Name">
                 </div>
             </div>
 
             <div class="row">
                 <div class="column">
                     <label for="tdesc">Description</label>
-                    <input type="text" id="tdesc" name="tdesc" placeholder="Description">
+                    <ValidationMessage For="() => task.Description" />
+                    <input type="text" id="tdesc" @bind-value="task.Description" placeholder="Description">
                 </div>
                 <div class="column">
                     <label for="tdeadline">Deadline</label>
-                    <input type="datetime-local" id="tdeadline" name="tdeadline" placeholder="Deadline">
+                    <ValidationMessage For="() => task.Deadline" /><br>
+                    <InputDate @bind-Value="task.Deadline" />
                 </div>
             </div>
 
@@ -43,7 +53,7 @@
                     <a href="/supervisor/task" class="cancel-btn">CANCEL</a>
                 </div>
             </div>
-        </form>
+        </EditForm>
     </div>
     <!-- ADD NEW TASK PAGE CONTENT ENDS HERE -->
 </div>
@@ -51,4 +61,36 @@
 @code {
     [Parameter]
     public int? Id { get; set; }
+
+    Tasks task = new Tasks();
+
+    protected async override Task OnInitializedAsync()
+    {
+        if (Id.HasValue)
+        {
+            task = await TaskService.GetTasks(Id.Value);
+        }
+    }
+
+    private async Task OnSubmit()
+    {
+        if (task.Id == 0)
+        {
+            var result = await TaskService.AddTasks(task);
+            if (result != null)
+            {
+                Toast.ShowSuccess("New Task Added", "Success");
+                NavManager.NavigateTo("supervisor/task");
+            }
+        }
+        else
+        {
+            var result = await TaskService.UpdateTasks(task);
+            if (result != null)
+            {
+                Toast.ShowSuccess("Task Successfully Updated", "Success");
+                NavManager.NavigateTo("supervisor/task");
+            }
+        }
+    }
 }

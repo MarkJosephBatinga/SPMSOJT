@@ -2,6 +2,9 @@
 @layout SupervisorLayout
 @attribute [Authorize(Roles = "supervisor")]
 @inject NavigationManager NavManager
+@inject ITaskService TaskService
+@inject IToastService Toast
+
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -38,37 +41,24 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>000001</td>
-                    <td>Task No. 1</td>
-                    <td>Ayaya</td>
-                    <td>March 30, 2022</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button" @onclick="() => OnEditClick(1)">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-                <tr class="active-row">
-                    <td>000002</td>
-                    <td>Task No. 2</td>
-                    <td>Ayaya</td>
-                    <td>April 05, 2022</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='edit-task.html';">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
+                @foreach (var task in AllTasks)
+                {
+                    <tr>
+                        <td>@task.TaskCode</td>
+                        <td>@task.TaskName</td>
+                        <td>@task.Description</td>
+                        <td>@task.Deadline.ToLongDateString()</td>
+                        <td>
+                            <button type="button" class="edit-del-student-button" @onclick="() => OnEditClick(task.Id)">
+                                Edit
+                            </button>
+                            <button type="button" class="edit-del-student-button"
+                                     @onclick="() => OnDeleteClick(task)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
                 <!-- and so on... -->
             </tbody>
         </table>
@@ -78,6 +68,14 @@
 </div>
 
 @code {
+
+    List<Tasks> AllTasks = new List<Tasks>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        AllTasks = await TaskService.GetAllTasks();
+    }
+
     private void OnAddClick()
     {
         NavManager.NavigateTo("supervisor/task/form");
@@ -86,5 +84,12 @@
     private void OnEditClick(int taskId)
     {
         NavManager.NavigateTo($"supervisor/task/form/{taskId}");
+    }
+
+    private async Task OnDeleteClick(Tasks task)
+    {
+        var result = await TaskService.DeleteTasks(task);
+        Toast.ShowSuccess("Task Successfully Deleted", "Deleted");
+        AllTasks = result;
     }
 }
