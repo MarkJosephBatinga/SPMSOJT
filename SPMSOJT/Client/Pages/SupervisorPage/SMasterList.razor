@@ -2,6 +2,8 @@
 @layout SupervisorLayout
 @inject NavigationManager NavManager
 @attribute [Authorize(Roles = "supervisor")]
+@inject ILocalStorageService LocalStorage
+@inject ILoginService LoginService 
 @inject IOrganizationService OrganizationService
 @inject ISupervisorService SupervisorService
 @inject ITraineeService TraineeService
@@ -43,13 +45,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var (trainee, i) in Trainees.Select((trainee, i) => (trainee, i)))
+                @foreach (var trainee in Trainees)
                 {
                     <tr>
                         <td>@trainee.school_year</td>
-                        <td>@StudentsName[i]</td>
-                        <td>@SupervisorsName[i]</td>
-                        <td>@OrganizationsName[i]</td>
+                        <td>@trainee.StudentName</td>
+                        <td>@trainee.SupervisorName</td>
+                        <td>@trainee.OrganizationName</td>
                         <td>
                             <button type="button" class="edit-del-student-button"
                                     @onclick="() => OnEvaluationClick(trainee.Id)">
@@ -77,9 +79,6 @@
 
 @code {
     List<Trainee> Trainees = new List<Trainee>();
-    List<string> StudentsName = new List<string>();
-    List<string> SupervisorsName = new List<string>();
-    List<string> OrganizationsName = new List<string>();
 
     User student = new User();
 
@@ -90,15 +89,22 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Trainees = await TraineeService.GetAllTrainee();
-        foreach (var trainee in Trainees)
+        var username = await LocalStorage.GetItemAsStringAsync("username");
+        var dbSupervisor = await LoginService.GetSupervisor(username);
+        var dbTrainees = await TraineeService.GetAllTrainee();
+        foreach (var trainee in dbTrainees)
         {
-            var user = await UserService.GetUser(trainee.studentId);
-            var supervisor = await SupervisorService.GetSupervisor(trainee.supervisorId);
-            var org = await OrganizationService.GetOrganization(trainee.organizationId);
-            StudentsName.Add($"{user.first_name} {user.last_name}");
-            SupervisorsName.Add($"{supervisor.first_name} {supervisor.last_name}");
-            OrganizationsName.Add(org.org_name);
+            if(trainee.supervisorId == dbSupervisor.Id)
+            {
+                var user = await UserService.GetUser(trainee.studentId);
+                var supervisor = await SupervisorService.GetSupervisor(trainee.supervisorId);
+                var org = await OrganizationService.GetOrganization(trainee.organizationId);
+                trainee.StudentName = $"{user.first_name} {user.last_name}";
+                trainee.SupervisorName = $"{supervisor.first_name} {supervisor.last_name}";
+                trainee.OrganizationName = org.org_name;
+                Trainees.Add(trainee);
+            }
+
         }
     }
 

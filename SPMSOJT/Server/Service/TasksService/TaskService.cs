@@ -39,6 +39,11 @@ namespace SPMSOJT.Server.Service.TasksService
 
         public async Task<List<Tasks>> RemoveTasks(Tasks task)
         {
+            var DbCompiledTask = await _data.c_task_info.Where(c => c.TaskId == task.Id).ToListAsync();
+            foreach (var dbtask in DbCompiledTask)
+            {
+                _data.c_task_info.Remove(dbtask);
+            }
             _data.task_info.Remove(task);
             await _data.SaveChangesAsync();
             AllTasks = await _data.task_info.ToListAsync();
@@ -71,5 +76,11 @@ namespace SPMSOJT.Server.Service.TasksService
             }
             return AllTasks;
         }
+
+        //GetStudentTask
+        //Add supervisorid to the task and compiled task
+        //Get the supervisor of the user in the trainee
+        //Get all the task where supervisorid in the task is equal
+        //supervisor of the user
     }
 }

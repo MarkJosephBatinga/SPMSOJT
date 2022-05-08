@@ -1,8 +1,10 @@
 ﻿@page "/supervisor"
 @layout SupervisorLayout
 @attribute [Authorize(Roles = "supervisor")]
-@inject IUserService UserService
 @inject ITaskService TaskService
+@inject ITraineeService TraineeService
+@inject ILoginService LoginService
+@inject ILocalStorageService LocalStorage
 
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
@@ -27,7 +29,7 @@
         <div class="db-item">
             <a href="#">
                 <h3>Trainee</h3>
-                <h4>@Users.Count</h4>
+                <h4>@Trainees.Count</h4>
             </a>
         </div>
 
@@ -44,12 +46,21 @@
 
 @code {        
 
-    List<User> Users = new List<User>();
+    List<Trainee> Trainees = new List<Trainee>();
     List<Tasks> AllTasks = new List<Tasks>();
 
     protected async override Task OnInitializedAsync()
     {
-        Users = await UserService.GetAllUser();
+        var username = await LocalStorage.GetItemAsStringAsync("username");
+        var supervisor = await LoginService.GetSupervisor(username);
+        var DbTrainees = await TraineeService.GetAllTrainee();
+        foreach (var trainee in DbTrainees)
+        {
+            if(trainee.supervisorId == supervisor.Id)
+            {
+                Trainees.Add(trainee);
+            }
+        }
         AllTasks = await TaskService.GetAllTasks();
     }
 

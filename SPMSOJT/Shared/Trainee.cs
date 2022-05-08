@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,5 +26,12 @@ namespace SPMSOJT.Shared
         [Required(ErrorMessage = "Organization is Required")]
         [Range(1, 9999999, ErrorMessage = "Supervisor is Required")]
         public int organizationId { get; set; }
+
+        [NotMapped]
+        public string StudentName { get; set; }
+        [NotMapped]
+        public string SupervisorName { get; set; }
+        [NotMapped]
+        public string OrganizationName { get; set; }
     }
 }

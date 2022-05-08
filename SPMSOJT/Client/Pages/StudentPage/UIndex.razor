@@ -1,6 +1,10 @@
 ﻿@page "/student"
 @layout StudentLayout
 @attribute [Authorize(Roles = "student")]
+@inject ITaskService TaskService
+@inject ILoginService LoginService
+@inject ILocalStorageService LocalStorage
+
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -23,21 +27,17 @@
     <section class="studdb-s2">
         <div class="db-item">
             <h2>Task Overview</h2>
-            <div class="db-list">
-                <a href="#">
-                    <h3>Task Title</h3>
-                </a>
-            </div>
-            <div class="db-list">
-                <a href="#">
-                    <h3>Task Title</h3>
-                </a>
-            </div>
-            <div class="db-list">
-                <a href="#">
-                    <h3>Task Title</h3>
-                </a>
-            </div>
+            @foreach (var task in AllTasks)
+            {
+                @if(AllTasks.IndexOf(task) <= 2)
+                {
+                    <div class="db-list">
+                        <a href="/student/mytask">
+                            <h3>@task.TaskName</h3>
+                        </a>
+                    </div>
+                }
+            }
             <br>
             <a href="/student/mytask" class="vw-btn">View All Tasks</a>
         </div>
@@ -49,5 +49,12 @@
 </div>
 
 @code {
+    List<Tasks> AllTasks = new List<Tasks>();
 
+    protected async override Task OnInitializedAsync()
+    {
+        var username = await LocalStorage.GetItemAsStringAsync("username");
+        var user = await LoginService.GetUser(username);
+        AllTasks = await TaskService.GetAllNonComplyTask(user.Id);
+    }
 }

@@ -11,6 +11,8 @@ namespace SPMSOJT.Shared
     {
         public int Id { get; set; }
 
+        public int SupervisorId { get; set; }
+
         [Required(ErrorMessage = "Task Code is Required")]
         public string TaskCode { get; set; }
 
