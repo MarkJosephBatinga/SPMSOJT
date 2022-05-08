@@ -11,9 +11,12 @@ namespace SPMSOJT.Shared
     public class CompiledTask
     {
         public int Id { get; set; }
+
+        public int StudentId { get; set; }
         public int TaskId { get; set; }
         [Required(ErrorMessage = "File is Required")]
         public string StudentFile { get; set; }
+        public string StudentFileName { get; set; }
         public DateTime SubmissionDate { get; set; }
         public string Remarks { get; set; }
         public int Score { get; set; }

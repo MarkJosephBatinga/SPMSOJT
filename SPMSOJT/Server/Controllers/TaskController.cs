@@ -47,6 +47,12 @@ namespace SPMSOJT.Server.Controllers
             return AllTasks = await _taskService.LoadAllTasks();
         }
 
+        [HttpGet("displayallntask/{Id:int}")]
+        public async Task<ActionResult<List<Tasks>>> GetAllNotComplyTask(int Id)
+        {
+            return AllTasks = await _taskService.LoadAllNotComplyTask(Id);
+        }
+
         [HttpGet("display/{Id:int}")]
         public async Task<ActionResult<Tasks>> GetTrainee(int Id)
         {

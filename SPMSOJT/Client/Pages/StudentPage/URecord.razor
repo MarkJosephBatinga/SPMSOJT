@@ -39,10 +39,10 @@
                 {
                 <tr>
                     <td>@compiledTask.TaskCode</td>
-                    <td>@compiledTask.StudentFile</td>
+                    <td>@compiledTask.StudentFileName</td>
                     <td>@compiledTask.SubmissionDate.ToLongDateString()</td>
-                    <td>@compiledTask.Remarks</td>
-                    <td>@compiledTask.Score</td>
+                    <td>@(compiledTask.Remarks == null ? "Done": compiledTask.Remarks)</td>
+                    <td>@(compiledTask.Score == 0 ? "No Scores YEt": compiledTask.Score)</td>
                 </tr>
                 }
                 <!-- and so on... -->

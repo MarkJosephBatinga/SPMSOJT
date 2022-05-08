@@ -30,6 +30,12 @@ namespace SPMSOJT.Client.Service.TaskService
             return status;
         }
 
+        public async Task<List<Tasks>> GetAllNonComplyTask(int Id)
+        { 
+            var result = await _http.GetFromJsonAsync<List<Tasks>>($"api/task/displayallntask/{Id}");
+            return result;
+        }
+
         public async Task<List<Tasks>> GetAllTasks()
         {
             var result = await _http.GetFromJsonAsync<List<Tasks>>($"api/task/displayall");

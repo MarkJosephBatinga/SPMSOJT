@@ -1,6 +1,13 @@
 ﻿@page "/student/mytask/comply/{Id:int}"
 @layout StudentLayout
 @attribute [Authorize(Roles = "student")]
+@inject ITaskService TaskService
+@inject ICompiledTaskService CompiledTaskService
+@inject ILocalStorageService LocalStorage
+@inject ILoginService LoginService
+@inject IToastService Toast
+@inject NavigationManager NavManager
+
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -11,23 +18,34 @@
     <!-- HEADER ENDS HERE -->
     <!-- ADD NEW TASK PAGE CONTENT STARTS HERE -->
     <div class="content">
-        <form action="" method="POST">
+        <EditForm Model="compiledTask" OnValidSubmit="OnSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
             <h3>Submit Task</h3>
             <hr>
             <div class="row">
                 <div class="column">
                     <label for="fileToUpload">Select file to upload</label>
-                    <input type="file" class="fileupload" name="fileToUpload">
+                    <ValidationMessage For="() => compiledTask.StudentFile" />
+                    <InputFile type="file" OnChange="OnFileChange"
+                               accept=".pdf" name="student-file"
+                               id="fileToUpload" />
                 </div>
             </div>
 
             <div class="row">
                 <div class="forbutton">
-                    <button type="submit">SUBMIT</button>
-                    <a href="/student/mytask" class="cancel-btn">CANCEL</a>
+                    @if (!loading)
+                    {
+                        <button type="submit">SUBMIT</button>
+                        <a href="/student/mytask" class="cancel-btn">CANCEL</a>
+                    }
+                    else
+                    {
+                        <div class="line-wobble"></div>
+                    }
                 </div>
             </div>
-        </form>
+        </EditForm>
     </div>
     <!-- ADD NEW TASK PAGE CONTENT ENDS HERE -->
 </div>
@@ -35,4 +53,46 @@
 @code {
     [Parameter]
     public int? Id { get; set; }
+
+    CompiledTask compiledTask = new CompiledTask();
+    bool loading = false;
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        if(Id.HasValue)
+        {
+            var task = await TaskService.GetTasks(Id.Value);
+            var username = await LocalStorage.GetItemAsStringAsync("username");
+            var student = await LoginService.GetUser(username);
+
+            compiledTask.TaskId = task.Id;
+            compiledTask.StudentId = student.Id;
+            compiledTask.SubmissionDate = DateTime.Now;
+        }
+    }
+
+    private async Task OnSubmit()
+    {
+        loading = true;
+        var result = await CompiledTaskService.AddCompiledTask(compiledTask);
+        if(result != null)
+        {
+            Toast.ShowSuccess("Task Successfully Compiled", "Success");
+            NavManager.NavigateTo("/student/myrecord");
+        }
+    }
+
+    private async Task OnFileChange(InputFileChangeEventArgs e)
+    {
+        var format = e.File.ContentType;
+        long maxFileSize = 1024 * 1024 * 15;
+        var file = e.File;
+
+        var buffer = new byte[file.Size];
+        await file.OpenReadStream(maxFileSize).ReadAsync(buffer);
+        var fileData = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+        compiledTask.StudentFile = fileData;
+        compiledTask.StudentFileName = e.File.Name;
+    }
 }

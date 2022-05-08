@@ -56,5 +56,20 @@ namespace SPMSOJT.Server.Service.TasksService
             }
             return AllTasks;
         }
+
+        public async Task<List<Tasks>> LoadAllNotComplyTask(int userId)
+        {
+            var dbCompiledTask = await _data.c_task_info.Where(c => c.StudentId == userId).ToListAsync();
+            var dbTask = await _data.task_info.ToListAsync();
+            foreach (var task in dbTask)
+            {
+                var getTask = dbCompiledTask.Where(c => c.TaskId == task.Id).FirstOrDefault();
+                if (getTask == null)
+                {
+                    AllTasks.Add(task);
+                }
+            }
+            return AllTasks;
+        }
     }
 }

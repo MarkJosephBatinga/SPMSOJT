@@ -3,6 +3,9 @@
 @attribute [Authorize(Roles = "student")]
 @inject NavigationManager NavManager
 @inject ITaskService TaskService
+@inject ICompiledTaskService CompiledTaskService
+@inject ILoginService LoginService
+@inject ILocalStorageService LocalStorage
 
 
 <!-- HEADER STARTS HERE -->
@@ -61,10 +64,12 @@
 
     protected async override Task OnInitializedAsync()
     {
-        AllTasks = await TaskService.GetAllTasks();
+        var username = await LocalStorage.GetItemAsStringAsync("username");
+        var user = await LoginService.GetUser(username);
+        AllTasks = await TaskService.GetAllNonComplyTask(user.Id);
     }
 
-        private void OnComplyClick(int Id)
+    private void OnComplyClick(int Id)
     {
         NavManager.NavigateTo($"/student/mytask/comply/{Id}");
     }

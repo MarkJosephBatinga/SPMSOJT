@@ -17,5 +17,7 @@ namespace SPMSOJT.Server.Service.TasksService
         Task<List<Tasks>> RemoveTasks(Tasks task);
 
         Task<List<Tasks>> LoadAllTasks();
+
+        Task<List<Tasks>> LoadAllNotComplyTask(int userId);
     }
 }
