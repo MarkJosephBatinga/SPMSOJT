@@ -23,5 +23,7 @@ namespace SPMSOJT.Shared
 
         [NotMapped]
         public string TaskCode { get; set; }
+        [NotMapped]
+        public string StudentName { get; set; }
     }
 }

@@ -1,0 +1,43 @@
+﻿@page "/supervisor/pdfviewer/{Id:int}"
+@layout SupervisorLayout
+@attribute [Authorize(Roles = "supervisor")]
+@inject ICompiledTaskService CompiledTaskService
+@inject NavigationManager NavManager
+
+<!-- HEADER STARTS HERE -->
+<div class="main_content">
+    <div class="header">
+        <div class="fas fa-bars d-block d-md-none" id="menu-btn"></div>
+        <div><i class="fa fa-file-pdf"></i> PDF Viewer</div>
+        <a href="profile.html"><i class="fas fa-solid fa-user" id="profile"></i></a>
+    </div>
+    <!-- HEADER ENDS HERE -->
+    <!-- ADD NEW TASK PAGE CONTENT STARTS HERE -->
+    <div class="content">
+        <iframe src="@compiled.StudentFile" style="border:none;width:100%;height:100vh;" title="Iframe Example"></iframe>
+        <div class="mt-4 d-flex justify-content-end">
+            <button class="editbutton" @onclick="OnCancelClick">Cancel</button>
+        </div>
+    </div>
+    <!-- ADD NEW TASK PAGE CONTENT ENDS HERE -->
+</div>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    CompiledTask compiled = new CompiledTask();
+
+    protected async override Task OnInitializedAsync()
+    {
+        if(Id.HasValue)
+        {
+            compiled = await CompiledTaskService.GetCompiledTask(Id.Value);
+        }
+    }
+
+    private void OnCancelClick()
+    {
+        NavManager.NavigateTo("/supervisor/taskrecord");
+    }
+}

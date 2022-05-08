@@ -3,6 +3,7 @@
 @attribute [Authorize(Roles = "student")]
 @inject ICompiledTaskService CompiledTaskService
 @inject ITaskService TaskService
+@inject NavigationManager NavManager
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -39,10 +40,14 @@
                 {
                 <tr>
                     <td>@compiledTask.TaskCode</td>
-                    <td>@compiledTask.StudentFileName</td>
+                    <td>
+                        <a @onclick="() => OnPdfClick(compiledTask.Id)">
+                            @compiledTask.StudentFileName
+                        </a>
+                    </td>
                     <td>@compiledTask.SubmissionDate.ToLongDateString()</td>
                     <td>@(compiledTask.Remarks == null ? "Done": compiledTask.Remarks)</td>
-                    <td>@(compiledTask.Score == 0 ? "No Scores YEt": compiledTask.Score)</td>
+                    <td>@(compiledTask.Score == 0 ? "No Scores Yet": compiledTask.Score)</td>
                 </tr>
                 }
                 <!-- and so on... -->
@@ -64,5 +69,10 @@
             var task = await TaskService.GetTasks(compiledTask.TaskId);
             compiledTask.TaskCode = task.TaskCode;
         }
+    }
+
+    private void OnPdfClick(int Id)
+    {
+        NavManager.NavigateTo($"/student/pdfviewer/{Id}");
     }
 }

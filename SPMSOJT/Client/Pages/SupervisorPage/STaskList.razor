@@ -3,6 +3,7 @@
 @attribute [Authorize(Roles = "supervisor")]
 @inject ICompiledTaskService CompiledTaskService
 @inject ITaskService TaskService
+@inject IUserService UserService 
 @inject IToastService Toast
 @inject NavigationManager NavManager
 
@@ -40,24 +41,31 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>0000001</td>
-                    <td>Juan dela Cruz</td>
-                    <td>Sample</td>
-                    <td>March 28, 2022</td>
-                    <td>Done</td>
-                    <td>90</td>
-                    <td>
-                        <button type="button" class="edit-del-student-button"
-                                @onclick="OnEditClick">
-                            Edit
-                        </button>
-                        <button type="button" class="edit-del-student-button"
-                                onclick="location.href='#';">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
+                @foreach (var task in CompiledTasks)
+                {
+                    <tr>
+                        <td>@task.TaskCode</td>
+                        <td>@task.StudentName</td>
+                        <td>
+                            <a @onclick="() => OnPdfClick(task.Id)">
+                                @task.StudentFileName
+                            </a>
+                        </td>
+                        <td>@task.SubmissionDate.ToLongDateString()</td>
+                        <td>@(task.Remarks == null ? "Done": task.Remarks)</td>
+                        <td>@(task.Score == 0 ? "No Scores Yet": task.Score)</td>
+                        <td>
+                            <button type="button" class="edit-del-student-button"
+                                    @onclick="() => OnEditClick(task.Id)">
+                                Edit
+                            </button>
+                            <button type="button" class="edit-del-student-button"
+                                    onclick="location.href='#';">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
                 <!-- and so on... -->
             </tbody>
         </table>
@@ -67,17 +75,27 @@
 </div>
 
 @code {
+    List<CompiledTask> CompiledTasks = new List<CompiledTask>();
 
-
-    private void OnEditClick()
+    protected async override Task OnInitializedAsync()
     {
-        NavManager.NavigateTo($"supervisor/taskrecord/form");
+        CompiledTasks = await CompiledTaskService.GetAllCompiledTask();
+        foreach (var compiledTask in CompiledTasks)
+        {
+            var task = await TaskService.GetTasks(compiledTask.TaskId);
+            var user = await UserService.GetUser(compiledTask.StudentId);
+            compiledTask.StudentName = $"{user.first_name} {user.last_name}";
+            compiledTask.TaskCode = task.TaskCode;
+        }
     }
 
-    //private async Task OnDeleteClick(Tasks task)
-    //{
-    //    var result = await TaskService.DeleteTasks(task);
-    //    Toast.ShowSuccess("Task Successfully Deleted", "Deleted");
-    //    AllTasks = result;
-    //}
+    private void OnEditClick(int Id)
+    {
+        NavManager.NavigateTo($"/supervisor/task/formrecord/{Id}");
+    }
+
+    private void OnPdfClick(int Id)
+    {
+        NavManager.NavigateTo($"/supervisor/pdfviewer/{Id}");
+    }
 }
