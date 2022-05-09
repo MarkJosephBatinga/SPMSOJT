@@ -3,6 +3,8 @@
 @layout SupervisorLayout
 @attribute [Authorize(Roles = "supervisor")]
 @inject ITaskService TaskService
+@inject ICompiledTaskService CompiledTaskService
+@inject IUserService UserService
 @inject IToastService Toast
 @inject NavigationManager NavManager
 @inject IJSRuntime JsRun
@@ -17,49 +19,57 @@
     <!-- HEADER ENDS HERE -->
     <!-- ADD NEW TASK PAGE CONTENT STARTS HERE -->
     <div class="content">
-        <form action="" method="POST">
+        <EditForm Model="compiledTask" OnValidSubmit="OnSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
             <h3>Task Record Information</h3>
             <hr>
             <div class="row">
                 <div class="column">
                     <label for="tcode">Task Code</label>
-                    <input type="text" id="tcode" name="tcode" placeholder="Task Code">
+                    <input type="text" id="tcode" disabled @bind-value="compiledTask.TaskCode" placeholder="Task Code">
                 </div>
                 <div class="column">
                     <label for="sname">Student Name</label>
-                    <input type="text" id="sname" name="sname" placeholder="Student Name">
+                    <input type="text" id="sname" disabled @bind-value="compiledTask.StudentName" name="sname" placeholder="Student Name">
                 </div>
             </div>
 
             <div class="row">
                 <div class="column">
                     <label for="ufile">Uploaded File</label>
-                    <input type="text" id="ufile" name="ufile" placeholder="Uploaded File">
+                    <input type="text" id="ufile" disabled @bind-value="compiledTask.StudentFileName" name="ufile" placeholder="Uploaded File">
                 </div>
                 <div class="column">
                     <label for="tdsub">Date of Submission</label>
-                    <input type="datetime-local" id="tdsub" name="tdsub" placeholder="Date of Submission">
+                    <input type="datetime-local" disabled id="tdsub" @bind-value="compiledTask.SubmissionDate" name="tdsub" placeholder="Date of Submission">
                 </div>
             </div>
 
             <div class="row">
                 <div class="column">
                     <label for="remarks">Remarks</label>
-                    <input type="text" id="remarks" name="remarks" placeholder="Remarks">
+                    <input type="text" id="remarks" @bind-value="compiledTask.Remarks" name="remarks" placeholder="Remarks">
                 </div>
                 <div class="column">
                     <label for="score">Score</label>
-                    <input type="text" id="score" name="score" placeholder="Score">
+                    <input type="number" id="score" @bind-value="compiledTask.Score" name="score" placeholder="Score">
                 </div>
             </div>
 
             <div class="row">
                 <div class="forbutton">
-                    <button type="submit">SUBMIT</button>
-                    <a href="/supervisor/task" class="cancel-btn">CANCEL</a>
+                    @if (!loading)
+                    {
+                        <button type="submit">SUBMIT</button>
+                        <a href="/supervisor/task" class="cancel-btn">CANCEL</a>
+                    }
+                    else
+                    {
+                        <div class="line-wobble"></div>
+                    }
                 </div>
             </div>
-        </form>
+        </EditForm>
     </div>
     <!-- ADD NEW TASK PAGE CONTENT ENDS HERE -->
 </div>
@@ -67,5 +77,34 @@
 @code {
     [Parameter]
     public int? Id { get; set; }
+
+    CompiledTask compiledTask = new CompiledTask();
+    bool loading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(Id.HasValue)
+        {
+            compiledTask = await CompiledTaskService.GetCompiledTask(Id.Value);
+            if(compiledTask != null)
+            {
+                var task = await TaskService.GetTasks(compiledTask.TaskId);
+                var student = await UserService.GetUser(compiledTask.StudentId);
+                compiledTask.TaskCode = task.TaskCode;
+                compiledTask.StudentName = $"{student.first_name} {student.last_name}";
+            }
+        }
+    }
+
+    private async Task OnSubmit()
+    {
+        loading = true;
+        var result = await CompiledTaskService.UpdateCompiledTask(compiledTask);
+        if(result != null)
+        {
+            Toast.ShowSuccess($"Submitted Task of {compiledTask.StudentName} successfully updated", "Success");
+            NavManager.NavigateTo("/supervisor/taskrecord");
+        }
+    }
 }
 

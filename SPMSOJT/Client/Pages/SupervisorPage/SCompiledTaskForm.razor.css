@@ -79,6 +79,17 @@ select {
     font-size: 23px;
 }
 
+input[type=number] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border: 1px solid var(--light-gray);
+    border-radius: 10px;
+    background: var(--off-white);
+    font-size: 23px;
+}
+
 input[type=password] {
     width: 100%;
     padding: 12px 20px;
@@ -186,5 +197,53 @@ input[type="file"] {
 @media (max-width:768px), (max-width:1200px) {
     .row {
         display: block;
+    }
+}
+
+/*loading css*/
+.line-wobble {
+    --uib-size: 80px;
+    --uib-speed: 1.75s;
+    --uib-color: black;
+    --uib-line-weight: 5px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--uib-line-weight);
+    width: var(--uib-size);
+    border-radius: calc(var(--uib-line-weight) / 2);
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+}
+
+    .line-wobble::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: var(--uib-color);
+        opacity: 0.1;
+    }
+
+    .line-wobble::after {
+        content: '';
+        height: 100%;
+        width: 100%;
+        border-radius: calc(var(--uib-line-weight) / 2);
+        animation: wobble var(--uib-speed) ease-in-out infinite;
+        transform: translateX(-95%);
+        background-color: var(--uib-color);
+    }
+
+@keyframes wobble {
+    0%, 100% {
+        transform: translateX(-95%);
+    }
+
+    50% {
+        transform: translateX(95%);
     }
 }

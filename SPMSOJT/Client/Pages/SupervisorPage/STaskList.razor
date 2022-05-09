@@ -62,7 +62,7 @@
                                 Edit
                             </button>
                             <button type="button" class="edit-del-student-button"
-                                    onclick="location.href='#';">
+                                   @onclick="() => OnDeleteClick(task)">
                                 Delete
                             </button>
                         </td>
@@ -78,11 +78,12 @@
 
 @code {
     List<CompiledTask> CompiledTasks = new List<CompiledTask>();
+    Supervisor supervisor = new Supervisor();
 
     protected async override Task OnInitializedAsync()
     {
         var username = await LocalStorage.GetItemAsStringAsync("username");
-        var supervisor = await LoginService.GetSupervisor(username);
+        supervisor = await LoginService.GetSupervisor(username);
         CompiledTasks = await CompiledTaskService.GetAllCompiledTaskPerSupervisor(supervisor.Id);
         foreach (var compiledTask in CompiledTasks)
         {
@@ -101,5 +102,19 @@
     private void OnPdfClick(int Id)
     {
         NavManager.NavigateTo($"/supervisor/pdfviewer/{Id}");
+    }
+
+    private async Task OnDeleteClick(CompiledTask task)
+    {
+        var result = await CompiledTaskService.DeleteCompiledTask(task);
+        Toast.ShowSuccess("Submitted Task Successfully Deleted", "Deleted");
+        CompiledTasks = await CompiledTaskService.GetAllCompiledTaskPerSupervisor(supervisor.Id);
+        foreach (var compiledTask in CompiledTasks)
+        {
+            var dbtask = await TaskService.GetTasks(compiledTask.TaskId);
+            var user = await UserService.GetUser(compiledTask.StudentId);
+            compiledTask.StudentName = $"{user.first_name} {user.last_name}";
+            compiledTask.TaskCode = dbtask.TaskCode;
+        }
     }
 }

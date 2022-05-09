@@ -72,11 +72,12 @@
 @code {
 
     List<Tasks> AllTasks = new List<Tasks>();
+    Supervisor supervisor = new Supervisor();
 
     protected override async Task OnInitializedAsync()
     {
         var username = await LocalStorage.GetItemAsStringAsync("username");
-        var supervisor = await LoginService.GetSupervisor(username);
+        supervisor = await LoginService.GetSupervisor(username);
         AllTasks = await TaskService.GetAllTaskPerSupervisor(supervisor.Id);
     }
 
@@ -94,6 +95,6 @@
     {
         var result = await TaskService.DeleteTasks(task);
         Toast.ShowSuccess("Task Successfully Deleted", "Deleted");
-        AllTasks = result;
+        AllTasks = await TaskService.GetAllTaskPerSupervisor(supervisor.Id);
     }
 }
