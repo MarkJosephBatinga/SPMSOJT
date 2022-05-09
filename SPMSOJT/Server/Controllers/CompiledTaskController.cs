@@ -47,6 +47,18 @@ namespace SPMSOJT.Server.Controllers
             return CompiledTasks = await _compiledTaskService.LoadAllCompiledTask();
         }
 
+        [HttpGet("displayallpersupervisor/{Id:int}")]
+        public async Task<ActionResult<List<CompiledTask>>> GetAllCompiledTaskPerSupervisor(int Id)
+        {
+            return CompiledTasks = await _compiledTaskService.LoadAllCompiledTaskPerSupervisor(Id);
+        }
+
+        [HttpGet("displayallperstudent/{Id:int}")]
+        public async Task<ActionResult<List<CompiledTask>>> GetAllCompiledTaskPerStudent(int Id)
+        {
+            return CompiledTasks = await _compiledTaskService.LoadAllCompiledTaskPerStudent(Id);
+        }
+
         [HttpGet("display/{Id:int}")]
         public async Task<ActionResult<CompiledTask>> GetCompiledTask(int Id)
         {

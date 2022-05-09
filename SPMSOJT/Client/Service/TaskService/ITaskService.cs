@@ -18,6 +18,10 @@ namespace SPMSOJT.Client.Service.TaskService
 
         Task<List<Tasks>> GetAllNonComplyTask(int Id);
 
+        Task<List<Tasks>> GetAllTaskPerSupervisor(int Id);
+
+        Task<List<Tasks>> GetAllTaskPerStudent(int Id);
+
         Task<Tasks> GetTasks(int Id);
     }
 }

@@ -36,6 +36,18 @@ namespace SPMSOJT.Client.Service.TaskService
             return result;
         }
 
+        public async Task<List<Tasks>> GetAllTaskPerStudent(int Id)
+        {
+            var result = await _http.GetFromJsonAsync<List<Tasks>>($"api/task/displaytaskperstudent/{Id}");
+            return result;
+        }
+
+        public async Task<List<Tasks>> GetAllTaskPerSupervisor(int Id)
+        {
+            var result = await _http.GetFromJsonAsync<List<Tasks>>($"api/task/displaytaskpersupervisor/{Id}");
+            return result;
+        }
+
         public async Task<List<Tasks>> GetAllTasks()
         {
             var result = await _http.GetFromJsonAsync<List<Tasks>>($"api/task/displayall");

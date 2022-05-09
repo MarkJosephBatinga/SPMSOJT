@@ -77,6 +77,28 @@ namespace SPMSOJT.Server.Service.TasksService
             return AllTasks;
         }
 
+        public async Task<List<Tasks>> LoadAllTaskPerSupervisor(int supervisorId)
+        {
+            return AllTasks = await _data.task_info.Where(t => t.SupervisorId == supervisorId).ToListAsync();
+        }
+
+        public async Task<List<Tasks>> LoadAllTaskPerStudent(int studentId)
+        {
+            var trainee = await _data.trainee_info.Where(t => t.studentId == studentId).FirstOrDefaultAsync();
+            var dbCompiledTask = await _data.c_task_info.Where(c => c.StudentId == studentId).ToListAsync();
+            var dbTask = await _data.task_info.Where(t => t.SupervisorId == trainee.supervisorId).ToListAsync();
+
+            foreach (var task in dbTask)
+            {
+                var getTask = dbCompiledTask.Where(c => c.TaskId == task.Id).FirstOrDefault();
+                if (getTask == null)
+                {
+                    AllTasks.Add(task);
+                }
+            }
+            return AllTasks;
+        }
+
         //GetStudentTask
         //Add supervisorid to the task and compiled task
         //Get the supervisor of the user in the trainee

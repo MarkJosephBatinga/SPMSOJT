@@ -36,6 +36,18 @@ namespace SPMSOJT.Client.Service.CompiledTaskService
             return result;
         }
 
+        public async Task<List<CompiledTask>> GetAllCompiledTaskPerStudent(int studentId)
+        {
+            var result = await _http.GetFromJsonAsync<List<CompiledTask>>($"api/compiledtask/displayallperstudent/{studentId}");
+            return result;
+        }
+
+        public async Task<List<CompiledTask>> GetAllCompiledTaskPerSupervisor(int supervisorId)
+        {
+            var result = await _http.GetFromJsonAsync<List<CompiledTask>>($"api/compiledtask/displayallpersupervisor/{supervisorId}");
+            return result;
+        }
+
         public async Task<CompiledTask> GetCompiledTask(int Id)
         {
             var result = await _http.GetFromJsonAsync<CompiledTask>($"api/compiledtask/display/{Id}");

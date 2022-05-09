@@ -56,5 +56,28 @@ namespace SPMSOJT.Server.Service.CompiledTaskService
             }
             return CompiledTasks;
         }
+
+        public async Task<List<CompiledTask>> LoadAllCompiledTaskPerSupervisor(int supervisorId)
+        {
+            var dbAllTask = await _data.task_info.Where(t => t.SupervisorId == supervisorId).ToListAsync();
+            foreach (var task in dbAllTask)
+            {
+                var cTask = await _data.c_task_info.Where(c => c.TaskId == task.Id).ToListAsync();
+                if(cTask != null)
+                {
+                    CompiledTasks.AddRange(cTask);
+                }
+            }
+            return CompiledTasks;
+        }
+
+        public async Task<List<CompiledTask>> LoadAllCompiledTaskPerStudent(int studentId)
+        {
+            return CompiledTasks = await _data.c_task_info.Where(c => c.StudentId == studentId).ToListAsync();
+        }
+
+        //get the task id
+        //find if task id is in the compiled task
+        //get the task
     }
 }

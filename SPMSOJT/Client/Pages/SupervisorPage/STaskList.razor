@@ -3,6 +3,8 @@
 @attribute [Authorize(Roles = "supervisor")]
 @inject ICompiledTaskService CompiledTaskService
 @inject ITaskService TaskService
+@inject ILocalStorageService LocalStorage
+@inject ILoginService LoginService 
 @inject IUserService UserService 
 @inject IToastService Toast
 @inject NavigationManager NavManager
@@ -79,7 +81,9 @@
 
     protected async override Task OnInitializedAsync()
     {
-        CompiledTasks = await CompiledTaskService.GetAllCompiledTask();
+        var username = await LocalStorage.GetItemAsStringAsync("username");
+        var supervisor = await LoginService.GetSupervisor(username);
+        CompiledTasks = await CompiledTaskService.GetAllCompiledTaskPerSupervisor(supervisor.Id);
         foreach (var compiledTask in CompiledTasks)
         {
             var task = await TaskService.GetTasks(compiledTask.TaskId);

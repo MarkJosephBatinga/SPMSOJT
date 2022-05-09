@@ -19,5 +19,9 @@ namespace SPMSOJT.Server.Service.TasksService
         Task<List<Tasks>> LoadAllTasks();
 
         Task<List<Tasks>> LoadAllNotComplyTask(int userId);
+
+        Task<List<Tasks>> LoadAllTaskPerSupervisor(int supervisorId);
+
+        Task<List<Tasks>> LoadAllTaskPerStudent(int studentId);
     }
 }

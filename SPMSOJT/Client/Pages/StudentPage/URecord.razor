@@ -4,6 +4,9 @@
 @inject ICompiledTaskService CompiledTaskService
 @inject ITaskService TaskService
 @inject NavigationManager NavManager
+@inject ILocalStorageService LocalStorage
+@inject ILoginService LoginService
+
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -63,7 +66,9 @@
 
     protected async override Task OnInitializedAsync()
     {
-        CompiledTasks = await CompiledTaskService.GetAllCompiledTask();
+        var username = await LocalStorage.GetItemAsStringAsync("username");
+        var user = await LoginService.GetUser(username);
+        CompiledTasks = await CompiledTaskService.GetAllCompiledTaskPerStudent(user.Id);
         foreach (var compiledTask in CompiledTasks)
         {
             var task = await TaskService.GetTasks(compiledTask.TaskId);

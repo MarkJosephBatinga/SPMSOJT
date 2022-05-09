@@ -16,6 +16,10 @@ namespace SPMSOJT.Client.Service.CompiledTaskService
 
         Task<List<CompiledTask>> GetAllCompiledTask();
 
+        Task<List<CompiledTask>> GetAllCompiledTaskPerSupervisor(int supervisorId);
+
+        Task<List<CompiledTask>> GetAllCompiledTaskPerStudent(int studentId);
+
         Task<CompiledTask> GetCompiledTask(int Id);
     }
 }

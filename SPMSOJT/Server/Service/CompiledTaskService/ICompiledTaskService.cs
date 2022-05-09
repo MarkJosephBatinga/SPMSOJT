@@ -17,5 +17,9 @@ namespace SPMSOJT.Server.Service.CompiledTaskService
         Task<List<CompiledTask>> RemoveCompiledTask(CompiledTask compiledTask);
 
         Task<List<CompiledTask>> LoadAllCompiledTask();
+
+        Task<List<CompiledTask>> LoadAllCompiledTaskPerSupervisor(int supervisorId);
+
+        Task<List<CompiledTask>> LoadAllCompiledTaskPerStudent(int studentId);
     }
 }

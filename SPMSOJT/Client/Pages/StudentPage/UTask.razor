@@ -66,7 +66,7 @@
     {
         var username = await LocalStorage.GetItemAsStringAsync("username");
         var user = await LoginService.GetUser(username);
-        AllTasks = await TaskService.GetAllNonComplyTask(user.Id);
+        AllTasks = await TaskService.GetAllTaskPerStudent(user.Id);
     }
 
     private void OnComplyClick(int Id)

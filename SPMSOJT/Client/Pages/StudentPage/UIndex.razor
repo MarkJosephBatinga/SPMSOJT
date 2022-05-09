@@ -17,7 +17,7 @@
     <!-- DASHBOARD PAGE SECTION 1 STARTS HERE -->
     <section class="studdb-s1">
         <div>
-            <h1>Welcome back, username!</h1>
+            <h1>Welcome back, @firstname!</h1>
             <p>Here's an overview of your account</p>
         </div>
         <img src="./css/images/student-dashboard.svg">
@@ -50,11 +50,13 @@
 
 @code {
     List<Tasks> AllTasks = new List<Tasks>();
+    string firstname;
 
     protected async override Task OnInitializedAsync()
     {
         var username = await LocalStorage.GetItemAsStringAsync("username");
         var user = await LoginService.GetUser(username);
-        AllTasks = await TaskService.GetAllNonComplyTask(user.Id);
+        firstname = user.first_name;
+        AllTasks = await TaskService.GetAllTaskPerStudent(user.Id);
     }
 }

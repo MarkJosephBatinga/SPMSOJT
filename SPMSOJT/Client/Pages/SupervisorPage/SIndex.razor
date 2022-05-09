@@ -18,7 +18,7 @@
     <!-- DASHBOARD PAGE SECTION 1 STARTS HERE -->
     <section class="coordb-s1">
         <div>
-            <h1>Welcome back, Supervisor!</h1>
+            <h1>Welcome back, @firstname!</h1>
             <p>Here's an overview of your account</p>
         </div>
         <img src="./css/images/coord-dashboard.svg">
@@ -48,12 +48,14 @@
 
     List<Trainee> Trainees = new List<Trainee>();
     List<Tasks> AllTasks = new List<Tasks>();
+    string firstname;
 
     protected async override Task OnInitializedAsync()
     {
         var username = await LocalStorage.GetItemAsStringAsync("username");
         var supervisor = await LoginService.GetSupervisor(username);
         var DbTrainees = await TraineeService.GetAllTrainee();
+        firstname = supervisor.first_name;
         foreach (var trainee in DbTrainees)
         {
             if(trainee.supervisorId == supervisor.Id)
@@ -61,7 +63,7 @@
                 Trainees.Add(trainee);
             }
         }
-        AllTasks = await TaskService.GetAllTasks();
+        AllTasks = await TaskService.GetAllTaskPerSupervisor(supervisor.Id);
     }
 
 }

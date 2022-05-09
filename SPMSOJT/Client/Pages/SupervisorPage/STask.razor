@@ -4,6 +4,8 @@
 @inject NavigationManager NavManager
 @inject ITaskService TaskService
 @inject IToastService Toast
+@inject ILocalStorageService LocalStorage
+@inject ILoginService LoginService
 
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
@@ -73,7 +75,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        AllTasks = await TaskService.GetAllTasks();
+        var username = await LocalStorage.GetItemAsStringAsync("username");
+        var supervisor = await LoginService.GetSupervisor(username);
+        AllTasks = await TaskService.GetAllTaskPerSupervisor(supervisor.Id);
     }
 
     private void OnAddClick()
