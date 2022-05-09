@@ -25,6 +25,7 @@ namespace SPMSOJT.Server.Data
         public DbSet<User> user_info { get; set; }
         public DbSet<Tasks> task_info { get; set; }
         public DbSet<CompiledTask> c_task_info { get; set; }
+        public DbSet<Evaluation> evaluation_info { get; set; }
         //If you want to add another table:
         //      Add a model or object first at the OPMJSOJT.Shared
         //      Create a new DbSet<NameOfModel> NameOfTable {get; set;}

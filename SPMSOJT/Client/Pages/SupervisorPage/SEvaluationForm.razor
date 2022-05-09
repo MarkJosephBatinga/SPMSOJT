@@ -2,6 +2,11 @@
 @layout SupervisorLayout
 @attribute [Authorize(Roles = "supervisor")]
 @inject NavigationManager NavManager
+@inject ITraineeService TraineeService
+@inject IUserService UserService
+@inject IEvaluationService EvaluationService
+@inject IToastService Toast
+
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -13,14 +18,15 @@
     <!-- PROFILE PAGE SECTION 1 STARTS HERE -->
     <section class="admindb-s1">
         <div>
-            <h1>Diluc Ragvindr</h1>
+            <h1>@student.first_name @student.middle_name @student.last_name</h1>
             <p>Trainee</p>
         </div>
     </section>
     <!-- PROFILE PAGE SECTION 1 ENDS HERE -->
 
     <div class="content">
-        <form action="" method="POST">
+        <EditForm Model="evaluation" OnValidSubmit="OnSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
             <h3>Evaluation Form</h3>
             <hr>
             <div class="row">
@@ -55,7 +61,8 @@
                     </label>
                 </div>
                 <div class="column2">
-                    <input type="text" id="eval" name="eval" placeholder="Enter letter of rating">
+                    <ValidationMessage For="() => evaluation.Responsibilty"/>
+                    <input type="text" id="eval" @bind-value="evaluation.Responsibilty" name="eval" placeholder="Enter letter of rating">
                 </div>
             </div>
 
@@ -67,7 +74,8 @@
                     </label>
                 </div>
                 <div class="column2">
-                    <input type="text" id="eval" name="eval" placeholder="Enter letter of rating">
+                    <ValidationMessage For="() => evaluation.Competence" />
+                    <input type="text" id="eval" @bind-value="evaluation.Competence" name="eval" placeholder="Enter letter of rating">
                 </div>
             </div>
 
@@ -79,7 +87,8 @@
                     </label>
                 </div>
                 <div class="column2">
-                    <input type="text" id="eval" name="eval" placeholder="Enter letter of rating">
+                    <ValidationMessage For="() => evaluation.Cooperation" />
+                    <input type="text" id="eval" @bind-value="evaluation.Cooperation" placeholder="Enter letter of rating">
                 </div>
             </div>
 
@@ -91,7 +100,8 @@
                     </label>
                 </div>
                 <div class="column2">
-                    <input type="text" id="eval" name="eval" placeholder="Enter letter of rating">
+                    <ValidationMessage For="() => evaluation.QualityOfService" />
+                    <input type="text" id="eval" @bind-value="evaluation.QualityOfService" placeholder="Enter letter of rating">
                 </div>
             </div>
 
@@ -101,7 +111,7 @@
                     <a @onclick="OnCancel" class="cancel-btn">CANCEL</a>
                 </div>
             </div>
-        </form>
+        </EditForm>
     </div>
     <!-- PROFILE PAGE CONTENT ENDS HERE -->
 </div>
@@ -110,9 +120,54 @@
     [Parameter]
     public int? Id { get; set; }
 
+    Evaluation evaluation = new Evaluation();
+    User student = new User();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(Id.HasValue)
+        {
+            var trainee = await TraineeService.GetTrainee(Id.Value);
+            student = await UserService.GetUser(trainee.studentId);
+            var dbEval = await EvaluationService.GetEvaluationPerTrainee(Id.Value);
+            if(dbEval.Id != 0)
+            {
+                evaluation = dbEval;
+            }
+            else
+            {
+                evaluation.TraineeId = trainee.Id;
+            }
+
+        }
+
+    }
+
     private void OnCancel()
     {
         NavManager.NavigateTo($"/supervisor/masterlist/evaluation/{Id}");
+    }
+
+    private async Task OnSubmit()
+    {
+        if(evaluation.Id == 0)
+        {
+            var result = await EvaluationService.AddEvaluation(evaluation);
+            if(result != null)
+            {
+                Toast.ShowSuccess($"Evaluation for {student.first_name} {student.last_name} successfully added", "Success");
+                NavManager.NavigateTo($"/supervisor/masterlist/evaluation/{Id}");
+            }
+        }
+        else
+        {
+            var result = await EvaluationService.UpdateEvaluation(evaluation);
+            if (result != null)
+            {
+                Toast.ShowSuccess($"Evaluation for {student.first_name} {student.last_name} successfully updated", "Success");
+                NavManager.NavigateTo($"/supervisor/masterlist/evaluation/{Id}");
+            }
+        }
     }
 }
 

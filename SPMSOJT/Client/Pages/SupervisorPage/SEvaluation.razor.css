@@ -176,3 +176,17 @@ td {
     font-weight: bold;
     float: right;
 }
+
+.cancelbutton {
+    background-color: #ffffff;
+    padding: 14px 20px;
+    margin: 20px;
+    border: 1px solid rgb(5, 117, 5);
+    cursor: pointer;
+    width: auto;
+    border-radius: 15px;
+    color: #00692c;
+    font-size: 23px;
+    font-weight: bold;
+    float: right;
+}
