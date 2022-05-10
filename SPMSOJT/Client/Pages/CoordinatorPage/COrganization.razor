@@ -4,6 +4,7 @@
 @inject NavigationManager NavManager
 @inject IOrganizationService OrganizationService
 @inject IToastService Toast
+@inject ISearchService SearchService
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -16,10 +17,12 @@
     <!-- ORGANIZATION PAGE SECTION 1 STARTS HERE -->
     <section class="admindb-s1">
         <div class="search-container">
-            <form action="#">
-                <input type="text" placeholder="Search organization" name="search">
+            <EditForm Model="search" OnValidSubmit="OnSubmitSearch">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <input type="text" @bind-value="search.SearchString" placeholder="Search by Org Name" name="search">
+                <ValidationMessage For="() => search.SearchString" />
                 <button type="submit" class="search-button">Search</button>
-            </form>
+            </EditForm>
             <button type="button" class="add-student-button" @onclick="OnAddClick">
                 +
                 Add New Organization
@@ -70,12 +73,16 @@
 
 @code {
     List<Organization> Organizations = new List<Organization>();
-
-
+    Search search = new Search();
 
     protected override async Task OnInitializedAsync()
     {
         Organizations = await OrganizationService.GetAllOrganization();
+    }
+
+    private async Task OnSubmitSearch()
+    {
+        Organizations = await SearchService.SearchOrganization(search);
     }
 
     private void OnAddClick()

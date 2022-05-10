@@ -9,5 +9,8 @@ namespace SPMSOJT.Client.Service.SearchService
     interface ISearchService
     {
         Task<List<Supervisor>> SearchSupervisor(Search search);
+        Task<List<User>> SearchUser(Search search);
+        Task<List<Trainee>> SearchTrainee(Search search);
+        Task<List<Organization>> SearchOrganization(Search search);
     }
 }

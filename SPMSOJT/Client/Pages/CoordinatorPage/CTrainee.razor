@@ -7,6 +7,8 @@
 @inject ITraineeService TraineeService
 @inject IUserService UserService
 @inject IToastService Toast
+@inject ISearchService SearchService
+@inject IJSRuntime JsRun
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -19,10 +21,12 @@
     <!-- TRAINEE PAGE SECTION 1 STARTS HERE -->
     <section class="admindb-s1">
         <div class="search-container">
-            <form action="#">
-                <input type="text" placeholder="Search trainee" name="search">
+            <EditForm Model="search" OnValidSubmit="OnSubmitSearch">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <input type="text" @bind-value="search.SearchString" placeholder="Search by Last Name" name="search">
+                <ValidationMessage For="() => search.SearchString" />
                 <button type="submit" class="search-button">Search</button>
-            </form>
+            </EditForm>
             <button type="button" class="add-student-button" @onclick="OnAddClick">
                 + Add New
                 Trainee
@@ -47,9 +51,9 @@
                 {
                     <tr>
                         <td>@trainee.school_year</td>
-                        <td>@StudentsName[i]</td>
-                        <td>@SupervisorsName[i]</td>
-                        <td>@OrganizationsName[i]</td>
+                        <td>@trainee.StudentName</td>
+                        <td>@trainee.SupervisorName</td>
+                        <td>@trainee.OrganizationName</td>
                         <td>
                             <button type="button" class="edit-del-student-button"
                                     @onclick="() => OnEditClick(trainee.Id)">
@@ -73,15 +77,28 @@
 
 @code {
     List<Trainee> Trainees = new List<Trainee>();
-    List<string> StudentsName = new List<string>();
-    List<string> SupervisorsName = new List<string>();
-    List<string> OrganizationsName = new List<string>();
+    Search search = new Search();
 
     User student = new User();
 
     private async Task GetStudent(int studentId)
     {
         student = await UserService.GetUser(studentId);
+    }
+
+    private async Task OnSubmitSearch()
+    {
+        Trainees = await SearchService.SearchTrainee(search);
+        await JsRun.InvokeVoidAsync("console.log", Trainees);
+        foreach (var trainee in Trainees)
+        {
+            var user = await UserService.GetUser(trainee.studentId);
+            var supervisor = await SupervisorService.GetSupervisor(trainee.supervisorId);
+            var org = await OrganizationService.GetOrganization(trainee.organizationId);
+            trainee.StudentName = $"{user.first_name} {user.last_name}";
+            trainee.SupervisorName = $"{supervisor.first_name} {supervisor.last_name}";
+            trainee.OrganizationName = org.org_name;
+        }
     }
 
     protected override async Task OnInitializedAsync()
@@ -92,9 +109,9 @@
             var user = await UserService.GetUser(trainee.studentId);
             var supervisor = await SupervisorService.GetSupervisor(trainee.supervisorId);
             var org = await OrganizationService.GetOrganization(trainee.organizationId);
-            StudentsName.Add($"{user.first_name} {user.last_name}");
-            SupervisorsName.Add($"{supervisor.first_name} {supervisor.last_name}");
-            OrganizationsName.Add(org.org_name);
+            trainee.StudentName = $"{user.first_name} {user.last_name}";
+            trainee.SupervisorName = $"{supervisor.first_name} {supervisor.last_name}";
+            trainee.OrganizationName = org.org_name;
         }
     }
 

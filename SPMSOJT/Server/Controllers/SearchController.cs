@@ -26,5 +26,26 @@ namespace SPMSOJT.Server.Controllers
             var Supervisors = await _searchService.SearchSupervisor(search);
             return Supervisors;
         }
+
+        [HttpPost("user")]
+        public async Task<ActionResult<List<User>>> SearchUser(Search search)
+        {
+            var Users = await _searchService.SearchUser(search);
+            return Users;
+        }
+
+        [HttpPost("trainee")]
+        public async Task<ActionResult<List<Trainee>>> SearchTrainee(Search search)
+        {
+            var Trainees = await _searchService.SearchTrainee(search);
+            return Trainees;
+        }
+
+        [HttpPost("organization")]
+        public async Task<ActionResult<List<Organization>>> SearchOrganization(Search search)
+        {
+            var Organizations = await _searchService.SearchOrganization(search);
+            return Organizations;
+        }
     }
 }

@@ -4,6 +4,7 @@
 @inject NavigationManager NavManager
 @inject IUserService UserService
 @inject IToastService Toast
+@inject ISearchService SearchService
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -16,10 +17,12 @@
     <!-- STUDENT PAGE SECTION 1 STARTS HERE -->
     <section class="admindb-s1">
         <div class="search-container">
-            <form action="#">
-                <input type="text" placeholder="Search student" name="search">
+            <EditForm Model="search" OnValidSubmit="OnSubmitSearch">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <input type="text" @bind-value="search.SearchString" placeholder="Search by Last Name" name="search">
+                <ValidationMessage For="() => search.SearchString" />
                 <button type="submit" class="search-button">Search</button>
-            </form>
+            </EditForm>
             <button type="button" class="add-student-button" @onclick="OnAddClick">
                 + Add New
                 Student
@@ -70,10 +73,16 @@
 @code {
 
     List<User> Users = new List<User>();
+    Search search = new Search();
 
     protected override async Task OnInitializedAsync()
     {
         Users = await UserService.GetAllUser();
+    }
+
+    private async Task OnSubmitSearch()
+    {
+        Users = await SearchService.SearchUser(search);
     }
 
     private void OnAddClick()
