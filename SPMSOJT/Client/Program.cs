@@ -10,6 +10,7 @@ using SPMSOJT.Client.Service.CoordinatorService;
 using SPMSOJT.Client.Service.EvaluationService;
 using SPMSOJT.Client.Service.LoginService;
 using SPMSOJT.Client.Service.OrganizationService;
+using SPMSOJT.Client.Service.SearchService;
 using SPMSOJT.Client.Service.SupervisorService;
 using SPMSOJT.Client.Service.TaskService;
 using SPMSOJT.Client.Service.TraineeService;
@@ -44,7 +45,7 @@ namespace SPMSOJT.Client
             builder.Services.AddScoped<ICompiledTaskService, CompiledTaskService>();
             builder.Services.AddScoped<IEvaluationService, EvaluationService>();
             builder.Services.AddScoped<ILoginService, LoginService>();
-
+            builder.Services.AddScoped<ISearchService, SearchService>();
             await builder.Build().RunAsync();
         }
     }

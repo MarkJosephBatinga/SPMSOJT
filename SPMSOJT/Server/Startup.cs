@@ -13,6 +13,7 @@ using SPMSOJT.Server.Service.CoordinatorService;
 using SPMSOJT.Server.Service.EvaluationService;
 using SPMSOJT.Server.Service.LoginService;
 using SPMSOJT.Server.Service.OrganizationService;
+using SPMSOJT.Server.Service.SearchService;
 using SPMSOJT.Server.Service.SupervisorService;
 using SPMSOJT.Server.Service.TasksService;
 using SPMSOJT.Server.Service.TraineeService;
@@ -50,6 +51,7 @@ namespace SPMSOJT.Server
             services.AddScoped<ICompiledTaskService, CompiledTaskService>();
             services.AddScoped<IEvaluationService, EvaluationService>();
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<ISearchService, SearchService>();
             services.AddAuthentication(options => {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             });

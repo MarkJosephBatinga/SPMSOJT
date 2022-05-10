@@ -4,6 +4,7 @@
 @inject NavigationManager NavManager
 @inject ISupervisorService SupervisorService
 @inject IToastService Toast
+@inject ISearchService SearchService
 
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
@@ -16,10 +17,12 @@
     <!-- SEARCH BAR AND BUTTONS STARTS HERE -->
     <section class="admindb-s1">
         <div class="search-container">
-            <form action="#">
-                <input type="text" placeholder="Search supervisor" name="search">
+            <EditForm Model="search" OnValidSubmit="OnSubmitSearch">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <input type="text" @bind-value="search.SearchString" placeholder="Search by Last Name" name="search">
+                <ValidationMessage For="() => search.SearchString"/>
                 <button type="submit" class="search-button">Search</button>
-            </form>
+            </EditForm>
             <button type="button" class="add-student-button" @onclick="OnAddClick">+ Add New Supervisor</button>
         </div>
     </section>
@@ -50,9 +53,16 @@
 @code {
     List<Supervisor> Supervisors = new List<Supervisor>();
 
+    Search search = new Search();
+
     protected override async Task OnInitializedAsync()
     {
         Supervisors = await SupervisorService.GetAllSupervisor();
+    }
+
+    private async Task OnSubmitSearch()
+    {
+        Supervisors = await SearchService.SearchSupervisor(search);
     }
 
     private void OnAddClick()
