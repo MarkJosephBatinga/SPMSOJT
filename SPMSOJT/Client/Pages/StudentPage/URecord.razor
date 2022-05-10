@@ -6,7 +6,7 @@
 @inject NavigationManager NavManager
 @inject ILocalStorageService LocalStorage
 @inject ILoginService LoginService
-
+@inject ISearchService SearchService
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -19,10 +19,12 @@
     <!-- TASK PAGE SECTION 1 STARTS HERE -->
     <section class="admindb-s1">
         <div class="search-container">
-            <form action="#">
-                <input type="text" placeholder="Search task" name="search">
+            <EditForm Model="search" OnValidSubmit="OnSubmitSearch">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <input type="text" @bind-value="search.SearchString" placeholder="Search by Task Code" name="search">
+                <ValidationMessage For="() => search.SearchString" />
                 <button type="submit" class="search-button">Search</button>
-            </form>
+            </EditForm>
         </div>
     </section>
     <!-- TASK PAGE SECTION 1 ENDS HERE -->
@@ -41,17 +43,17 @@
             <tbody>
                 @foreach (var compiledTask in CompiledTasks)
                 {
-                <tr>
-                    <td>@compiledTask.TaskCode</td>
-                    <td>
-                        <a @onclick="() => OnPdfClick(compiledTask.Id)">
-                            @compiledTask.StudentFileName
-                        </a>
-                    </td>
-                    <td>@compiledTask.SubmissionDate.ToLongDateString()</td>
-                    <td>@(compiledTask.Remarks == null ? "Done": compiledTask.Remarks)</td>
-                    <td>@(compiledTask.Score == 0 ? "No Scores Yet": compiledTask.Score)</td>
-                </tr>
+                    <tr>
+                        <td>@compiledTask.TaskCode</td>
+                        <td>
+                            <a @onclick="() => OnPdfClick(compiledTask.Id)">
+                                @compiledTask.StudentFileName
+                            </a>
+                        </td>
+                        <td>@compiledTask.SubmissionDate.ToLongDateString()</td>
+                        <td>@(compiledTask.Remarks == null ? "Done": compiledTask.Remarks)</td>
+                        <td>@(compiledTask.Score == 0 ? "No Scores Yet": compiledTask.Score)</td>
+                    </tr>
                 }
                 <!-- and so on... -->
             </tbody>
@@ -63,12 +65,26 @@
 
 @code {
     List<CompiledTask> CompiledTasks = new List<CompiledTask>();
+    Search search = new Search();
+    int studentId;
 
     protected async override Task OnInitializedAsync()
     {
         var username = await LocalStorage.GetItemAsStringAsync("username");
         var user = await LoginService.GetUser(username);
+        studentId = user.Id;
         CompiledTasks = await CompiledTaskService.GetAllCompiledTaskPerStudent(user.Id);
+        foreach (var compiledTask in CompiledTasks)
+        {
+            var task = await TaskService.GetTasks(compiledTask.TaskId);
+            compiledTask.TaskCode = task.TaskCode;
+        }
+    }
+
+    private async Task OnSubmitSearch()
+    {
+        search.StudentId = studentId;
+        CompiledTasks = await SearchService.SearchCompiledTaskPerStudent(search);
         foreach (var compiledTask in CompiledTasks)
         {
             var task = await TaskService.GetTasks(compiledTask.TaskId);

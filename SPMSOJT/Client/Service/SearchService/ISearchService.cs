@@ -12,5 +12,12 @@ namespace SPMSOJT.Client.Service.SearchService
         Task<List<User>> SearchUser(Search search);
         Task<List<Trainee>> SearchTrainee(Search search);
         Task<List<Organization>> SearchOrganization(Search search);
+
+        Task<List<Trainee>> SearchTraineePerSupervisor(Search search);
+        Task<List<Tasks>> SearchTaskPerSupervisor(Search search);
+        Task<List<CompiledTask>> SearchCompiledTaskPerSupervisor(Search search);
+
+        Task<List<Tasks>> SearchTaskPerStudent(Search search);
+        Task<List<CompiledTask>> SearchCompiledTaskPerStudent(Search search);
     }
 }

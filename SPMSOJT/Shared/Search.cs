@@ -12,5 +12,7 @@ namespace SPMSOJT.Shared
         public int Id { get; set; }
         [Required(ErrorMessage = "Last Name is Required")]
         public string SearchString { get; set; }
+        public int SupervisorId { get; set; }
+        public int StudentId { get; set; }
     }
 }

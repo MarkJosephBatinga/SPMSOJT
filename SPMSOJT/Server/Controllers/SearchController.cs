@@ -41,6 +41,41 @@ namespace SPMSOJT.Server.Controllers
             return Trainees;
         }
 
+        [HttpPost("traineepersupervisor")]
+        public async Task<ActionResult<List<Trainee>>> SearchTraineePerSupervisor(Search search)
+        {
+            var Trainees = await _searchService.SearchTraineePerSupervisor(search);
+            return Trainees;
+        }
+
+        [HttpPost("taskpersupervisor")]
+        public async Task<ActionResult<List<Tasks>>> SearchTaskPerSupervisor(Search search)
+        {
+            var Tasks = await _searchService.SearchTaskPerSupervisor(search);
+            return Tasks;
+        }
+
+        [HttpPost("taskperstudent")]
+        public async Task<ActionResult<List<Tasks>>> SearchTaskPerStudent(Search search)
+        {
+            var Tasks = await _searchService.SearchTaskPerStudent(search);
+            return Tasks;
+        }
+
+        [HttpPost("compiledtaskpersupervisor")]
+        public async Task<ActionResult<List<CompiledTask>>> SearchCompiledTaskPerSupervisor(Search search)
+        {
+            var CompiledTasks = await _searchService.SearchCompiledTaskPerSupervisor(search);
+            return CompiledTasks;
+        }
+
+        [HttpPost("compiledtaskperstudent")]
+        public async Task<ActionResult<List<CompiledTask>>> SearchCompiledTaskPerStudent(Search search)
+        {
+            var CompiledTasks = await _searchService.SearchCompiledTaskPerStudent(search);
+            return CompiledTasks;
+        }
+
         [HttpPost("organization")]
         public async Task<ActionResult<List<Organization>>> SearchOrganization(Search search)
         {

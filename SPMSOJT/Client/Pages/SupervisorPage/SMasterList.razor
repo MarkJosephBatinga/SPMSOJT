@@ -3,12 +3,13 @@
 @inject NavigationManager NavManager
 @attribute [Authorize(Roles = "supervisor")]
 @inject ILocalStorageService LocalStorage
-@inject ILoginService LoginService 
+@inject ILoginService LoginService
 @inject IOrganizationService OrganizationService
 @inject ISupervisorService SupervisorService
 @inject ITraineeService TraineeService
 @inject IUserService UserService
 @inject IToastService Toast
+@inject ISearchService SearchService
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -21,10 +22,12 @@
     <!-- MASTERLIST PAGE SECTION 1 STARTS HERE -->
     <section class="admindb-s1">
         <div class="search-container">
-            <form action="#">
-                <input type="text" placeholder="Search trainee" name="search">
+            <EditForm Model="search" OnValidSubmit="OnSubmitSearch">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <input type="text" @bind-value="search.SearchString" placeholder="Search by Last Name" name="search">
+                <ValidationMessage For="() => search.SearchString" />
                 <button type="submit" class="search-button">Search</button>
-            </form>
+            </EditForm>
             <button type="button" class="add-student-button" @onclick="OnAddClick">
                 + Add New
                 Trainee
@@ -79,8 +82,9 @@
 
 @code {
     List<Trainee> Trainees = new List<Trainee>();
-
+    Search search = new Search();
     User student = new User();
+    int supervisorId;
 
     private async Task GetStudent(int studentId)
     {
@@ -91,10 +95,11 @@
     {
         var username = await LocalStorage.GetItemAsStringAsync("username");
         var dbSupervisor = await LoginService.GetSupervisor(username);
+        supervisorId = dbSupervisor.Id;
         var dbTrainees = await TraineeService.GetAllTrainee();
         foreach (var trainee in dbTrainees)
         {
-            if(trainee.supervisorId == dbSupervisor.Id)
+            if (trainee.supervisorId == dbSupervisor.Id)
             {
                 var user = await UserService.GetUser(trainee.studentId);
                 var supervisor = await SupervisorService.GetSupervisor(trainee.supervisorId);
@@ -105,6 +110,21 @@
                 Trainees.Add(trainee);
             }
 
+        }
+    }
+
+    private async Task OnSubmitSearch()
+    {
+        search.SupervisorId = supervisorId;
+        Trainees = await SearchService.SearchTraineePerSupervisor(search);
+        foreach (var trainee in Trainees)
+        {
+            var user = await UserService.GetUser(trainee.studentId);
+            var supervisor = await SupervisorService.GetSupervisor(trainee.supervisorId);
+            var org = await OrganizationService.GetOrganization(trainee.organizationId);
+            trainee.StudentName = $"{user.first_name} {user.last_name}";
+            trainee.SupervisorName = $"{supervisor.first_name} {supervisor.last_name}";
+            trainee.OrganizationName = org.org_name;
         }
     }
 

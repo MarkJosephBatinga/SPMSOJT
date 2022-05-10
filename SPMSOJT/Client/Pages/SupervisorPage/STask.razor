@@ -6,7 +6,7 @@
 @inject IToastService Toast
 @inject ILocalStorageService LocalStorage
 @inject ILoginService LoginService
-
+@inject ISearchService SearchService
 <!-- HEADER STARTS HERE -->
 <div class="main_content">
     <div class="header">
@@ -19,10 +19,12 @@
     <!-- TASK PAGE SECTION 1 STARTS HERE -->
     <section class="admindb-s1">
         <div class="search-container">
-            <form action="#">
-                <input type="text" placeholder="Search task" name="search">
+            <EditForm Model="search" OnValidSubmit="OnSubmitSearch">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <input type="text" @bind-value="search.SearchString" placeholder="Search by Task Code" name="search">
+                <ValidationMessage For="() => search.SearchString" />
                 <button type="submit" class="search-button">Search</button>
-            </form>
+            </EditForm>
             <button type="button" class="add-student-button" @onclick="OnAddClick">
                 + Add New
                 Task
@@ -55,7 +57,7 @@
                                 Edit
                             </button>
                             <button type="button" class="edit-del-student-button"
-                                     @onclick="() => OnDeleteClick(task)">
+                                    @onclick="() => OnDeleteClick(task)">
                                 Delete
                             </button>
                         </td>
@@ -73,12 +75,19 @@
 
     List<Tasks> AllTasks = new List<Tasks>();
     Supervisor supervisor = new Supervisor();
+    Search search = new Search();
 
     protected override async Task OnInitializedAsync()
     {
         var username = await LocalStorage.GetItemAsStringAsync("username");
         supervisor = await LoginService.GetSupervisor(username);
         AllTasks = await TaskService.GetAllTaskPerSupervisor(supervisor.Id);
+    }
+
+    private async Task OnSubmitSearch()
+    {
+        search.SupervisorId = supervisor.Id;
+        AllTasks = await SearchService.SearchTaskPerSupervisor(search);
     }
 
     private void OnAddClick()
